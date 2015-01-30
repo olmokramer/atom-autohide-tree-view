@@ -5,10 +5,12 @@
 
 .tree-view-resizer {
   width: auto!important;
-  transition-property: max-width;
+  transition-property: max-width, padding;
+  padding: 0;
 
   &:hover {
     max-width: 10000px!important;
+    padding-right: 10px;
   }
 
   & > * {
