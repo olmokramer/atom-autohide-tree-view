@@ -15,24 +15,23 @@ class AutohideTreeView
 
   config:
     unfoldSpeed:
-      description: 'The speed of the unfold animation in 5000px per second'
+      description: 'The speed of the unfold animation in 1000 pixels per second (1-50)'
       type: 'number'
-      default: 2.5
+      default: 1
       minimum: 1
-      maximum: 10
+      maximum: 50
     hideDelay:
-      description: 'Rough estimation of the delay before the menu starts hiding in seconds, 0 turns of the animation entirely'
+      description: 'Rough estimation of the delay before the menu starts hiding in seconds, 0 turns of the animation entirely (0-INFINITY)'
       type: 'number'
       default: .3
       minimum: 0
-      maximum: 1.5
     minimizedWidth:
-      description: 'The width of the tree-view when minimized/hidden in pixels'
+      description: 'The width of the tree-view when minimized/hidden in pixels (1-INFINITY)'
       type: 'integer'
       default: 5
       minimum: 1
     extraPadding:
-      description: 'Adds some padding on the right side of the expanded tree view'
+      description: 'Adds some padding on the right side of the expanded tree view (0-INFINITY)'
       type: 'integer'
       default: 0
       minimum: 0
@@ -52,7 +51,8 @@ class AutohideTreeView
       stylesheet = null
 
   applyUnfoldSpeed: (speed) ->
-    maxWidth = 5000 * speed * (.05 + atom.config.get 'autohide-tree-view.hideDelay')
+    hideDelay = atom.config.get 'autohide-tree-view.hideDelay'
+    maxWidth = Math.max 2500, 1000 * speed * (if hideDelay is 0 then 1 else .05 + hideDelay)
     updateStylesheet '.tree-view-resizer:hover', 'max-width', "#{maxWidth}px!important"
 
   applyHideDelay: (delay) ->
