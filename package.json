@@ -1,0 +1,11 @@
+{
+  "name": "autohide-tree-view",
+  "main": "./lib/autohide-tree-view",
+  "version": "0.0.0",
+  "description": "Hides most of the tree view, reveal it on hover",
+  "repository": "https://github.com/olmo/atom-autohide-tree-view",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  }
+}
