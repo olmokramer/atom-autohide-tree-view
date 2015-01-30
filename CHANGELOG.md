@@ -1,3 +1,6 @@
+## 0.5.1
+* Improved `hideDelay` and `unfoldSpeed` settings
+
 ## 0.5.0
 * Added `hideDelay` setting to configure the delay before the tree view hides
 
