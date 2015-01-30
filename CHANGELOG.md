@@ -1,3 +1,6 @@
+## 0.4.0
+* Added extra padding option to allow for some more padding on the right side of the tree view, as requested in [`#atom-autohide-tree-view/issues/1`](https://github.com/olmokramer/atom-autohide-tree-view/issues/1)
+
 ## 0.3.0
 * Added setting to control the width of the minimized tree view
 

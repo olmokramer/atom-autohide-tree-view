@@ -15,7 +15,7 @@ class AutohideTreeView
       default: 5
       minimum: 1
     extraPadding:
-      description: 'Adds some padding on the right side of the expanded tree view as requested in https://github.com/olmokramer/atom-autohide-tree-view/issues/1'
+      description: 'Adds some padding on the right side of the expanded tree view'
       type: 'integer'
       default: 0
       minimum: 0
