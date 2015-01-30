@@ -29,6 +29,8 @@ class AutohideTreeView
     @unfoldSpeedSub.dispose()
     @minWidthSub.dispose()
     @extraPaddingSub.dispose()
+    stylesheet.parentNode.removeChild stylesheet
+    stylesheet = null
 
   applyUnfoldSpeed: (speed) ->
     duration = if speed is 0 then 0 else 1 / speed
