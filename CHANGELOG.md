@@ -1,5 +1,8 @@
+## 0.4.2
+* Default cursor on the `.tree-view-resize-handle`
+
 ## 0.4.1
-* Remove the stylesheet created by this package on package deactivation
+* Fix: Remove the stylesheet created by this package on package deactivation
 
 ## 0.4.0
 * Added extra padding option to allow for some more padding on the right side of the tree view, as requested in [`#atom-autohide-tree-view/issues/1`](https://github.com/olmokramer/atom-autohide-tree-view/issues/1)
