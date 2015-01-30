@@ -1,3 +1,6 @@
+## 0.5.0
+* Added `hideDelay` setting to configure the delay before the tree view hides
+
 ## 0.4.4
 * Update readme image to reflect changes of `0.4.3`
 
@@ -11,13 +14,13 @@
 * Fix: Remove the stylesheet created by this package on package deactivation
 
 ## 0.4.0
-* Added extra padding option to allow for some more padding on the right side of the tree view, as requested in [`#atom-autohide-tree-view/issues/1`](https://github.com/olmokramer/atom-autohide-tree-view/issues/1)
+* Added `extraPadding` option to allow for some more padding on the right side of the tree view, as requested in [`#atom-autohide-tree-view/issues/1`](https://github.com/olmokramer/atom-autohide-tree-view/issues/1)
 
 ## 0.3.0
-* Added setting to control the width of the minimized tree view
+* Added `minimizedWidth` setting to control the width of the minimized tree view
 
 ## 0.2.0
-* Added setting to configure the speed with which the tree view (un)folds
+* Added `unfoldSpeed` setting to configure the speed with which the tree view (un)folds
 
 ## 0.1.1
 * Updated readme
