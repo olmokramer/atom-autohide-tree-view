@@ -1,3 +1,6 @@
+## 0.3.0
+* Added setting to control the width of the minimized tree view
+
 ## 0.2.0
 * Added setting to configure the speed with which the tree view (un)folds
 
