@@ -5,20 +5,18 @@
 
 .tree-view-resizer {
   width: auto!important;
-  min-width: 5px!important;
-  max-width: 5px;
   transition-property: max-width;
+
+  &:hover {
+    max-width: 10000px!important;
+  }
 
   & > * {
     opacity: 0;
     transition: opacity .5s;
   }
 
-  &:hover {
-    max-width: 10000px;
-
-    & > * {
-      opacity: 1;
-    }
+  &:hover > * {
+    opacity: 1;
   }
 }
