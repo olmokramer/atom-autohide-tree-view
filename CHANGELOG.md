@@ -1,3 +1,6 @@
+## 0.4.3
+* Set `position: absolute;` on the `.tree-view-resizer` so the tree view doesn't push the tabs and editor to the right
+
 ## 0.4.2
 * Default cursor on the `.tree-view-resize-handle`
 
