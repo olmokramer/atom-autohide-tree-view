@@ -37,10 +37,10 @@ class AutohideTreeView
       minimum: 1
 
   activate: ->
-    @unfoldSpeedSub = atom.config.observe 'autohide-tree-view.unfoldSpeed', @applyUnfoldSpeed
-    @hideDelaySub = atom.config.observe 'autohide-tree-view.hideDelay', @applyHideDelay
-    @minWidthSub = atom.config.observe 'autohide-tree-view.minimizedWidth', @applyMinWidth
-    @treeViewShowOnRightSideSub = atom.config.observe 'tree-view.showOnRightSide', @applyTreeViewSide
+    @unfoldSpeedSub = atom.config.observe 'autohide-tree-view.unfoldSpeed', @applyUnfoldSpeed.bind @
+    @hideDelaySub = atom.config.observe 'autohide-tree-view.hideDelay', @applyHideDelay.bind @
+    @minWidthSub = atom.config.observe 'autohide-tree-view.minimizedWidth', @applyMinWidth.bind @
+    @treeViewShowOnRightSideSub = atom.config.observe 'tree-view.showOnRightSide', @applyTreeViewSide.bind @
 
   deactivate: ->
     @unfoldSpeedSub.dispose()
