@@ -8,6 +8,11 @@
   transition-property: max-width;
   position: absolute!important;
 
+  &[data-show-on-right-side="true"] {
+    right: 0;
+    z-index: 10;
+  }
+
   .tree-view-scroller {
     opacity: 0;
     transition: opacity .5s;
