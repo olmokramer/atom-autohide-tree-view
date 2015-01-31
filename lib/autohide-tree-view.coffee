@@ -35,12 +35,11 @@ class AutohideTreeView
     @unfoldSpeedSub = atom.config.observe 'autohide-tree-view.unfoldSpeed', @applyUnfoldSpeed
     @hideDelaySub = atom.config.observe 'autohide-tree-view.hideDelay', @applyHideDelay
     @minWidthSub = atom.config.observe 'autohide-tree-view.minimizedWidth', @applyMinWidth
-    @extraPaddingSub = atom.config.observe 'autohide-tree-view.extraPadding', @applyPadding
 
   deactivate: ->
     @unfoldSpeedSub.dispose()
+    @hideDelaySub.dispose()
     @minWidthSub.dispose()
-    @extraPaddingSub.dispose()
     if stylesheet?
       stylesheet.parentNode.removeChild stylesheet
       stylesheet = null
