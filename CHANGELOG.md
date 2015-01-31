@@ -1,3 +1,6 @@
+## 0.7.0
+* Added support for `tree-view.showOnRightSide` option
+
 ## 0.6.3
 * Fix: Git hints in gutter were invisible because they were behind the tree view
 
