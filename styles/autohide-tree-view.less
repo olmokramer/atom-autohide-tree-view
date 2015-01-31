@@ -10,12 +10,13 @@
 
   &[data-show-on-right-side="true"] {
     right: 0;
-    z-index: 10;
+    z-index: 10; // above the text-editor scrollbar
   }
 
   .tree-view-scroller {
     opacity: 0;
     transition: opacity .5s;
+    overflow-x: hidden; // because the item highlighting causes overflow-x
   }
 
   &:hover .tree-view-scroller {
@@ -23,6 +24,6 @@
   }
 
   .tree-view-resize-handle {
-    display: none!important;
+    display: none!important; // we handle resizing, not you!
   }
 }
