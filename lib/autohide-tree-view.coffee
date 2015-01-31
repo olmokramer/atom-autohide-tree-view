@@ -30,11 +30,6 @@ class AutohideTreeView
       type: 'integer'
       default: 5
       minimum: 1
-    extraPadding:
-      description: 'Adds some padding on the right side of the expanded tree view (0-INFINITY)'
-      type: 'integer'
-      default: 0
-      minimum: 0
 
   activate: ->
     @unfoldSpeedSub = atom.config.observe 'autohide-tree-view.unfoldSpeed', @applyUnfoldSpeed
@@ -62,8 +57,5 @@ class AutohideTreeView
   applyMinWidth: (width) ->
     updateStylesheet '.tree-view-resizer', 'min-width', "#{width}px!important"
     updateStylesheet '.tree-view-resizer', 'max-width', "#{width}px!important"
-
-  applyPadding: (padding) ->
-    updateStylesheet '.tree-view-resizer:hover', 'padding-right', "#{padding}px"
 
 module.exports = new AutohideTreeView()
