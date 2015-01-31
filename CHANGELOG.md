@@ -1,3 +1,6 @@
+## 0.6.0
+* Removed `extraPadding` setting, because it is so trivial to add in `~/.atom/styles.less`
+
 ## 0.5.1
 * Improved `hideDelay` and `unfoldSpeed` settings
 
