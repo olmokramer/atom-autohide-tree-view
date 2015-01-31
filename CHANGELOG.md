@@ -1,3 +1,6 @@
+## 0.6.2
+* Some minor optimization
+
 ## 0.6.1
 * Fix: Removed config observer for `extraPadding` setting
 * Fix: Dispose config observer for `hideDelay` setting on package deactivation
