@@ -12,7 +12,7 @@ The delay, in seconds, before the menu starts folding
 
 #### Unfold speed
 
-The speed, in 5000 pixels per second, of the (un)folding animation
+The speed, in 1000 pixels per second, of the (un)folding animation
 
 #### Minimized width
 
