@@ -8,16 +8,16 @@
   transition-property: max-width;
   position: absolute!important;
 
-  & > * {
+  .tree-view-scroller {
     opacity: 0;
     transition: opacity .5s;
   }
 
-  &:hover > * {
+  &:hover .tree-view-scroller {
     opacity: 1;
   }
 
   .tree-view-resize-handle {
-    cursor: default!important;
+    display: none!important;
   }
 }

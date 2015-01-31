@@ -59,5 +59,6 @@ class AutohideTreeView
   applyMinWidth: (width) ->
     updateStylesheet '.tree-view-resizer', 'min-width', "#{width}px!important"
     updateStylesheet '.tree-view-resizer', 'max-width', "#{width}px!important"
+    updateStylesheet 'atom-panel.left', 'min-width', "#{width}px"
 
 module.exports = new AutohideTreeView()
