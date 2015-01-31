@@ -1,3 +1,7 @@
+## 0.6.1
+* Fix: Removed config observer for `extraPadding` setting
+* Fix: Dispose config observer for `hideDelay` setting on package deactivation
+
 ## 0.6.0
 * Removed `extraPadding` setting, because it is so trivial to add in `~/.atom/styles.less`
 
