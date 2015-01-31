@@ -33,7 +33,7 @@ class AutohideTreeView
     minimizedWidth:
       description: 'The width of the tree-view when minimized/hidden in pixels (1-INFINITY)'
       type: 'integer'
-      default: 5
+      default: 1
       minimum: 1
 
   activate: ->
