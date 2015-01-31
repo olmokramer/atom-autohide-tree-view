@@ -1,3 +1,6 @@
+## 0.6.3
+* Fix: Git hints in gutter were invisible because they were behind the tree view
+
 ## 0.6.2
 * Some minor optimization
 
