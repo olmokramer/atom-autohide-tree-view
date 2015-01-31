@@ -1,3 +1,6 @@
+## 0.7.2
+* Fix: `applyTreeViewSide` was bound to `window` instead of the package object
+
 ## 0.7.1
 * Hide horizontal scrollbar on the tree view, because we don't need it with `width: auto;`
 
