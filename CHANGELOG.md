@@ -1,3 +1,6 @@
+## 0.7.3
+* Changed default minimized width from 5px to 1px
+
 ## 0.7.2
 * Fix: `applyTreeViewSide` was bound to `window` instead of the package object
 
