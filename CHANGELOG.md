@@ -1,3 +1,6 @@
+## 0.7.1
+* Hide horizontal scrollbar on the tree view, because we don't need it with `width: auto;`
+
 ## 0.7.0
 * Added support for `tree-view.showOnRightSide` option
 
