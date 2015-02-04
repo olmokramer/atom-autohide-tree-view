@@ -18,8 +18,7 @@ class AutohideTreeView
 
   calculateHideDuration = (hideDelay) ->
     hideDelay ?= atom.config.get 'autohide-tree-view.hideDelay'
-    openDelay = atom.config.get 'autohide-tree-view.openDelay'
-    hideDuration = if hideDelay is 0 then 0 else .05 + hideDelay - openDelay
+    hideDuration = if hideDelay is 0 then 0 else .05 + Math.max 0, hideDelay - atom.config.get 'autohide-tree-view.openDelay'
 
   config:
     unfoldSpeed:
@@ -27,7 +26,6 @@ class AutohideTreeView
       type: 'number'
       default: 1
       minimum: 1
-      maximum: 50
     hideDelay:
       description: 'Rough estimation of the delay - in seconds - before the menu starts hiding, 0 turns of the animation entirely (0-INFINITY)'
       type: 'number'
