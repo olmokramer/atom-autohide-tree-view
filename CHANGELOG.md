@@ -1,6 +1,8 @@
+## 0.8.0
+* Added `openDelay` setting to adjust when the
+
 ## 0.7.3
 * Changed default minimized width from 5px to 1px
-git s
 * Updated readme
 
 ## 0.7.2
