@@ -1,4 +1,6 @@
 'use strict'
+{CompositeDisposable} = require 'atom'
+
 class AutohideTreeView
   hideDuration = null # cache hideDuration value
   stylesheet = null # this holds the configurable css rules
@@ -26,21 +28,28 @@ class AutohideTreeView
       minimum: 1
       maximum: 50
     hideDelay:
-      description: 'Rough estimation of the delay before the menu starts hiding in seconds, 0 turns of the animation entirely (0-INFINITY)'
+      description: 'Rough estimation of the delay - in seconds - before the menu starts hiding, 0 turns of the animation entirely (0-INFINITY)'
       type: 'number'
       default: .3
       minimum: 0
+    openDelay:
+      description: 'The delay before the tree-view is unfolded in seconds'
+      type: 'number'
+      default: .2
+      minimum: 0
     minimizedWidth:
-      description: 'The width of the tree-view when minimized/hidden in pixels (1-INFINITY)'
+      description: 'The width - in pixels - of the tree-view when minimized/hidden (1-INFINITY)'
       type: 'integer'
       default: 1
       minimum: 1
 
   activate: ->
-    @unfoldSpeedSub = atom.config.observe 'autohide-tree-view.unfoldSpeed', @applyUnfoldSpeed.bind @
-    @hideDelaySub = atom.config.observe 'autohide-tree-view.hideDelay', @applyHideDelay.bind @
-    @minWidthSub = atom.config.observe 'autohide-tree-view.minimizedWidth', @applyMinWidth.bind @
-    @treeViewShowOnRightSideSub = atom.config.observe 'tree-view.showOnRightSide', @applyTreeViewSide.bind @
+    @subs = new CompositeDisposable()
+    @subs.add atom.config.observe 'autohide-tree-view.unfoldSpeed', @applyUnfoldSpeed.bind @
+    @subs.add atom.config.observe 'autohide-tree-view.hideDelay', @applyHideDelay.bind @
+    @subs.add atom.config.observe 'autohide-tree-view.openDelay', @applyOpenDelay.bind @
+    @subs.add atom.config.observe 'autohide-tree-view.minimizedWidth', @applyMinWidth.bind @
+    @subs.add atom.config.observe 'tree-view.showOnRightSide', @applyTreeViewSide.bind @
 
   deactivate: ->
     @unfoldSpeedSub.dispose()
@@ -57,6 +66,9 @@ class AutohideTreeView
   applyHideDelay: (delay) ->
     duration = calculateHideDuration()
     updateStylesheet '.tree-view-resizer', 'transition-duration', "#{duration}s"
+
+  applyOpenDelay: (delay) ->
+    updateStylesheet '.tree-view-resizer', 'transition-delay', "#{delay}s"
 
   applyMinWidth: (width) ->
     updateStylesheet '.tree-view-resizer', 'min-width', "#{width}px!important"
