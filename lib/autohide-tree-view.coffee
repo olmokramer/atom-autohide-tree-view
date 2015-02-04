@@ -16,9 +16,10 @@ class AutohideTreeView
     sheet = getStylesheet().sheet
     sheet.insertRule "#{selector} { #{property}: #{value}; }", sheet.cssRules.length
 
-  calculateHideDuration = (delay) ->
-    delay ?= atom.config.get 'autohide-tree-view.hideDelay'
-    hideDuration = if delay is 0 then 0 else .05 + delay
+  calculateHideDuration = (hideDelay) ->
+    hideDelay ?= atom.config.get 'autohide-tree-view.hideDelay'
+    openDelay = atom.config.get 'autohide-tree-view.openDelay'
+    hideDuration = if hideDelay is 0 then 0 else .05 + hideDelay - openDelay
 
   config:
     unfoldSpeed:
@@ -64,11 +65,12 @@ class AutohideTreeView
     updateStylesheet '.tree-view-resizer:hover', 'max-width', "#{maxWidth}px!important"
 
   applyHideDelay: (delay) ->
-    duration = calculateHideDuration()
+    duration = calculateHideDuration(delay)
     updateStylesheet '.tree-view-resizer', 'transition-duration', "#{duration}s"
 
   applyOpenDelay: (delay) ->
     updateStylesheet '.tree-view-resizer', 'transition-delay', "#{delay}s"
+    @applyHideDelay()
 
   applyMinWidth: (width) ->
     updateStylesheet '.tree-view-resizer', 'min-width', "#{width}px!important"
