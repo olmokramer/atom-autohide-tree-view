@@ -1,3 +1,6 @@
+## 0.8.1
+* Don't allow negative delay
+
 ## 0.8.0
 * Added `openDelay` setting to adjust when the
 
