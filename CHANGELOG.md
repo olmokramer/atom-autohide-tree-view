@@ -1,6 +1,7 @@
 ## 0.9.0
 * Complete rewrite
 * Much better control over the animation delays
+* Focus/unfocus tree view on show/hide
 * Removed `unfoldSpeed` setting as I felt it was unnecessary
 
 ## 0.8.1
