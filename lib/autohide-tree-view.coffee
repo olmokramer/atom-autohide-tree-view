@@ -59,6 +59,10 @@ class AutohideTreeView
       @applyMinimizedWidth()
 
   deactivate: ->
+    if treeViewEl = atom.views.getView treeView
+      treeViewEl.style.transitionDelay = ''
+      treeViewEl.style.width = ''
+      treeViewEl.parentNode.style.width = ''
     @subs.dispose()
 
   show: (noDelay) ->
