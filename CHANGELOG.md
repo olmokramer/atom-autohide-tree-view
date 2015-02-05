@@ -13,7 +13,7 @@
 ## 0.10.1
 * Fixed changelog
 
-## ~~~0.9.0~~~ 0.10.0
+## ~~0.9.0~~ 0.10.0
 #### Something went wrong when trying to publish 0.9.0
 * Complete rewrite
 * Much better control over the animation delays
