@@ -6,12 +6,12 @@ class AutohideTreeView
 
   config:
     showDelay:
-      description: 'The delay before the tree-view is unfolded in seconds'
+      description: 'The delay  - in seconds - before the tree-view will show'
       type: 'number'
       default: .2
       minimum: 0
     hideDelay:
-      description: 'Rough estimation of the delay - in seconds - before the menu starts hiding'
+      description: 'The delay - in seconds - before the tree-view will hide'
       type: 'number'
       default: .2
       minimum: 0
