@@ -6,27 +6,22 @@ Hides most of the tree view, reveal it on hover.
 
 ## Config
 
+#### Show delay
+
+The delay, in seconds, before the tree view will show when it is hovered
+
 #### Hide delay
 
-The delay, in seconds, before the menu starts folding
-
-#### Unfold speed
-
-The speed, in 1000 pixels per second, of the (un)folding animation
+The delay, in seconds, before the tree view will hide when it is un-hovered
 
 #### Minimized width
 
-The width, in pixels, of the folded tree view
+The width, in pixels, of the minimized tree view
 
 ## Issues/suggestions
 
 Please file issues or suggestions on the [issues page on github](https://github.com/olmokramer/autohide-tree-view/issues/new)
-
-Or if you have the know-how and want to contribute your code,
-
-* fork the repo
-* make your edits
-* submit a pull request
+Pull requests are also welcomed
 
 ## License
 

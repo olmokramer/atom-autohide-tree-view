@@ -1,3 +1,8 @@
+## 0.9.0
+* Complete rewrite
+* Much better control over the animation delays
+* Removed `unfoldSpeed` setting as I felt it was unnecessary
+
 ## 0.8.1
 * Don't allow negative delay
 
