@@ -69,7 +69,7 @@ class AutohideTreeView
     return unless treeView?.isVisible()
     treeViewEl = atom.views.getView treeView
     width = treeViewEl.querySelector('.tree-view').clientWidth
-    if width > treeViewEl.clientWidth then noDelay = true
+    if width > treeViewEl.clientWidth > atom.config.get 'autohide-tree-view.minimizedWidth' then noDelay = true
     transitionDelay = if noDelay then 0 else atom.config.get 'autohide-tree-view.showDelay'
     treeViewEl.style.transitionDelay = "#{transitionDelay}s"
     treeViewEl.style.width = "#{width}px"
@@ -79,7 +79,7 @@ class AutohideTreeView
     return unless treeView?.isVisible()
     treeViewEl = atom.views.getView treeView
     width = atom.config.get 'autohide-tree-view.minimizedWidth'
-    transitionDelay = atom.config.get 'autohide-tree-view.hideDelay'
+    transitionDelay = if noDelay then 0 else atom.config.get 'autohide-tree-view.hideDelay'
     treeViewEl.style.transitionDelay = "#{transitionDelay}s"
     treeViewEl.style.width = "#{width}px"
     treeView.unfocus()
