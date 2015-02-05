@@ -1,3 +1,6 @@
+## 0.10.3
+* Fix: Unset some css properties upon package deactivation
+
 ## 0.10.2
 * No delay when opening the tree view while it is collapsing
 
