@@ -1,3 +1,6 @@
+## 0.10.5
+* Fixed the config descriptions
+
 ## 0.10.4
 * Fix: showDelay would always evaluate to 0
 
