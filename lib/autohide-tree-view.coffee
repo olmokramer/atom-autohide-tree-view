@@ -26,9 +26,12 @@ class AutohideTreeView
     @subs.add atom.packages.onDidActivatePackage (pkg) =>
       if pkg.path.match(/\/tree-view\/?$/i)
         treeView = pkg.mainModule.createView()
-        global.treeViewbarf = atom.views.getView treeView
-        atom.views.getView(treeView).classList.add 'autohide'
+        treeViewEl = atom.views.getView treeView
+        treeViewEl.classList.add 'autohide'
         @applyMinimizedWidth()
+
+        @subs.add treeViewEl, 'click', =>
+          @unfold(true)
 
     @subs.add atom.packages.onDidDeactivatePackage (pkg) ->
       if pkg.path.match /\/tree-view\/?/i
@@ -52,27 +55,24 @@ class AutohideTreeView
     @subs.add atom.commands.add 'atom-workspace', 'tree-view:show', =>
       @applyMinimizedWidth()
 
-    @subs.add atom.commands.add 'atom-workspace', 'tree-view:expand-directory', =>
-      @unfold()
-
   deactivate: ->
     @subs.dispose()
 
   unfold: (noDelay) ->
     return unless treeView?.isVisible()
     treeViewEl = atom.views.getView treeView
+    transitionDelay = if noDelay then 0 else atom.config.get 'autohide-tree-view.showDelay'
     maxWidth = treeViewEl.querySelector('.tree-view').clientWidth
-    setTimeout ->
-      treeViewEl.style.maxWidth = "#{maxWidth}px"
-    , if noDelay then 0 else 1000 * atom.config.get 'autohide-tree-view.showDelay'
+    treeViewEl.style.transitionDelay = "#{transitionDelay}s"
+    treeViewEl.style.maxWidth = "#{maxWidth}px"
 
   fold: ->
     return unless treeView?.isVisible()
     treeViewEl = atom.views.getView treeView
+    transitionDelay = atom.config.get 'autohide-tree-view.hideDelay'
     maxWidth = atom.config.get 'autohide-tree-view.minimizedWidth'
-    setTimeout ->
-      treeViewEl.style.maxWidth = "#{maxWidth}px"
-    , 1000 * atom.config.get 'autohide-tree-view.hideDelay'
+    treeViewEl.style.transitionDelay = "#{transitionDelay}s"
+    treeViewEl.style.maxWidth = "#{maxWidth}px"
 
   applyMinimizedWidth: (width) ->
     return unless treeView?.isVisible()
