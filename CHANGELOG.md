@@ -1,3 +1,6 @@
+## 0.10.2
+* No delay when opening the tree view while it is collapsing
+
 ## 0.10.1
 * Fixed changelog
 
