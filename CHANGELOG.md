@@ -1,3 +1,6 @@
+## 0.10.4
+* Fix: showDelay would always evaluate to 0
+
 ## 0.10.3
 * Fix: Unset some css properties upon package deactivation
 
