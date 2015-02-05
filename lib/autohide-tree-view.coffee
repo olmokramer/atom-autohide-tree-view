@@ -29,9 +29,12 @@ class AutohideTreeView
         treeViewEl = atom.views.getView treeView
         treeViewEl.classList.add 'autohide'
         @applyMinimizedWidth()
-
-        @subs.add treeViewEl, 'click', =>
-          @unfold(true)
+        @subs.add treeViewEl, 'click', => @unfold true
+        @subs.add treeViewEl,
+          'tree-view:expand-directory': => @unfold true
+          'tree-view:recursive-expand-directory': => @unfold true
+          'tree-view:collapse-directory': => @unfold true
+          'tree-view:recursive-collapse-directory': => @unfold true
 
     @subs.add atom.packages.onDidDeactivatePackage (pkg) ->
       if pkg.path.match /\/tree-view\/?/i
@@ -62,24 +65,26 @@ class AutohideTreeView
     return unless treeView?.isVisible()
     treeViewEl = atom.views.getView treeView
     transitionDelay = if noDelay then 0 else atom.config.get 'autohide-tree-view.showDelay'
-    maxWidth = treeViewEl.querySelector('.tree-view').clientWidth
+    width = treeViewEl.querySelector('.tree-view').clientWidth
     treeViewEl.style.transitionDelay = "#{transitionDelay}s"
-    treeViewEl.style.maxWidth = "#{maxWidth}px"
+    treeViewEl.style.width = "#{width}px"
+    treeView.focus()
 
   fold: ->
     return unless treeView?.isVisible()
     treeViewEl = atom.views.getView treeView
     transitionDelay = atom.config.get 'autohide-tree-view.hideDelay'
-    maxWidth = atom.config.get 'autohide-tree-view.minimizedWidth'
+    width = atom.config.get 'autohide-tree-view.minimizedWidth'
     treeViewEl.style.transitionDelay = "#{transitionDelay}s"
-    treeViewEl.style.maxWidth = "#{maxWidth}px"
+    treeViewEl.style.width = "#{width}px"
+    treeView.unfocus()
 
   applyMinimizedWidth: (width) ->
     return unless treeView?.isVisible()
     width ?= atom.config.get 'autohide-tree-view.minimizedWidth'
     width = "#{width}px"
     treeViewEl = atom.views.getView treeView
-    treeViewEl.style.setProperty 'max-width', width
-    treeViewEl.parentNode.style.setProperty 'min-width', width, 'important'
+    treeViewEl.style.setProperty 'width', width
+    treeViewEl.parentNode.style.setProperty 'width', width, 'important'
 
 module.exports = new AutohideTreeView()
