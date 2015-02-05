@@ -3,9 +3,10 @@
 // See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
 // for a full listing of what's available.
 
-.tree-view-resizer {
+.tree-view-resizer.autohide {
   width: auto!important;
-  transition-property: max-width;
+  min-width: initial!important;
+  transition: max-width .3s;
   position: absolute!important;
 
   &[data-show-on-right-side="true"] {
