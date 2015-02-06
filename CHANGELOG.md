@@ -1,3 +1,7 @@
+## 0.11.2
+* Added listeners for a lot more events and commands of the tree view package
+* Better handling of tree view events and commands
+
 ## 0.11.1
 * Fixed readme
 
