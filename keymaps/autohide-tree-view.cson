@@ -1,0 +1,5 @@
+'atom-workspace':
+  'cmd-\\': 'autohide-tree-view:toggle'
+  'cmd-k cmd-b': 'autohide-tree-view:toggle'
+  'ctrl-\\': 'autohide-tree-view:toggle'
+  'ctrl-k ctrl-b': 'autohide-tree-view:toggle'

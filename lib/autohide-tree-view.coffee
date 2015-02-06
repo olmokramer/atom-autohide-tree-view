@@ -2,7 +2,8 @@
 SubAtom = require 'sub-atom'
 
 class AutohideTreeView
-  treeView = null # the tree view element
+  treeView = null # the tree view model
+  treeViewEl = null # the tree view element
 
   config:
     showDelay:
@@ -21,30 +22,34 @@ class AutohideTreeView
       default: 1
       minimum: 1
 
-  activate: ->
+  activate: (state) ->
+    {@enabled} = state
     @subs = new SubAtom()
     @subs.add atom.packages.onDidActivatePackage (pkg) =>
-      if pkg.path.match(/\/tree-view\/?$/i)
-        treeView = pkg.mainModule.createView()
-        treeViewEl = atom.views.getView treeView
-        treeViewEl.classList.add 'autohide'
-        @applyMinimizedWidth()
-        @subs.add treeViewEl, 'click', => @show true
-        @subs.add treeViewEl,
-          'tree-view:expand-directory': => @show true
-          'tree-view:recursive-expand-directory': => @show true
-          'tree-view:collapse-directory': => @show true
-          'tree-view:recursive-collapse-directory': => @show true
+      @initialize pkg if pkg.path.match(/\/tree-view\/?$/i)
 
-    @subs.add atom.packages.onDidDeactivatePackage (pkg) ->
-      if pkg.path.match /\/tree-view\/?/i
-        treeView = null
+  deactivate: ->
+    @disable() if treeViewEl?
+    @subs.dispose()
+
+  serialize: ->
+    {@enabled}
+
+  initialize: (treeViewPkg) ->
+    treeView = treeViewPkg.mainModule.createView()
+    treeViewEl = atom.views.getView treeView
+    @enable()
+    # these events should be fired AFTER tree-view is done
+    # handling them
+    @subs.add treeViewEl, 'click', => @show true
+    @subs.add treeViewEl,
+      'tree-view:expand-directory': => @show true
+      'tree-view:recursive-expand-directory': => @show true
+      'tree-view:collapse-directory': => @show true
+      'tree-view:recursive-collapse-directory': => @show true
 
     @subs.add atom.config.observe 'autohide-tree-view.minimizedWidth', (width) =>
       @applyMinimizedWidth width
-
-    @subs.add atom.config.observe 'tree-view.showOnRightSide', =>
-      @applyMinimizedWidth()
 
     @subs.add 'atom-workspace', 'mouseenter', '.tree-view-resizer.autohide', =>
       @show()
@@ -52,22 +57,39 @@ class AutohideTreeView
     @subs.add 'atom-workspace', 'mouseleave', '.tree-view-resizer.autohide', =>
       @hide()
 
-    @subs.add atom.commands.add 'atom-workspace', 'tree-view:toggle', =>
-      @applyMinimizedWidth()
+    @subs.add atom.commands.add 'atom-workspace',
+      'autohide-tree-view:toggle': => @toggle()
+      'autohide-tree-view:enable': => @enable()
+      'autohide-tree-view:disable': => @disable()
 
-    @subs.add atom.commands.add 'atom-workspace', 'tree-view:show', =>
-      @applyMinimizedWidth()
+    @subs.add atom.packages.onDidDeactivatePackage (pkg) ->
+      treeView = treeViewEl = null if pkg.path.match /\/tree-view\/?/i
 
-  deactivate: ->
-    if treeViewEl = atom.views.getView treeView
-      treeViewEl.style.transitionDelay = ''
-      treeViewEl.style.width = ''
-      treeViewEl.parentNode.style.width = ''
-    @subs.dispose()
+  toggle: ->
+    return unless treeViewEl?
+    if treeViewEl.classList.contains 'autohide'
+      @disable()
+    else
+      @enable()
+
+  enable: ->
+    return unless treeViewEl?
+    treeViewEl.classList.add 'autohide'
+    @applyMinimizedWidth()
+    @hide true
+    @enabled = true
+
+  disable: ->
+    return unless treeViewEl?
+    treeViewEl.classList.remove 'autohide'
+    treeViewEl.style.transitionDelay = ''
+    treeViewEl.style.width = ''
+    treeViewEl.parentNode.style.width = ''
+    treeViewEl.style.width = treeViewEl.querySelector('.tree-view').clientWidth
+    @enabled = false
 
   show: (noDelay) ->
-    return unless treeView?.isVisible()
-    treeViewEl = atom.views.getView treeView
+    return unless treeViewEl?
     width = treeViewEl.querySelector('.tree-view').clientWidth
     if width > treeViewEl.clientWidth > atom.config.get 'autohide-tree-view.minimizedWidth' then noDelay = true
     transitionDelay = if noDelay then 0 else atom.config.get 'autohide-tree-view.showDelay'
@@ -76,8 +98,7 @@ class AutohideTreeView
     treeView.focus()
 
   hide: (noDelay) ->
-    return unless treeView?.isVisible()
-    treeViewEl = atom.views.getView treeView
+    return unless treeViewEl?
     width = atom.config.get 'autohide-tree-view.minimizedWidth'
     transitionDelay = if noDelay then 0 else atom.config.get 'autohide-tree-view.hideDelay'
     treeViewEl.style.transitionDelay = "#{transitionDelay}s"
@@ -85,10 +106,9 @@ class AutohideTreeView
     treeView.unfocus()
 
   applyMinimizedWidth: (width) ->
-    return unless treeView?.isVisible()
+    return unless treeViewEl?
     width ?= atom.config.get 'autohide-tree-view.minimizedWidth'
     width = "#{width}px"
-    treeViewEl = atom.views.getView treeView
     treeViewEl.style.setProperty 'width', width
     treeViewEl.parentNode.style.setProperty 'width', width, 'important'
 
