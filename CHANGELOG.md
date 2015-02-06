@@ -1,3 +1,6 @@
+## 0.11.3
+* Fixed issues on startup
+
 ## 0.11.2
 * Added listeners for a lot more events and commands of the tree view package
 * Better handling of tree view events and commands
