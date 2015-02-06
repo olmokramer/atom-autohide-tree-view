@@ -1,22 +1,27 @@
 # autohide-tree-view package
 
-Hides most of the tree view, reveal it on hover.
+Hides most of the tree view, show it on hover. The tree view is focused (so you can control it with the keyboard) when it is revealed.
 
 ![Image inserted by Atom editor package auto-host-markdown-image](https://raw.githubusercontent.com/olmokramer/atom-autohide-tree-view/master/images/screencast.gif)
 
 ## Config
 
-#### Show delay
+| setting | unit | default | description |
+|---|---|---|---|
+| `showDelay` | s (seconds) | 0.2 | The delay before the tree view will show when hovered |
+| `hideDelay` | s (seconds) | 0.2 | The delay before the tree view will hide when hovered |
+| `hiddenWidth` | px (pixels) | 1 | The width of the hidden tree view |
 
-The delay, in seconds, before the tree view will show when it is hovered
+## Commands
 
-#### Hide delay
-
-The delay, in seconds, before the tree view will hide when it is un-hovered
-
-#### Minimized width
-
-The width, in pixels, of the minimized tree view
+| command | scope-selector:keybinding | description |
+|---|---|---|
+| `autohide-tree-view:enable` | none | Enable autohide behavior on the tree view |
+| `autohide-tree-view:disable` | none | Enable default tree view behavior |
+| `autohide-tree-view:toggle-enabled` | none | Enable/Disable |
+| `autohide-tree-view:show` | none | Show the tree view |
+| `autohide-tree-view:hide` | `.tree-view-resizer.autohide.unfolded`: <kbd>escape</kbd> | Hide the tree view |
+| `autohide-tree-view:toggle-visible` | `atom-workspace`: <kbd>CtrlOrCmd-\</kbd> | Toggle between showing/hiding the tree view |
 
 ## Issues/suggestions
 
