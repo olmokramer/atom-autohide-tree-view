@@ -1,3 +1,8 @@
+## 0.11.0
+* Added commands for toggling autohide behavior
+* Added keymap to override the default `tree-view:toggle` keybinding
+* Improved startup time
+
 ## 0.10.5
 * Fixed the config descriptions
 
