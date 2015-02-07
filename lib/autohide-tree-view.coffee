@@ -43,7 +43,8 @@ class AutohideTreeView
     treeView = treeViewPkg.mainModule.createView()
     treeViewEl = atom.views.getView treeView
     # enable if was enabled in previous session
-    @enabled = state.enabled
+    state.enabled ?= true
+    {@enabled} = state
     @enable() if @enabled
 
     # respond to changes in the config
