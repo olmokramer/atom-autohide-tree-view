@@ -25,8 +25,7 @@ Hides most of the tree view, show it on hover. The tree view is focused (so you 
 
 ## Issues/suggestions
 
-Please file issues or suggestions on the [issues page on github](https://github.com/olmokramer/autohide-tree-view/issues/new)
-Pull requests are also welcomed
+Please file issues or suggestions on the [issues page on github](https://github.com/olmokramer/autohide-tree-view/issues/new), or even better, [submit a pull request](https://github.com/olmokramer/atom-autohide-tree-view/pulls)
 
 ## License
 
