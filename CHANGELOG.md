@@ -1,3 +1,6 @@
+## 0.12.0
+* Added `animate` setting
+
 ## 0.11.4
 * Fixed issue where autohide wouldn't enable when opening a project for the first time with the package activated
 
