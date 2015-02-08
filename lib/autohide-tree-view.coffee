@@ -6,6 +6,10 @@ class AutohideTreeView
   treeViewEl = null # the tree view element
 
   config:
+    animate:
+      description: 'Enable/disable the animation'
+      type: 'boolean'
+      default: true
     showDelay:
       description: 'The delay  - in seconds - before the tree-view will show'
       type: 'number'
@@ -50,6 +54,8 @@ class AutohideTreeView
     # respond to changes in the config
     @subs.add atom.config.observe 'autohide-tree-view.hiddenWidth', (width) =>
       @applyHiddenWidth width
+    @subs.add atom.config.observe 'autohide-tree-view.animate', (doAnimate) =>
+      @applyAnimation doAnimate
     @subs.add atom.config.observe 'tree-view.showOnRightSide', =>
       @applyHiddenWidth()
 
@@ -85,7 +91,7 @@ class AutohideTreeView
       'tree-view:recursive-expand-directory': => @show true
       'tree-view:collapse-directory': => @show true
       'tree-view:recursive-collapse-directory': => @show true
-      # hideshow on tree view open entry commands
+      # hide/show on tree view open entry commands
       'tree-view:open-selected-entry': (event) => @openEntry event
       'tree-view:open-selected-entry-right': (event) => @openEntry event
       'tree-view:open-selected-entry-left': (event) => @openEntry event
@@ -173,8 +179,12 @@ class AutohideTreeView
   # apply the hiddenWidth setting
   applyHiddenWidth: (width = atom.config.get 'autohide-tree-view.hiddenWidth') ->
     return unless @enabled
-    treeViewEl.style.setProperty 'width', "#{width}px"
-    treeViewEl.parentNode.style.setProperty 'width', "#{width}px", 'important'
+    treeViewEl.style.width = "#{width}px"
+    treeViewEl.parentNode.style.width = "#{width}px"
+
+  applyAnimation: (doAnimate) ->
+    return unless @enabled
+    treeViewEl.style.transitionDuration = if doAnimate then '.3s' else '0s'
 
   # enable/disable the hover events on the tree view
   enableHoverEvents: ->
