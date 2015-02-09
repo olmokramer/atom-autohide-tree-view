@@ -46,9 +46,10 @@ class AutohideTreeView
     # get the tree view model and element
     treeView = treeViewPkg.mainModule.createView()
     treeViewEl = atom.views.getView treeView
-    # enable if was enabled in previous session
+    # set enabled to true if the it doesn't exist
     state.enabled ?= true
     {@enabled} = state
+    # enable if was enabled in previous session
     @enable() if @enabled
 
     # respond to changes in the config
@@ -74,24 +75,22 @@ class AutohideTreeView
       'autohide-tree-view:show': => @show true, true
       'autohide-tree-view:hide': => @hide true
 
-    # events on the tree view or tree view package
+    # disable when the tree-view package gets deactivated
     @subs.add atom.packages.onDidDeactivatePackage (pkg) ->
       treeView = treeViewEl = null if pkg.path.match /\/tree-view\/?/i
 
-    # hide when opening a file
-    # show when expanding a directory
+    # respond to opening a file/directory
     @subs.add treeViewEl, 'click', '.entry', (event) =>
       @openEntry event
 
     # listen to commands of the tree view
     @subs.add treeViewEl,
-      # adjust tree view size to the width of the actual list
-      # when expanding a directory
+      # adjust tree view size when expanding a directory
       'tree-view:expand-directory': => @show true
       'tree-view:recursive-expand-directory': => @show true
       'tree-view:collapse-directory': => @show true
       'tree-view:recursive-collapse-directory': => @show true
-      # hide/show on tree view open entry commands
+      # respond to opening a file/directory
       'tree-view:open-selected-entry': (event) => @openEntry event
       'tree-view:open-selected-entry-right': (event) => @openEntry event
       'tree-view:open-selected-entry-left': (event) => @openEntry event
@@ -109,6 +108,7 @@ class AutohideTreeView
 
   # enable/disable autohide behavior
   toggleEnabled: ->
+    # disable if enabled and vice-versa
     if @enabled
       @disable()
     else
@@ -117,21 +117,25 @@ class AutohideTreeView
   # enable autohide behavior
   enable: ->
     @enabled = true
+    # add class for css
     treeViewEl.classList.add 'autohide'
+    # minimize the tree-view
     @applyHiddenWidth()
-    @enableHoverEvents()
     @hide true
+    # enable hover events
+    @enableHoverEvents()
 
   # disable autohide behavior
   disable: ->
     @enabled = false
+    # remove all possible classes added to the tree view by this package
     treeViewEl.classList.remove 'autohide', 'autohide-hover-events', 'unfolded'
+    # reset the inline css rules
     treeViewEl.style.transitionDelay = ''
-    treeViewEl.style.width = ''
-    treeViewEl.parentNode.style.width = ''
     treeViewEl.style.width = treeViewEl.querySelector('.tree-view').clientWidth
+    treeViewEl.parentNode.style.width = ''
 
-  # show/hide the tree view
+  # show the tree view when it is hidden, hide it otherwise
   toggleVisible: ->
     return unless @enabled
     if treeViewEl.classList.contains 'unfolded'
@@ -142,34 +146,49 @@ class AutohideTreeView
   # show the tree view
   show: (noDelay, disableHoverEvents) ->
     return unless @enabled
+    # set the width to fit all the items of the tree view
     width = treeViewEl.querySelector('.tree-view').clientWidth
+    # immediately open again when the menu is still animating
     if width > treeViewEl.clientWidth > atom.config.get 'autohide-tree-view.hiddenWidth'
       noDelay = true
+    # set the transition delay to the config.showDelay
     if noDelay
       transitionDelay = 0
     else
       transitionDelay = atom.config.get 'autohide-tree-view.showDelay'
+    # add the unfolded class to animate the contents to opacity = 1
     treeViewEl.classList.add 'unfolded'
+    # apply css properties
     treeViewEl.style.transitionDelay = "#{transitionDelay}s"
     treeViewEl.style.width = "#{width}px"
+    # focus the tree view to allow keyboard navigation
     treeView.focus()
+    # disable hover events if asked
     @disableHoverEvents() if disableHoverEvents
 
   # hide the tree view
   hide: (noDelay) ->
     return unless @enabled
+    # set the width to the config.hiddenWidth
     width = atom.config.get 'autohide-tree-view.hiddenWidth'
+    # set the transition delay to config.hideDelay
     if noDelay
       transitionDelay = 0
     else
       transitionDelay = atom.config.get 'autohide-tree-view.hideDelay'
+    # remove the unfolded class again
     treeViewEl.classList.remove 'unfolded'
+    # apply css properties
     treeViewEl.style.transitionDelay = "#{transitionDelay}s"
     treeViewEl.style.width = "#{width}px"
+    # unfocus the tree view
     treeView.unfocus()
+    # enable hover events
     @enableHoverEvents()
 
   openEntry: (event) ->
+    # hide when opening a file
+    # show when expanding a directory, to adjust the width
     return unless @enabled
     if treeView.selectedEntry().classList.contains 'directory'
       @show true
@@ -179,9 +198,13 @@ class AutohideTreeView
   # apply the hiddenWidth setting
   applyHiddenWidth: (width = atom.config.get 'autohide-tree-view.hiddenWidth') ->
     return unless @enabled
+    # set the width of the tree view
     treeViewEl.style.width = "#{width}px"
+    # set the width of the tree view panel to adjust for
+    # the position: absolute on the tree view
     treeViewEl.parentNode.style.width = "#{width}px"
 
+  # enable/disable the show/hide animation
   applyAnimation: (doAnimate) ->
     return unless @enabled
     treeViewEl.style.transitionDuration = if doAnimate then '.3s' else '0s'
