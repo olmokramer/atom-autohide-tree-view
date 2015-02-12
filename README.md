@@ -7,7 +7,7 @@ Hides most of the tree view, show it on hover. The tree view is focused (so you 
 ## Config
 
 | setting | type | unit | default | description |
-|---|---|---|---|
+|---|---|---|---|---|
 | `animate` | boolean | none | true | Enable/disable the animation when showing the menu |
 | `showDelay` | number | s (seconds) | 0.2 | The delay before the tree view will show when hovered |
 | `hideDelay` | number | s (seconds) | 0.2 | The delay before the tree view will hide when hovered |
