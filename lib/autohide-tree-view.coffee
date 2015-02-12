@@ -49,10 +49,9 @@ class AutohideTreeView
     # get the tree view model and element
     treeView = treeViewPkg.mainModule.createView()
     treeViewEl = atom.views.getView treeView
-    # set enabled to true if the it doesn't exist
-    state.enabled ?= true
-    {@enabled} = state
-    # enable if was enabled in previous session
+    # set @enabled to true if it doesn't exist in state
+    @enabled = state ? true
+    # enable if was enabled in previous session or if first session with autohide-tree-view
     @enable() if @enabled
 
     # respond to changes in the config
@@ -132,7 +131,7 @@ class AutohideTreeView
   disable: ->
     @enabled = false
     # remove all possible classes added to the tree view by this package
-    treeViewEl.classList.remove 'autohide', 'autohide-hover-events', 'unfolded'
+    treeViewEl.classList.remove 'autohide', 'autohide-hover-events', 'autohide-unfolded'
     # reset the inline css rules
     treeViewEl.style.transitionDelay = ''
     treeViewEl.style.width = treeViewEl.querySelector('.tree-view').clientWidth
@@ -141,7 +140,7 @@ class AutohideTreeView
   # show the tree view when it is hidden, hide it otherwise
   toggleVisible: ->
     return unless @enabled
-    if treeViewEl.classList.contains 'unfolded'
+    if treeViewEl.classList.contains 'autohide-unfolded'
       @hide true
     else
       @show true, true
@@ -159,8 +158,8 @@ class AutohideTreeView
       transitionDelay = 0
     else
       transitionDelay = atom.config.get 'autohide-tree-view.showDelay'
-    # add the unfolded class to animate the contents to opacity = 1
-    treeViewEl.classList.add 'unfolded'
+    # add the autohide-unfolded class to animate the contents to opacity = 1
+    treeViewEl.classList.add 'autohide-unfolded'
     # apply css properties
     treeViewEl.style.transitionDelay = "#{transitionDelay}s"
     treeViewEl.style.width = "#{width}px"
@@ -179,8 +178,8 @@ class AutohideTreeView
       transitionDelay = 0
     else
       transitionDelay = atom.config.get 'autohide-tree-view.hideDelay'
-    # remove the unfolded class again
-    treeViewEl.classList.remove 'unfolded'
+    # remove the autohide-unfolded class again
+    treeViewEl.classList.remove 'autohide-unfolded'
     # apply css properties
     treeViewEl.style.transitionDelay = "#{transitionDelay}s"
     treeViewEl.style.width = "#{width}px"
