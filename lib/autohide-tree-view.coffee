@@ -31,6 +31,9 @@ class AutohideTreeView
     # initialize this package when the tree-view package is activated
     @subs.add atom.packages.onDidActivatePackage (pkg) =>
       @initialize state, pkg if pkg.path.match /\/tree-view\/?$/i
+    # initialize now if tree-view package is already enabled
+    if atom.packages.isPackageActive 'tree-view'
+      @initialize state, atom.packages.getActivatedPackage 'tree-view'
 
   deactivate: ->
     # cleanup the tree view element
