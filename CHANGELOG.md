@@ -1,3 +1,6 @@
+## 0.12.2
+* Hopefully fixed [#6](https://github.com/olmokramer/autohide-tree-view/issues/6) and [#7](https://github.com/olmokramer/autohide-tree-view/issues/7)
+
 ## 0.12.1
 * Hopefully fixed [#6](https://github.com/olmokramer/autohide-tree-view/issues/6) and [#7](https://github.com/olmokramer/autohide-tree-view/issues/7)
 
