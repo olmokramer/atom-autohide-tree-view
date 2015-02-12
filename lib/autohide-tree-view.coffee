@@ -139,6 +139,7 @@ class AutohideTreeView
     treeViewEl.classList.remove 'autohide', 'autohide-hover-events', 'autohide-unfolded'
     # reset the inline css rules
     treeViewEl.style.transitionDelay = ''
+    treeViewEl.style.transitionDuration = ''
     treeViewEl.style.width = treeViewEl.querySelector('.tree-view').clientWidth
     treeViewEl.parentNode.style.width = ''
 
