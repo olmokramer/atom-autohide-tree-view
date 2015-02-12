@@ -8,7 +8,7 @@ Hides most of the tree view, show it on hover. The tree view is focused (so you 
 
 | setting | type | unit | default | description |
 |---|---|---|---|
-| `animate` | boolean |  | true | Enable/disable the animation when showing the menu |
+| `animate` | boolean | none | true | Enable/disable the animation when showing the menu |
 | `showDelay` | number | s (seconds) | 0.2 | The delay before the tree view will show when hovered |
 | `hideDelay` | number | s (seconds) | 0.2 | The delay before the tree view will hide when hovered |
 | `hiddenWidth` | integer | px (pixels) | 1 | The width of the hidden tree view |
