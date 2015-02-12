@@ -1,3 +1,6 @@
+## 0.12.3
+* Fixed issue where the resizing the tree view looked weird when `autohide-tree-view` is disabled
+
 ## 0.12.2
 * Hopefully fixed [#6](https://github.com/olmokramer/autohide-tree-view/issues/6) and [#7](https://github.com/olmokramer/autohide-tree-view/issues/7)
 
