@@ -1,4 +1,5 @@
 'use strict'
+path = require 'path'
 SubAtom = require 'sub-atom'
 
 class AutohideTreeView
@@ -27,17 +28,21 @@ class AutohideTreeView
       minimum: 1
 
   activate: (state) ->
+    # event/command subscriptions
     @subs = new SubAtom()
-    # initialize this package when the tree-view package is activated
-    @subs.add atom.packages.onDidActivatePackage (pkg) =>
-      @initialize state, pkg if pkg.path.match /\/tree-view\/?$/i
+    # default to @enabled = true
+    @enabled = state.enabled ? true
     # initialize now if tree-view package is already enabled
     if atom.packages.isPackageActive 'tree-view'
-      @initialize state, atom.packages.getActivatedPackage 'tree-view'
+      @initialize()
+    # initialize this package when the tree-view package is activated
+    @subs.add atom.packages.onDidActivatePackage (pkg) =>
+      # @initialize() if pkg.path.match /\/tree-view\/?$/i
+      @initialize() if 'tree-view' is path.basename pkg.path
 
   deactivate: ->
     # cleanup the tree view element
-    @disable() if treeViewEl?
+    @disable() if @enabled
     # dispose subscriptions
     @subs.dispose()
 
@@ -45,12 +50,17 @@ class AutohideTreeView
     # remember if enabled
     {@enabled}
 
-  initialize: (state, treeViewPkg) ->
+  initialize: ->
+    # disable when the tree-view package gets deactivated
+    @subs.add atom.packages.onDidDeactivatePackage (pkg) ->
+      # treeView = treeViewEl = null if pkg.path.match /\/tree-view\/?/i
+      treeView = treeViewEl = null if 'tree-view' is path.basename pkg.path
+
     # get the tree view model and element
+    treeViewPkg = atom.packages.getActivePackage 'tree-view'
     treeView = treeViewPkg.mainModule.createView()
     treeViewEl = atom.views.getView treeView
-    # set @enabled to true if it doesn't exist in state
-    @enabled = state ? true
+
     # enable if was enabled in previous session or if first session with autohide-tree-view
     @enable() if @enabled
 
@@ -67,6 +77,8 @@ class AutohideTreeView
       @show()
     @subs.add 'atom-workspace', 'mouseleave', '.tree-view-resizer.autohide.autohide-hover-events', =>
       @hide()
+    @subs.add 'atom-workspace', 'blur', '.tree-view-resizer.autohide', =>
+      @hide true
 
     # register commands for this package
     @subs.add atom.commands.add 'atom-workspace',
@@ -77,14 +89,6 @@ class AutohideTreeView
       'autohide-tree-view:show': => @show true, true
       'autohide-tree-view:hide': => @hide true
 
-    # disable when the tree-view package gets deactivated
-    @subs.add atom.packages.onDidDeactivatePackage (pkg) ->
-      treeView = treeViewEl = null if pkg.path.match /\/tree-view\/?/i
-
-    # respond to opening a file/directory
-    @subs.add treeViewEl, 'click', '.entry', (event) =>
-      @openEntry event
-
     # listen to commands of the tree view
     @subs.add treeViewEl,
       # adjust tree view size when expanding a directory
@@ -93,20 +97,23 @@ class AutohideTreeView
       'tree-view:collapse-directory': => @show true
       'tree-view:recursive-collapse-directory': => @show true
       # respond to opening a file/directory
-      'tree-view:open-selected-entry': (event) => @openEntry event
-      'tree-view:open-selected-entry-right': (event) => @openEntry event
-      'tree-view:open-selected-entry-left': (event) => @openEntry event
-      'tree-view:open-selected-entry-up': (event) => @openEntry event
-      'tree-view:open-selected-entry-down': (event) => @openEntry event
-      'tree-view:open-selected-entry-in-pane-1': (event) => @openEntry event
-      'tree-view:open-selected-entry-in-pane-2': (event) => @openEntry event
-      'tree-view:open-selected-entry-in-pane-3': (event) => @openEntry event
-      'tree-view:open-selected-entry-in-pane-4': (event) => @openEntry event
-      'tree-view:open-selected-entry-in-pane-5': (event) => @openEntry event
-      'tree-view:open-selected-entry-in-pane-6': (event) => @openEntry event
-      'tree-view:open-selected-entry-in-pane-7': (event) => @openEntry event
-      'tree-view:open-selected-entry-in-pane-8': (event) => @openEntry event
-      'tree-view:open-selected-entry-in-pane-9': (event) => @openEntry event
+      'tree-view:open-selected-entry': @openEntry
+      'tree-view:open-selected-entry-right': @openEntry
+      'tree-view:open-selected-entry-left': @openEntry
+      'tree-view:open-selected-entry-up': @openEntry
+      'tree-view:open-selected-entry-down': @openEntry
+      'tree-view:open-selected-entry-in-pane-1': @openEntry
+      'tree-view:open-selected-entry-in-pane-2': @openEntry
+      'tree-view:open-selected-entry-in-pane-3': @openEntry
+      'tree-view:open-selected-entry-in-pane-4': @openEntry
+      'tree-view:open-selected-entry-in-pane-5': @openEntry
+      'tree-view:open-selected-entry-in-pane-6': @openEntry
+      'tree-view:open-selected-entry-in-pane-7': @openEntry
+      'tree-view:open-selected-entry-in-pane-8': @openEntry
+      'tree-view:open-selected-entry-in-pane-9': @openEntry
+
+    # respond to opening a file/directory
+    @subs.add treeViewEl, 'click', '.entry', @openEntry
 
   # enable/disable autohide behavior
   toggleEnabled: ->
@@ -120,12 +127,10 @@ class AutohideTreeView
   enable: ->
     @enabled = true
     # add class for css
-    treeViewEl.classList.add 'autohide'
+    treeViewEl.classList.add 'autohide', 'autohide-hover-events'
     # minimize the tree-view
     @applyHiddenWidth()
     @hide true
-    # enable hover events
-    @enableHoverEvents()
 
   # disable autohide behavior
   disable: ->
@@ -188,7 +193,7 @@ class AutohideTreeView
     # enable hover events
     @enableHoverEvents()
 
-  openEntry: (event) ->
+  openEntry: (event) =>
     # hide when opening a file
     # show when expanding a directory, to adjust the width
     return unless @enabled
@@ -198,8 +203,9 @@ class AutohideTreeView
       @hide true
 
   # apply the hiddenWidth setting
-  applyHiddenWidth: (width = atom.config.get 'autohide-tree-view.hiddenWidth') ->
+  applyHiddenWidth: (width) ->
     return unless @enabled
+    width ?= atom.config.get 'autohide-tree-view.hiddenWidth'
     # set the width of the tree view
     treeViewEl.style.width = "#{width}px"
     # set the width of the tree view panel to adjust for
