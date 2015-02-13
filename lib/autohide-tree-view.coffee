@@ -36,6 +36,7 @@ class AutohideTreeView
       @initialize()
 
   deactivate: ->
+    @initialized = false
     @disable() if @enabled
     @subs.dispose()
 
