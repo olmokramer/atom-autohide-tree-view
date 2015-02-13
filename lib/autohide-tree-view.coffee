@@ -101,24 +101,27 @@ class AutohideTreeView
     @initialized = true
 
   enable: (treeViewPkg) ->
-    console.log 'autohide-tree-view: enable'
-    console.log 'autohide-tree-view: tree-view package active: ', atom.packages.isPackageActive 'tree-view'
-    treeViewPkg ?= atom.packages.getActivePackage 'tree-view'
-    console.log 'autohide-tree-view: tree-view package found: ', treeViewPkg?
-    return unless treeViewPkg?
-    @enabled = true
-    treeView = treeViewPkg.mainModule.createView()
-    console.log 'autohide-tree-view: tree-view model: ', treeView
-    treeViewEl = atom.views.getView treeView
-    console.log 'autohide-tree-view: tree-view element: ', treeViewEl
-    treeViewEl.classList.add 'autohide', 'autohide-hover-events'
-    @applyHiddenWidth()
-    console.log 'autohide-tree-view: applied setting hiddenWidth'
-    @applyAnimate()
-    console.log 'autohide-tree-view: applied setting animate'
-    @hide true
-    console.log ''
-    console.log 'autohide-tree-view: enabled'
+    try
+      console.log 'autohide-tree-view: enable'
+      console.log 'autohide-tree-view: tree-view package active: ', atom.packages.isPackageActive 'tree-view'
+      treeViewPkg ?= atom.packages.getActivePackage 'tree-view'
+      console.log 'autohide-tree-view: tree-view package found: ', treeViewPkg?
+      return unless treeViewPkg?
+      @enabled = true
+      treeView = treeViewPkg.mainModule.createView()
+      console.log 'autohide-tree-view: tree-view model: ', treeView
+      treeViewEl = atom.views.getView treeView
+      console.log 'autohide-tree-view: tree-view element: ', treeViewEl
+      treeViewEl.classList.add 'autohide', 'autohide-hover-events'
+      @applyHiddenWidth()
+      console.log 'autohide-tree-view: applied setting hiddenWidth'
+      @applyAnimate()
+      console.log 'autohide-tree-view: applied setting animate'
+      @hide true
+      console.log ''
+      console.log 'autohide-tree-view: enabled'
+    catch e
+      console.error e
 
   disable: ->
     @enabled = false
