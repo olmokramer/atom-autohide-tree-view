@@ -1,4 +1,4 @@
-## 0.13.1
+## ~~0.13.1~~ 0.13.2
 * Fixed issue where package wouldn't do anything when disabled and enabled again from the settings view
 
 ## 0.13.0
