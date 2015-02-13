@@ -1,3 +1,6 @@
+## 0.13.0
+* Improved initialization
+
 ## 0.12.3
 * Fixed issue where the resizing the tree view looked weird when `autohide-tree-view` is disabled
 
