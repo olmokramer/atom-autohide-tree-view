@@ -21,7 +21,7 @@ Hides most of the tree view, show it on hover. The tree view is focused (so you 
 | `autohide-tree-view:disable` | none | Enable default tree view behavior |
 | `autohide-tree-view:toggle-enabled` | none | Enable/Disable |
 | `autohide-tree-view:show` | none | Show the tree view |
-| `autohide-tree-view:hide` | `.tree-view-resizer.autohide.unfolded`: <kbd>Escape</kbd> | Hide the tree view |
+| `autohide-tree-view:hide` | `.tree-view-resizer.autohide-unfolded`: <kbd>Escape</kbd> | Hide the tree view |
 | `autohide-tree-view:toggle-visible` | `atom-workspace`: <kbd>CtrlOrCmd-\\</kbd> | Toggle between showing/hiding the tree view |
 
 ## Issues/suggestions
