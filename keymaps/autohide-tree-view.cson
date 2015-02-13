@@ -2,5 +2,5 @@
   'cmd-\\': 'autohide-tree-view:toggle-visible'
   'ctrl-\\': 'autohide-tree-view:toggle-visible'
 
-'.tree-view-resizer.autohide.unfolded':
+'.tree-view-resizer.autohide-unfolded':
   'escape': 'autohide-tree-view:hide'
