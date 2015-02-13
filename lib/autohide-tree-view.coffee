@@ -101,6 +101,7 @@ class AutohideTreeView
     @initialized = true
 
   enable: (treeViewPkg) ->
+    console.log 'autohide-tree-view: enable'
     treeViewPkg ?= atom.packages.getActivePackage 'tree-view'
     return unless treeViewPkg?
     @enabled = true
@@ -110,6 +111,7 @@ class AutohideTreeView
     @applyHiddenWidth()
     @applyAnimate()
     @hide true
+    console.log 'autohide-tree-view: enabled'
 
   disable: ->
     @enabled = false
