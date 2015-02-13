@@ -28,12 +28,16 @@ class AutohideTreeView
       minimum: 1
 
   activate: (state) ->
+    console.log 'autohide-tree-view: activating'
     @enabled = state.enabled ? true
     @subs = new SubAtom()
     @subs.add atom.packages.onDidActivateInitialPackages =>
+      console.log 'autohide-tree-view: initialize after activate initial packages' unless @initialized
       @initialize()
     if @enabled and atom.packages.isPackageActive 'tree-view'
+      console.log 'autohide-tree-view: initialize before activate initial packages' unless @initialized
       @initialize()
+    console.log 'autohide-tree-view: done activating'
 
   deactivate: ->
     @initialized = false
