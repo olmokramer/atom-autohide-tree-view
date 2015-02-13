@@ -102,7 +102,7 @@ class AutohideTreeView
 
   enable: (treeViewPkg) ->
     console.log 'autohide-tree-view: enable'
-    console.log 'autohide-tree-view: tree-view package enabled: ', atom.packages.isPackageActive 'tree-view'
+    console.log 'autohide-tree-view: tree-view package active: ', atom.packages.isPackageActive 'tree-view'
     treeViewPkg ?= atom.packages.getActivePackage 'tree-view'
     console.log 'autohide-tree-view: tree-view package found: ', treeViewPkg?
     return unless treeViewPkg?
