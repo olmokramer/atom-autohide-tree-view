@@ -28,16 +28,16 @@ class AutohideTreeView
       minimum: 1
 
   activate: (state) ->
-    console.log 'autohide-tree-view: activating'
+    # console.log 'autohide-tree-view: activating'
     @enabled = state.enabled ? true
     @subs = new SubAtom()
     @subs.add atom.packages.onDidActivateInitialPackages =>
-      console.log 'autohide-tree-view: initialize after activate initial packages' unless @initialized
+      # console.log 'autohide-tree-view: initialize after activate initial packages' unless @initialized
       @initialize()
     if @enabled and atom.packages.isPackageActive 'tree-view'
-      console.log 'autohide-tree-view: initialize before activate initial packages' unless @initialized
+      # console.log 'autohide-tree-view: initialize before activate initial packages' unless @initialized
       @initialize()
-    console.log 'autohide-tree-view: done activating'
+    # console.log 'autohide-tree-view: done activating'
 
   deactivate: ->
     @initialized = false
@@ -102,15 +102,22 @@ class AutohideTreeView
 
   enable: (treeViewPkg) ->
     console.log 'autohide-tree-view: enable'
+    console.log 'autohide-tree-view: tree-view package enabled: ', atom.packages.isPackageActive 'tree-view'
     treeViewPkg ?= atom.packages.getActivePackage 'tree-view'
+    console.log 'autohide-tree-view: tree-view package found: ', treeViewPkg?
     return unless treeViewPkg?
     @enabled = true
     treeView = treeViewPkg.mainModule.createView()
+    console.log 'autohide-tree-view: tree-view model: ', treeView
     treeViewEl = atom.views.getView treeView
+    console.log 'autohide-tree-view: tree-view element: ', treeViewEl
     treeViewEl.classList.add 'autohide', 'autohide-hover-events'
     @applyHiddenWidth()
+    console.log 'autohide-tree-view: applied setting hiddenWidth'
     @applyAnimate()
+    console.log 'autohide-tree-view: applied setting animate'
     @hide true
+    console.log ''
     console.log 'autohide-tree-view: enabled'
 
   disable: ->
