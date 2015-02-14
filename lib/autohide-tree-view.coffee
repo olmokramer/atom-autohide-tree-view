@@ -118,7 +118,6 @@ class AutohideTreeView
       @applyAnimate()
       console.log 'autohide-tree-view: applied setting animate'
       @hide true
-      console.log ''
       console.log 'autohide-tree-view: enabled'
     catch e
       console.error e
@@ -182,6 +181,7 @@ class AutohideTreeView
 
   applyHiddenWidth: (width) ->
     return unless @enabled
+    console.log 'autohide-tree-view: treeViewElement and parentNode found: ', treeViewEl?, 'and', treeViewEl.parentNode?
     width = @getHiddenWidth() if isNaN parseInt width
     treeViewEl.style.width = "#{width}px"
     treeViewEl.parentNode.style.width = "#{width}px"
