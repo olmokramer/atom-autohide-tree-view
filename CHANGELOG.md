@@ -1,3 +1,6 @@
+## 0.14.0
+* Fixed #6 and #7
+
 ## ~~0.13.1~~ 0.13.2
 * Fixed issue where package wouldn't do anything when disabled and enabled again from the settings view
 
@@ -8,10 +11,10 @@
 * Fixed issue where the resizing the tree view looked weird when `autohide-tree-view` is disabled
 
 ## 0.12.2
-* Hopefully fixed [#6](https://github.com/olmokramer/autohide-tree-view/issues/6) and [#7](https://github.com/olmokramer/autohide-tree-view/issues/7)
+* Hopefully fixed #6 and #7
 
 ## 0.12.1
-* Hopefully fixed [#6](https://github.com/olmokramer/autohide-tree-view/issues/6) and [#7](https://github.com/olmokramer/autohide-tree-view/issues/7)
+* Hopefully fixed #6 and #7
 
 ## 0.12.0
 * Added `animate` setting
