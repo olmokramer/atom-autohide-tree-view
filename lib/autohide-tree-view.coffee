@@ -111,6 +111,7 @@ class AutohideTreeView
       treeView = treeViewPkg.mainModule.createView()
       console.log 'autohide-tree-view: tree-view model: ', treeView
       treeViewEl = atom.views.getView treeView
+      treeView.attach() if treeViewPkg.mainModule.shouldAttach()
       console.log 'autohide-tree-view: tree-view element: ', treeViewEl
       treeViewEl.classList.add 'autohide', 'autohide-hover-events'
       @applyHiddenWidth()
