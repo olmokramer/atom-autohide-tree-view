@@ -164,7 +164,8 @@ class AutohideTreeView
   applyAnimate: (doAnimate) ->
     return unless @enabled
     doAnimate = doAnimate?.newValue ? @getAnimate()
-    treeViewEl.style.transitionDuration = "#{!!doAnimate * .3}s"
+    duration = if doAnimate then .3 else 0
+    treeViewEl.style.transitionDuration = "#{duration}s"
 
   applyHiddenWidth: (width) ->
     return unless @enabled
