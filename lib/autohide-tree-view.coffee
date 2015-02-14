@@ -181,7 +181,7 @@ class AutohideTreeView
 
   applyHiddenWidth: (width) ->
     return unless @enabled
-    console.log 'autohide-tree-view: treeViewElement and parentNode found: ', treeViewEl?, 'and', treeViewEl.parentNode?
+    console.log 'autohide-tree-view: ', treeViewEl.parentNode?, treeViewEl.style?, treeViewEl.parentNode?.style?
     width = @getHiddenWidth() if isNaN parseInt width
     treeViewEl.style.width = "#{width}px"
     treeViewEl.parentNode.style.width = "#{width}px"
