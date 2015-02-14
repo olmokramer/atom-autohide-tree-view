@@ -2,6 +2,17 @@
 path = require 'path'
 SubAtom = require 'sub-atom'
 
+# debug = do ->
+#   log = ''
+#   length = 0
+#   timeout = null
+#
+#   (message) ->
+#     clearTimeout timeout
+#     timeout = setTimeout ->
+#       fs.writeFileSync "#{__dirname}/../log", log
+#     , 500
+
 class AutohideTreeView
   treeView = null
   treeViewEl = null
@@ -98,24 +109,15 @@ class AutohideTreeView
 
   enable: (treeViewPkg) ->
     try
-      console.log 'autohide-tree-view: enable'
-      console.log 'autohide-tree-view: tree-view package active: ', atom.packages.isPackageActive 'tree-view'
       treeViewPkg ?= atom.packages.getActivePackage 'tree-view'
-      console.log 'autohide-tree-view: tree-view package found: ', treeViewPkg?
       return unless treeViewPkg?
       @enabled = true
       treeView = treeViewPkg.mainModule.createView()
-      console.log 'autohide-tree-view: tree-view model: ', treeView
       treeViewEl = atom.views.getView treeView
-      treeView.attach() if treeViewPkg.mainModule.shouldAttach()
-      console.log 'autohide-tree-view: tree-view element: ', treeViewEl
       treeViewEl.classList.add 'autohide', 'autohide-hover-events'
       @applyHiddenWidth()
-      console.log 'autohide-tree-view: applied setting hiddenWidth'
       @applyAnimate()
-      console.log 'autohide-tree-view: applied setting animate'
       @hide true
-      console.log 'autohide-tree-view: enabled'
     catch e
       console.error e
 
@@ -137,6 +139,7 @@ class AutohideTreeView
 
   show: (noDelay, disableHoverEvents) ->
     return unless @enabled
+    @applyHiddenWidth()
     width = treeViewEl.querySelector('.tree-view').clientWidth
     if width > treeViewEl.clientWidth > @getHiddenWidth()
       noDelay = true
@@ -178,10 +181,9 @@ class AutohideTreeView
 
   applyHiddenWidth: (width) ->
     return unless @enabled
-    console.log 'autohide-tree-view: ', treeViewEl.parentNode
     width = @getHiddenWidth() if isNaN parseInt width
     treeViewEl.style.width = "#{width}px"
-    treeViewEl.parentNode.style.width = "#{width}px"
+    treeViewEl.parentNode.style?.width = "#{width}px"
 
   getAnimate: -> atom.config.get 'autohide-tree-view.animate'
 
@@ -191,10 +193,8 @@ class AutohideTreeView
 
   getHiddenWidth: -> atom.config.get 'autohide-tree-view.hiddenWidth'
 
-  enableHoverEvents: ->
-    treeViewEl.classList.add 'autohide-hover-events'
+  enableHoverEvents: -> treeViewEl.classList.add 'autohide-hover-events'
 
-  disableHoverEvents: ->
-    treeViewEl.classList.remove 'autohide-hover-events'
+  disableHoverEvents: -> treeViewEl.classList.remove 'autohide-hover-events'
 
 module.exports = new AutohideTreeView()
