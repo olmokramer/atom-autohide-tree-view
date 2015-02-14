@@ -2,17 +2,6 @@
 path = require 'path'
 SubAtom = require 'sub-atom'
 
-# debug = do ->
-#   log = ''
-#   length = 0
-#   timeout = null
-#
-#   (message) ->
-#     clearTimeout timeout
-#     timeout = setTimeout ->
-#       fs.writeFileSync "#{__dirname}/../log", log
-#     , 500
-
 class AutohideTreeView
   treeView = null
   treeViewEl = null
@@ -108,18 +97,15 @@ class AutohideTreeView
     @initialized = true
 
   enable: (treeViewPkg) ->
-    try
-      treeViewPkg ?= atom.packages.getActivePackage 'tree-view'
-      return unless treeViewPkg?
-      @enabled = true
-      treeView = treeViewPkg.mainModule.createView()
-      treeViewEl = atom.views.getView treeView
-      treeViewEl.classList.add 'autohide', 'autohide-hover-events'
-      @applyHiddenWidth()
-      @applyAnimate()
-      @hide true
-    catch e
-      console.error e
+    treeViewPkg ?= atom.packages.getActivePackage 'tree-view'
+    return unless treeViewPkg?
+    @enabled = true
+    treeView = treeViewPkg.mainModule.createView()
+    treeViewEl = atom.views.getView treeView
+    treeViewEl.classList.add 'autohide', 'autohide-hover-events'
+    @applyHiddenWidth()
+    @applyAnimate()
+    @hide true
 
   disable: ->
     @enabled = false
@@ -140,6 +126,7 @@ class AutohideTreeView
   show: (noDelay, disableHoverEvents) ->
     return unless @enabled
     @applyHiddenWidth()
+    @applyAnimate()
     width = treeViewEl.querySelector('.tree-view').clientWidth
     if width > treeViewEl.clientWidth > @getHiddenWidth()
       noDelay = true
