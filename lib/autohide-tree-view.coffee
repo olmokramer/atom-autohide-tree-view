@@ -45,6 +45,7 @@ class AutohideTreeView
 
   initialize: ->
     return if @initialized
+    @initialized = true
 
     if @enabled and atom.packages.isPackageActive 'tree-view'
       @enable()
@@ -62,13 +63,12 @@ class AutohideTreeView
     @subs.add 'atom-workspace', 'mouseleave', '.tree-view-resizer.autohide-hover-events', => @hide()
     @subs.add 'atom-workspace', 'blur', '.tree-view-resizer.autohide', => @hide true
 
-    @subs.add atom.commands.add 'atom-workspace',
-      'autohide-tree-view:enable': => @enable()
-      'autohide-tree-view:disable': => @disable()
-      'autohide-tree-view:toggle-enabled': => @toggleEnabled()
-      'autohide-tree-view:show': => @show true, true
-      'autohide-tree-view:hide': => @hide true
-      'autohide-tree-view:toggle-visible': => @toggleVisible()
+    @subs.add atom.commands.add 'atom-workspace', 'autohide-tree-view:enable', => @enable()
+    @subs.add atom.commands.add 'atom-workspace', 'autohide-tree-view:disable', => @disable()
+    @subs.add atom.commands.add 'atom-workspace', 'autohide-tree-view:toggle-enabled', => @toggleEnabled()
+    @subs.add atom.commands.add 'atom-workspace', 'autohide-tree-view:show', => @show true, true
+    @subs.add atom.commands.add 'atom-workspace', 'autohide-tree-view:hide', => @hide true
+    @subs.add atom.commands.add 'atom-workspace', 'autohide-tree-view:toggle-visible', => @toggleVisible()
 
     @subs.add 'atom-workspace', 'tree-view:expand-directory', '.tree-view-resizer', @openEntry
     @subs.add 'atom-workspace', 'tree-view:recursive-expand-directory', '.tree-view-resizer', @openEntry
@@ -93,7 +93,7 @@ class AutohideTreeView
         @openEntry event
       , 0
 
-    @initialized = true
+  # handleEvents:
 
   enable: (treeViewPkg) ->
     treeViewPkg ?= atom.packages.getActivePackage 'tree-view'
