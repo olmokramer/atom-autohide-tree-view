@@ -1,3 +1,6 @@
+## 0.14.1
+* Fixed issue where commands weren't disposed of
+
 ## 0.14.0
 * Fixed #6 and #7
 
