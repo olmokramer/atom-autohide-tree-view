@@ -1,3 +1,6 @@
+## 0.15.3
+* Fixed issue where tree view would overlap the editor after changing the `hiddenWidth` setting
+
 ## 0.15.2
 * Fixed some errors
 
