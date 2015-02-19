@@ -27,7 +27,7 @@ class AutohideTreeView
       default: 5
       minimum: 1
     hideOnUnfocus:
-      description: 'Hide the tree view when it is unfocused (breaks scrollbar dragging)'
+      description: 'Hide the tree view when it is unfocused (breaks scrollbar dragging when enabled)'
       type: 'boolean'
       default: true
 
