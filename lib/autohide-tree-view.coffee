@@ -26,6 +26,10 @@ class AutohideTreeView
       type: 'integer'
       default: 5
       minimum: 1
+    hideOnUnfocus:
+      description: 'Hide the tree view when it is unfocused (breaks scrollbar dragging)'
+      type: 'boolean'
+      default: true
 
   activate: (state) ->
     @enabled = state.enabled ? true
@@ -61,7 +65,8 @@ class AutohideTreeView
 
     @subs.add 'atom-workspace', 'mouseenter', '.tree-view-resizer.autohide-hover-events', => @show()
     @subs.add 'atom-workspace', 'mouseleave', '.tree-view-resizer.autohide-hover-events', => @hide()
-    @subs.add 'atom-workspace', 'blur', '.tree-view-resizer.autohide', => @hide true
+    @subs.add 'atom-workspace', 'blur', '.tree-view-resizer.autohide', =>
+      if atom.config.get 'autohide-tree-view.hideOnUnfocus' then @hide true
 
     @subs.add atom.commands.add 'atom-workspace', 'autohide-tree-view:enable', => @enable()
     @subs.add atom.commands.add 'atom-workspace', 'autohide-tree-view:disable', => @disable()
@@ -92,8 +97,6 @@ class AutohideTreeView
       setTimeout =>
         @openEntry event
       , 0
-
-  # handleEvents:
 
   enable: (treeViewPkg) ->
     treeViewPkg ?= atom.packages.getActivePackage 'tree-view'
