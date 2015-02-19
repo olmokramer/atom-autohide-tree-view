@@ -1,3 +1,6 @@
+## 0.15.1
+* Fixed issue where the tree view would remain positioned absolute after disabling the package
+
 ## 0.15.0
 * Added `pushEditor` setting to fix #10
 
