@@ -1,3 +1,6 @@
+## 0.14.2
+* Added `hideOnFocus` setting to fix #9
+
 ## 0.14.1
 * Fixed issue where commands weren't disposed of
 
