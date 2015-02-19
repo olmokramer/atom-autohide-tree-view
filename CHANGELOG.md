@@ -1,3 +1,6 @@
+## 0.15.2
+* Fixed some errors
+
 ## 0.15.1
 * Fixed issue where the tree view would remain positioned absolute after disabling the package
 
