@@ -36,12 +36,11 @@ class AutohideTreeView
       default: false
 
   activate: (state) ->
-    @enabled = state.enabled ? true
     @subs = new SubAtom()
     @subs.add atom.packages.onDidActivateInitialPackages =>
-      @initialize()
+      @initialize state
     if @enabled and atom.packages.isPackageActive 'tree-view'
-      @initialize()
+      @initialize state
 
   deactivate: ->
     @initialized = false
@@ -51,9 +50,11 @@ class AutohideTreeView
   serialize: ->
     {@enabled}
 
-  initialize: ->
+  initialize: (state) ->
     return if @initialized
     @initialized = true
+
+    @enabled = state.enabled ? true
 
     if @enabled and atom.packages.isPackageActive 'tree-view'
       @enable()
