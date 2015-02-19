@@ -135,9 +135,9 @@ class AutohideTreeView
     @applyHiddenWidth()
     @applyDoAnimate()
     width = treeViewEl.querySelector('.tree-view').clientWidth
-    if width > treeViewEl.clientWidth > @getHiddenWidth()
+    if width > treeViewEl.clientWidth > @getSetting 'hiddenWidth'
       noDelay = true
-    transitionDelay = !noDelay * @getShowDelay()
+    transitionDelay = !noDelay * @getSetting 'showDelay'
     treeViewEl.classList.add 'autohide-unfolded'
     treeViewEl.style.transitionDelay = "#{transitionDelay}s"
     treeViewEl.style.width = "#{width}px"
@@ -147,7 +147,7 @@ class AutohideTreeView
   hide: (noDelay) ->
     return unless @enabled
     @applyDoAnimate()
-    transitionDelay = !noDelay * @getHideDelay()
+    transitionDelay = !noDelay * @getSetting 'hideDelay'
     treeViewEl.classList.remove 'autohide-unfolded'
     treeViewEl.style.transitionDelay = "#{transitionDelay}s"
     @applyHiddenWidth()
@@ -170,30 +170,25 @@ class AutohideTreeView
 
   applyDoAnimate: (doAnimate) ->
     return unless @enabled
-    doAnimate = doAnimate?.newValue ? @getDoAnimate()
+    doAnimate = doAnimate?.newValue ? @getSetting 'animate'
     treeViewEl.style.transitionDuration = "#{!!doAnimate * .3}s"
 
   applyHiddenWidth: (width) ->
     return unless @enabled
-    width = @getHiddenWidth() if isNaN parseInt width
+    width = @getSetting 'hiddenWidth' if isNaN parseInt width
     treeViewEl.style.width = "#{width}px"
+    treeViewEl.parentNode.style?.width = "#{width}px" unless @getSetting 'pushEditor'
 
   applyPushEditor: (pushEditor) ->
     return unless @enabled
     if pushEditor
       treeViewEl.style.position = 'relative'
-      treeViewEl.parentNode.style?.width = 'auto'
+      treeViewEl.parentNode.style?.width = ''
     else
       treeViewEl.style.position = 'absolute'
-      treeViewEl.parentNode.style?.width = "#{atom.config.get 'autohide-tree-view.hiddenWidth'}px"
+      treeViewEl.parentNode.style?.width = "#{@getSetting 'hiddenWidth'}px"
 
-  getDoAnimate: -> atom.config.get 'autohide-tree-view.animate'
-
-  getShowDelay: -> atom.config.get 'autohide-tree-view.showDelay'
-
-  getHideDelay: -> atom.config.get 'autohide-tree-view.hideDelay'
-
-  getHiddenWidth: -> atom.config.get 'autohide-tree-view.hiddenWidth'
+  getSetting: (setting) -> atom.config.get "autohide-tree-view.#{setting}"
 
   enableHoverEvents: -> treeViewEl.classList.add 'autohide-hover-events'
 
