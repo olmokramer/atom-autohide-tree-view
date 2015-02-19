@@ -30,6 +30,10 @@ class AutohideTreeView
       description: 'Hide the tree view when it is unfocused (breaks scrollbar dragging when enabled)'
       type: 'boolean'
       default: true
+    pushEditor:
+      description: 'Push the editor to the right when showing the tree view'
+      type: 'boolean'
+      default: false
 
   activate: (state) ->
     @enabled = state.enabled ? true
@@ -61,6 +65,7 @@ class AutohideTreeView
       @disable() if @enabled and 'tree-view' is path.basename pkg.path
 
     @subs.add atom.config.onDidChange 'autohide-tree-view.hiddenWidth', (width) => @applyHiddenWidth width
+    @subs.add atom.config.observe 'autohide-tree-view.pushEditor', (pushEditor) => @applyPushEditor pushEditor
     @subs.add atom.config.onDidChange 'tree-view.showOnRightSide', (width) => @applyHiddenWidth width
 
     @subs.add 'atom-workspace', 'mouseenter', '.tree-view-resizer.autohide-hover-events', => @show()
@@ -170,7 +175,15 @@ class AutohideTreeView
     return unless @enabled
     width = @getHiddenWidth() if isNaN parseInt width
     treeViewEl.style.width = "#{width}px"
-    treeViewEl.parentNode.style?.width = "#{width}px"
+
+  applyPushEditor: (pushEditor) ->
+    return unless @enabled
+    if pushEditor
+      treeViewEl.style.position = 'relative'
+      treeViewEl.parentNode.style?.width = 'auto'
+    else
+      treeViewEl.style.position = 'absolute'
+      treeViewEl.parentNode.style?.width = "#{atom.config.get 'autohide-tree-view.hiddenWidth'}px"
 
   getDoAnimate: -> atom.config.get 'autohide-tree-view.animate'
 
