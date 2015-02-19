@@ -1,3 +1,6 @@
+## 0.14.3
+* Altered config description
+
 ## 0.14.2
 * Added `hideOnFocus` setting toap fix #9
 
