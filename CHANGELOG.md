@@ -1,8 +1,11 @@
+## 0.15.0
+* Added `pushEditor` setting to fix #10
+
 ## 0.14.3
 * Altered config description
 
 ## 0.14.2
-* Added `hideOnFocus` setting toap fix #9
+* Added `hideOnFocus` setting to fix #9
 
 ## 0.14.1
 * Fixed issue where commands weren't disposed of
