@@ -1,3 +1,6 @@
+## 0.15.4
+* Fixed issue where blurring the tree-view would actually focus the editor
+
 ## 0.15.3
 * Fixed issue where tree view would overlap the editor after changing the `hiddenWidth` setting
 
