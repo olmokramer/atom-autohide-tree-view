@@ -151,7 +151,7 @@ class AutohideTreeView
     treeViewEl.classList.remove 'autohide-unfolded'
     treeViewEl.style.transitionDelay = "#{transitionDelay}s"
     @applyHiddenWidth()
-    treeView.unfocus()
+    treeViewEl.blur()
     @enableHoverEvents()
 
   toggleVisible: ->
