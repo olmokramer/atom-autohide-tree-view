@@ -1,3 +1,8 @@
+# autohide-tree-view changelog
+
+## 0.15.5
+* Removed `hideOnUnfocus` option because it was causing trouble
+
 ## 0.15.4
 * Fixed issue where blurring the tree-view would actually focus the editor
 
