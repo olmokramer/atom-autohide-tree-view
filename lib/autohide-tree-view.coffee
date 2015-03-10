@@ -26,10 +26,10 @@ class AutohideTreeView
       type: 'integer'
       default: 5
       minimum: 1
-    hideOnUnfocus:
-      description: 'Hide the tree view when it is unfocused (breaks scrollbar dragging when enabled)'
-      type: 'boolean'
-      default: true
+    # hideOnUnfocus:
+    #   description: 'Hide the tree view when it is unfocused (breaks scrollbar dragging when enabled)'
+    #   type: 'boolean'
+    #   default: true
     pushEditor:
       description: 'Push the editor to the right when showing the tree view'
       type: 'boolean'
@@ -71,8 +71,8 @@ class AutohideTreeView
 
     @subs.add 'atom-workspace', 'mouseenter', '.tree-view-resizer.autohide-hover-events', => @show()
     @subs.add 'atom-workspace', 'mouseleave', '.tree-view-resizer.autohide-hover-events', => @hide()
-    @subs.add 'atom-workspace', 'blur', '.tree-view-resizer.autohide', =>
-      if atom.config.get 'autohide-tree-view.hideOnUnfocus' then @hide true
+    # @subs.add 'atom-workspace', 'blur', '.tree-view-resizer.autohide', =>
+    #   if atom.config.get 'autohide-tree-view.hideOnUnfocus' then @hide true
 
     @subs.add atom.commands.add 'atom-workspace', 'autohide-tree-view:enable', => @enable()
     @subs.add atom.commands.add 'atom-workspace', 'autohide-tree-view:disable', => @disable()
@@ -151,7 +151,8 @@ class AutohideTreeView
     treeViewEl.classList.remove 'autohide-unfolded'
     treeViewEl.style.transitionDelay = "#{transitionDelay}s"
     @applyHiddenWidth()
-    treeViewEl.blur()
+    # treeViewEl.blur()
+    treeView.unfocus()
     @enableHoverEvents()
 
   toggleVisible: ->
