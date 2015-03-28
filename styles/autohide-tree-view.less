@@ -1,25 +1,18 @@
-// The ui-variables file is provided by base themes provided by Atom.
-//
-// See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
-// for a full listing of what's available.
-
 .tree-view-resizer.autohide {
   min-width: 1px!important; // allow the tree view to hide (almost) completely
-  transition-property: width; // allow animating the width
+  position: absolute; // hover the text editor on show
 
   &[data-show-on-right-side="true"] {
     right: 0; // else the tree view would slide off-screen
     z-index: 10; // above the text-editor scrollbar
   }
 
-  .tree-view-scroller {
-    opacity: 0;
-    transition: opacity .5s; // animate the content of the tree view when showing/hiding
-    overflow-x: hidden; // because the item highlighting causes overflow-x
+  &.push-editor {
+    position: relative; // push editor away
   }
 
-  &.autohide-unfolded .tree-view-scroller {
-    opacity: 1;
+  .tree-view-scroller {
+    overflow-x: hidden; // because the item highlighting causes overflow-x
   }
 
   .tree-view-resize-handle {
