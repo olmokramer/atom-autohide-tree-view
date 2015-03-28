@@ -1,5 +1,12 @@
 # autohide-tree-view changelog
 
+## 0.16.0
+* Complete rewrite
+* Replace setting `animate` with `animationSpeed`
+* Rename command `autohide-tree-view:toggle-visible` `autohide-tree-view:toggle`
+* Change unit of settings `showDelay` and `hideDelay` from seconds to milliseconds
+* Remove focusing and unfocusing tree view
+
 ## 0.15.5
 * Removed `hideOnUnfocus` option because it was causing trouble
 
