@@ -1,5 +1,4 @@
 'use strict'
-{basename} = require 'path'
 {Disposable} = require 'atom'
 SubAtom = require 'sub-atom'
 
@@ -72,6 +71,8 @@ class AutohideTreeView
     registerCommand 'disable', @disable
     registerCommand 'toggle-enabled', =>
       if @enabled then @disable() else @enable()
+    @subs.add atom.commands.add '.tree-view.autohide', 'core:cancel', =>
+      @hide()
 
     @subs.add 'atom-workspace', 'mouseenter', '.tree-view-resizer.autohide-hover', => @show()
     @subs.add 'atom-workspace', 'mouseleave', '.tree-view-resizer.autohide-hover', => @hide()
