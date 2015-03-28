@@ -117,10 +117,10 @@ class AutohideTreeView
   update: (@conf = atom.config.get 'autohide-tree-view') =>
     return unless @getTreeViewResizerEl()
     if @conf.pushEditor
-      treeViewResizerEl.classList.add 'push-editor'
+      treeViewResizerEl.style.position = 'relative'
       treeViewResizerEl.parentNode?.style?.width = ''
     else
-      treeViewResizerEl.classList.remove 'push-editor'
+      treeViewResizerEl.style.position = 'absolute'
       treeViewResizerEl.parentNode?.style?.width = "#{@conf.hiddenWidth}px"
 
   show: (noDelay = false) =>
