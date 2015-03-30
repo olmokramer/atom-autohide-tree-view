@@ -1,5 +1,8 @@
 # autohide-tree-view changelog
 
+## 0.16.1
+* Fix #15
+
 ## 0.16.0
 * Complete rewrite
 * Replace setting `animate` with `animationSpeed`
