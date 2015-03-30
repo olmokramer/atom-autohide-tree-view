@@ -31,5 +31,4 @@ Please file issues or suggestions on the [issues page on github](https://github.
 
 ## License
 
-`autohide-tree-view` is released under the [MIT License](LICENSE.md)<br>
-&copy; 2015 Olmo Kramer
+&copy; 2015 Olmo Kramer <br> [MIT License](LICENSE.md)
