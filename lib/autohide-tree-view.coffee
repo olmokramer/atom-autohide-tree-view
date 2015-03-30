@@ -35,6 +35,16 @@ class AutohideTreeView
       type: 'boolean'
       default: false
       order: 4
+    focusTreeViewOnOpen:
+      description: 'Focus the tree view after it opens. Not recommended because it might cause some issues with focusing other parts of the editor.'
+      type: 'boolean'
+      default: false
+      order: 5
+    unfocusTreeViewOnClose:
+      description: 'Focuses the text editor after closing the tree view. Not recommended because it might cause some issues with focusing other parts of the editor.'
+      type: 'boolean'
+      default: false
+      order: 6
 
   activate: (state) ->
     atom.packages.onDidActivateInitialPackages @initialize
@@ -129,6 +139,8 @@ class AutohideTreeView
       @animate treeViewEl.clientWidth, =>
         @visible = true
     , Number(!noDelay) * @conf.showDelay
+    if @conf.focusTreeViewOnOpen
+      @getTreeViewModel().focus()
 
   hide: (noDelay = false) =>
     return unless @getTreeViewResizerEl()
@@ -137,6 +149,8 @@ class AutohideTreeView
         @visible = false
     , Number(!noDelay) * @conf.hideDelay
     @enableHoverEvents()
+    if @conf.unfocusTreeViewOnClose
+      @getTreeViewModel().unfocus()
 
   toggle: =>
     console.log @visible
