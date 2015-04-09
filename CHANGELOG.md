@@ -1,5 +1,8 @@
 # autohide-tree-view changelog
 
+## 0.16.2
+* Minor improvements in hiding/closing behavior
+
 ## 0.16.1
 * Fix #15
 
