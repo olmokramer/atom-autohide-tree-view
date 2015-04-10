@@ -8,8 +8,7 @@ class AutohideTreeView
     @disposables = new SubAtom()
     atom.packages.activatePackage('tree-view').then (treeViewPkg) =>
       @treeView = treeViewPkg.mainModule.createView()
-      @treeViewResizerEl = atom.views.getView @treeView
-      @treeViewEl = @treeViewResizerEl.querySelector '.tree-view'
+      @treeViewEl = atom.views.getView @treeView
       @subscribeEventHandlers()
       @enable()
     .catch (error) ->
@@ -18,7 +17,7 @@ class AutohideTreeView
   deactivate: ->
     @disable()
     @disposables.dispose()
-    {@treeView, @treeViewResizerEl, @treeViewEl} = {}
+    {@treeView, @treeViewEl} = {}
 
   subscribeEventHandlers: =>
     @disposables.add atom.config.observe 'autohide-tree-view', (@conf) =>
@@ -33,11 +32,7 @@ class AutohideTreeView
       'autohide-tree-view:hide': =>
         @hide true
       'autohide-tree-view:toggle-visible': =>
-        if @enabled
-          @disableHoverEvents()
-          @toggle()
-        else
-          atom.commands.dispatch atom.views.getView(atom.workspace), 'tree-view:toggle'
+        @toggle()
       'autohide-tree-view:enable': =>
         @enable()
       'autohide-tree-view:disable': =>
@@ -78,50 +73,48 @@ class AutohideTreeView
 
   enable: =>
     @enabled = true
-    @treeViewResizerEl.classList.add 'autohide'
+    @treeViewEl.classList.add 'autohide'
     @hide(true)
     @update()
 
   disable: =>
     @enabled = false
-    @treeViewResizerEl.classList.remove 'autohide', 'autohide-hover'
-    @treeViewResizerEl.style.width = "#{@treeViewEl.clientWidth}px"
-    @treeViewResizerEl.parentNode?.style?.width = ''
+    treeViewWidth = @treeViewEl.querySelector('.tree-view').clientWidth
+    @treeViewEl.classList.remove 'autohide', 'autohide-hover'
+    @treeViewEl.style.width = "#{treeViewWidth}px"
+    @treeViewEl.parentNode?.style?.width = ''
 
   update: =>
     if @conf.pushEditor
-      @treeViewResizerEl.style.position = 'relative'
-      @treeViewResizerEl.parentNode?.style?.width = ''
+      @treeViewEl.style.position = 'relative'
+      @treeViewEl.parentNode?.style?.width = ''
     else
-      @treeViewResizerEl.style.position = 'absolute'
-      @treeViewResizerEl.parentNode?.style?.width = "#{@conf.hiddenWidth}px"
+      @treeViewEl.style.position = 'absolute'
+      @treeViewEl.parentNode?.style?.width = "#{@conf.hiddenWidth}px"
 
   show: (noDelay = false) ->
-    if @conf.hiddenWidth < @treeViewResizerEl.clientWidth < @treeViewEl.clientWidth
-      noDelay = true
-    setTimeout =>
-      @visible = true
-      @animate @treeViewEl.clientWidth
-    , Number(!noDelay) * @conf.showDelay
+    targetWidth = @treeViewEl.querySelector('.tree-view').clientWidth
+    delay = !noDelay * @conf.showDelay
+    @animate targetWidth, delay
+    @visible = true
     if @conf.focusTreeViewOnOpen
       @treeView.focus()
 
   hide: (noDelay = false) ->
-    if @conf.hiddenWidth < @treeViewResizerEl.clientWidth < @treeViewEl.clientWidth
-      noDelay = true
-    setTimeout =>
-      @visible = false
-      @animate @conf.hiddenWidth
-    , Number(!noDelay) * @conf.hideDelay
+    targetWidth = @conf.hiddenWidth
+    delay = !noDelay * @conf.hideDelay
+    @animate targetWidth, delay
+    @visible = false
     @enableHoverEvents()
     if @conf.unfocusTreeViewOnClose
       @treeView.unfocus()
 
   toggle: =>
-    if @visible
-      @hide()
+    if @enabled
+      @disableHoverEvents()
+      if @visible then @hide true else @show true
     else
-      @show()
+      atom.commands.dispatch atom.views.getView(atom.workspace), 'tree-view:toggle'
 
   openEntry: (e) =>
     if @treeView.selectedEntry().classList.contains 'directory'
@@ -129,33 +122,25 @@ class AutohideTreeView
     else if e.type isnt 'mouseup'
       @hide true
 
-  animate: do ->
-    animation = null
-
-    nextFrame = ->
-      {start, duration, initialWidth, targetWidth} = animation
-      animation.rafHandle = requestAnimationFrame nextFrame.bind @
-      progress = (Date.now() - animation.start) / animation.duration
-      if 1 <= progress
-        progress = 1
-        cancelAnimationFrame animation.rafHandle
-        animation = null
-      @treeViewResizerEl.style.width = "#{initialWidth + (targetWidth - initialWidth) * progress}px"
-
-    (targetWidth) ->
-      if animation?.rafHandle?
-        cancelAnimationFrame animation.rafHandle
-      initialWidth = @treeViewResizerEl.clientWidth
-      start = Date.now()
-      duration = Math.abs (targetWidth - initialWidth) / (@conf.animationSpeed or Infinity)
-      rafHandle = requestAnimationFrame nextFrame.bind @
-      animation = {targetWidth, initialWidth, start, duration, rafHandle}
-
+  animate: (targetWidth, delay) ->
+    initialWidth = @treeViewEl.clientWidth
+    duration = Math.abs(targetWidth - initialWidth) / (@conf.animationSpeed or Infinity)
+    if @currentAnimation?
+      @currentAnimation.cancel()
+      @treeViewEl.style.width = "#{initialWidth}px"
+      delay = 0
+    @currentAnimation = @treeViewEl.animate [
+      {width: initialWidth}
+      {width: targetWidth}
+    ], {duration, delay}
+    @currentAnimation.onfinish = =>
+      @treeViewEl.style.width = "#{targetWidth}px"
+      @currentAnimation = null
 
   enableHoverEvents: =>
-    @treeViewResizerEl.classList.add 'autohide-hover'
+    @treeViewEl.classList.add 'autohide-hover'
 
   disableHoverEvents: =>
-    @treeViewResizerEl.classList.remove 'autohide-hover'
+    @treeViewEl.classList.remove 'autohide-hover'
 
 module.exports = new AutohideTreeView()
