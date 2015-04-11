@@ -40,7 +40,7 @@ class AutohideTreeView
       'autohide-tree-view:toggle-enabled': =>
         if @enabled then @disable() else @enable()
 
-    @disposables.add atom.commands.add '.tree-view.autohide', 'core:cancel', =>
+    @disposables.add atom.commands.add '.tree-view-resizer.autohide', 'core:cancel', =>
       @hide true
 
     @disposables.add 'atom-workspace', 'mouseenter', '.tree-view-resizer.autohide-hover', =>
