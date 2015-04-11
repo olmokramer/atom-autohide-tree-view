@@ -1,5 +1,8 @@
 # autohide-tree-view changelog
 
+## 0.16.5
+* Fix #16 when `pushEditor` enabled
+
 ## 0.16.4
 * Fix #16
 
