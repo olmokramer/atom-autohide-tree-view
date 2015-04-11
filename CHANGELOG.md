@@ -2,6 +2,7 @@
 
 ## 0.16.5
 * Fix #16 when `pushEditor` enabled
+* Fix `core:cancel` command on the tree view
 
 ## 0.16.4
 * Fix #16
