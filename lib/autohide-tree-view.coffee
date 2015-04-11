@@ -4,6 +4,8 @@ SubAtom = require 'sub-atom'
 class AutohideTreeView
   config: require './config'
 
+  currentAnimations: new WeakMap()
+
   activate: ->
     @disposables = new SubAtom()
     atom.packages.activatePackage('tree-view').then (treeViewPkg) =>
@@ -22,15 +24,14 @@ class AutohideTreeView
   subscribeEventHandlers: =>
     @disposables.add atom.config.observe 'autohide-tree-view', (@conf) =>
       @update()
-    @disposables.add atom.config.onDidChange 'tree-view.showOnRightSide', =>
+    @disposables.add atom.config.observe 'autohide-tree-view', =>
       @update()
 
     @disposables.add atom.commands.add 'atom-workspace',
       'autohide-tree-view:show': =>
-        @disableHoverEvents()
-        @show true
+        @toggle() unless @visible
       'autohide-tree-view:hide': =>
-        @hide true
+        @toggle() if @visible
       'autohide-tree-view:toggle-visible': =>
         @toggle()
       'autohide-tree-view:enable': =>
@@ -71,45 +72,43 @@ class AutohideTreeView
     @disposables.add 'atom-workspace', 'mouseup', '.tree-view-resizer .entry', (e) =>
       process.nextTick => @openEntry e
 
-  enable: =>
+  enable: ->
     @enabled = true
     @treeViewEl.classList.add 'autohide'
     @hide(true)
     @update()
 
-  disable: =>
+  disable: ->
     @enabled = false
-    treeViewWidth = @treeViewEl.querySelector('.tree-view').clientWidth
     @treeViewEl.classList.remove 'autohide', 'autohide-hover'
-    @treeViewEl.style.width = "#{treeViewWidth}px"
+    @treeViewEl.style.width = "#{@getMaximizedWidth()}px"
     @treeViewEl.parentNode?.style?.width = ''
 
-  update: =>
-    if @conf.pushEditor
-      @treeViewEl.style.position = 'relative'
-      @treeViewEl.parentNode?.style?.width = ''
-    else
-      @treeViewEl.style.position = 'fixed'
-      @treeViewEl.parentNode?.style?.width = "#{@conf.hiddenWidth}px"
+  update: ->
+    @treeViewEl.parentNode?.style?.width = "#{@conf.hiddenWidth}px"
 
   show: (noDelay = false) ->
-    targetWidth = @treeViewEl.querySelector('.tree-view').clientWidth
+    targetWidth = @getMaximizedWidth()
     delay = !noDelay * @conf.showDelay
-    @animate targetWidth, delay
     @visible = true
+    @animate @treeViewEl, targetWidth, delay
+    if @conf.pushEditor
+      @animate @treeViewEl.parentNode, targetWidth, delay
     if @conf.focusTreeViewOnOpen
       @treeView.focus()
 
   hide: (noDelay = false) ->
     targetWidth = @conf.hiddenWidth
     delay = !noDelay * @conf.hideDelay
-    @animate targetWidth, delay
     @visible = false
+    @animate @treeViewEl, targetWidth, delay
+    if @conf.pushEditor
+      @animate @treeViewEl.parentNode, targetWidth, delay
     @enableHoverEvents()
     if @conf.unfocusTreeViewOnClose
       @treeView.unfocus()
 
-  toggle: =>
+  toggle: ->
     if @enabled
       @disableHoverEvents()
       if @visible then @hide true else @show true
@@ -119,28 +118,32 @@ class AutohideTreeView
   openEntry: (e) =>
     if @treeView.selectedEntry().classList.contains 'directory'
       @show true
-    else if e.type isnt 'mouseup'
+    else if e?.type isnt 'mouseup'
       @hide true
 
-  animate: (targetWidth, delay) ->
-    initialWidth = @treeViewEl.clientWidth
+  animate: (element, targetWidth, delay) ->
+    initialWidth = element.clientWidth
     duration = Math.abs(targetWidth - initialWidth) / (@conf.animationSpeed or Infinity)
-    if @currentAnimation?
-      @currentAnimation.cancel()
-      @treeViewEl.style.width = "#{initialWidth}px"
+    if currentAnimation = @currentAnimations.get element
+      currentAnimation.cancel()
+      element.style.width = "#{initialWidth}px"
       delay = 0
-    @currentAnimation = @treeViewEl.animate [
+    currentAnimation = element.animate [
       {width: initialWidth}
       {width: targetWidth}
     ], {duration, delay}
-    @currentAnimation.onfinish = =>
-      @treeViewEl.style.width = "#{targetWidth}px"
-      @currentAnimation = null
+    currentAnimation.onfinish = =>
+      element.style.width = "#{targetWidth}px"
+      @currentAnimations.delete element
+    @currentAnimations.set element, currentAnimation
 
-  enableHoverEvents: =>
+  enableHoverEvents: ->
     @treeViewEl.classList.add 'autohide-hover'
 
-  disableHoverEvents: =>
+  disableHoverEvents: ->
     @treeViewEl.classList.remove 'autohide-hover'
+
+  getMaximizedWidth: ->
+    @treeViewEl.querySelector('.tree-view').clientWidth
 
 module.exports = new AutohideTreeView()
