@@ -1,5 +1,8 @@
 # autohide-tree-view changelog
 
+## 0.16.4
+* Fix #16
+
 ## 0.16.3
 * Use native web animations (`Element::animate`)
 
