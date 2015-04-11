@@ -89,7 +89,7 @@ class AutohideTreeView
       @treeViewEl.style.position = 'relative'
       @treeViewEl.parentNode?.style?.width = ''
     else
-      @treeViewEl.style.position = 'absolute'
+      @treeViewEl.style.position = 'fixed'
       @treeViewEl.parentNode?.style?.width = "#{@conf.hiddenWidth}px"
 
   show: (noDelay = false) ->
