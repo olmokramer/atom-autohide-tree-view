@@ -1,5 +1,11 @@
 # autohide-tree-view changelog
 
+## 0.17.0
+* Fix focusing issues
+* Remove `focusTreeViewOnOpen` and `unfocusTreeViewOnClose` settings
+* Remove default keymap
+* Fix some minor visual issues
+
 ## 0.16.5
 * Fix #16 when `pushEditor` enabled
 * Fix `core:cancel` command on the tree view
