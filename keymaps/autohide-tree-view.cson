@@ -1,3 +1,5 @@
-'atom-workspace':
-  'cmd-\\': 'autohide-tree-view:toggle-visible'
-  'ctrl-\\': 'autohide-tree-view:toggle-visible'
+'.platform-linux, .platform-win32':
+  'ctrl-\\': 'autohide-tree-view:toggle'
+
+'.platform-darwin':
+  'cmd-\\': 'autohide-tree-view:toggle'
