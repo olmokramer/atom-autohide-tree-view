@@ -1,141 +1,120 @@
 'use strict'
 SubAtom = require 'sub-atom'
 
+clone = (obj) ->
+  res = {}
+  for own key of obj
+    res[key] = obj[key]
+  res
+
 class AutohideTreeView
   config: require './config'
 
-  currentAnimations: new WeakMap()
-
   activate: ->
     @disposables = new SubAtom()
+
+    atom.config.unset 'autohide-tree-view.focusTreeViewOnOpen'
+    atom.config.unset 'autohide-tree-view.unfocusTreeViewOnClose'
+
     atom.packages.activatePackage('tree-view').then (treeViewPkg) =>
       @treeView = treeViewPkg.mainModule.createView()
       @treeViewEl = atom.views.getView @treeView
-      @subscribeEventHandlers()
-      @enable()
+      @treeViewEl.classList.add 'autohide'
+      @observe()
+      @resize()
     .catch (error) ->
-      console.error error, error.stack
+      console.error error, '\n', error.stack
 
   deactivate: ->
-    @disable()
     @disposables.dispose()
+    @treeViewEl.classList.remove 'autohide', 'autohide-open', 'autohide-hover'
+    @treeViewEl.style.width = "#{@getTreeViewWidth}px"
+    @treeViewEl.parentNode?.style?.width = ''
     {@treeView, @treeViewEl} = {}
 
-  subscribeEventHandlers: =>
-    @disposables.add atom.config.observe 'autohide-tree-view', (@conf) =>
-      @update()
-    @disposables.add atom.config.observe 'autohide-tree-view', =>
-      @update()
+  observe: ->
+    @disposables.add atom.config.observe 'autohide-tree-view', (@conf) => @resize()
+    @disposables.add atom.config.observe 'tree-view.showOnRightSide', @resize
 
     @disposables.add atom.commands.add 'atom-workspace',
-      'autohide-tree-view:show': =>
-        @toggle() unless @visible
-      'autohide-tree-view:hide': =>
-        @toggle() if @visible
-      'autohide-tree-view:toggle-visible': =>
-        @toggle()
-      'autohide-tree-view:enable': =>
-        @enable()
-      'autohide-tree-view:disable': =>
-        @disable()
-      'autohide-tree-view:toggle-enabled': =>
-        if @enabled then @disable() else @enable()
+      'autohide-tree-view:show': => @toggle true
+      'autohide-tree-view:hide': => @toggle false
+      'autohide-tree-view:toggle': => @toggle()
 
-    @disposables.add atom.commands.add '.tree-view-resizer.autohide', 'core:cancel', =>
-      @hide true
+    @disposables.add atom.commands.add '.tree-view-resizer.autohide', 'core:cancel', => @hide 0
 
-    @disposables.add 'atom-workspace', 'mouseenter', '.tree-view-resizer.autohide-hover', =>
-      @show()
-    @disposables.add 'atom-workspace', 'mouseleave', '.tree-view-resizer.autohide-hover', =>
-      @hide()
+    @disposables.add 'atom-workspace', 'mouseenter', '.tree-view-resizer.autohide-hover', => @show()
+    @disposables.add 'atom-workspace', 'mouseleave', '.tree-view-resizer.autohide-hover', => @hide()
 
+    # respond to tree view commands
     @disposables.add atom.commands.add 'atom-workspace',
-      'tree-view:expand-directory': @openEntry
-      'tree-view:recursive-expand-directory': @openEntry
-      'tree-view:collapse-directory': @openEntry
-      'tree-view:recursive-collapse-directory': @openEntry
-      'tree-view:open-selected-entry': @openEntry
-      'tree-view:open-selected-entry-right': @openEntry
-      'tree-view:open-selected-entry-left': @openEntry
-      'tree-view:open-selected-entry-up': @openEntry
-      'tree-view:open-selected-entry-down': @openEntry
-      'tree-view:open-selected-entry-in-pane-1': @openEntry
-      'tree-view:open-selected-entry-in-pane-2': @openEntry
-      'tree-view:open-selected-entry-in-pane-3': @openEntry
-      'tree-view:open-selected-entry-in-pane-4': @openEntry
-      'tree-view:open-selected-entry-in-pane-5': @openEntry
-      'tree-view:open-selected-entry-in-pane-6': @openEntry
-      'tree-view:open-selected-entry-in-pane-7': @openEntry
-      'tree-view:open-selected-entry-in-pane-8': @openEntry
-      'tree-view:open-selected-entry-in-pane-9': @openEntry
+      'tree-view:toggle': => process.nextTick @resize
+      'tree-view:reveal-active-file': => @toggle true
+
+    for command in ['add-file', 'add-folder', 'duplicate', 'rename', 'move']
+      @disposables.add atom.commands.add 'atom-workspace', "tree-view:#{command}", =>
+        @focusedElement = null
+
+    resizeCommands = [
+      'expand-directory'
+      'recursive-expand-directory'
+      'collapse-directory'
+      'recursive-collapse-directory'
+      'toggle-vcs-ignored-files'
+      'toggle-ignored-names'
+      'remove-project-folder'
+    ]
+
+    for direction in ['', '-right', '-left', '-up', '-down']
+      resizeCommands.push "open-selected-entry#{direction}"
+
+    for i in [1...10]
+      resizeCommands.push "open-selected-entry-in-pane-#{i}"
+
+    for command in resizeCommands
+      @disposables.add atom.commands.add 'atom-workspace', "tree-view:#{command}", @openEntry
 
     @disposables.add 'atom-workspace', 'mouseup', '.tree-view-resizer .entry', (e) =>
       process.nextTick => @openEntry e
 
-  enable: ->
-    @enabled = true
-    @treeViewEl.classList.add 'autohide'
-    @hide(true)
-    @update()
+  resize: =>
+    {pushEditor} = @conf
+    @conf.pushEditor = true
+    @show 0
+    @hide 0
+    @conf.pushEditor = pushEditor
 
-  disable: ->
-    @enabled = false
-    @treeViewEl.classList.remove 'autohide', 'autohide-hover'
-    @treeViewEl.style.width = "#{@getMaximizedWidth()}px"
-    @treeViewEl.parentNode?.style?.width = ''
-
-  update: ->
-    @treeViewEl.parentNode?.style?.width = "#{@conf.hiddenWidth}px"
-
-  show: (noDelay = false) ->
-    targetWidth = @getMaximizedWidth()
-    delay = !noDelay * @conf.showDelay
+  show: (delay = @conf.showDelay) ->
     @visible = true
-    @animate @treeViewEl, targetWidth, delay
-    if @conf.pushEditor
-      @animate @treeViewEl.parentNode, targetWidth, delay
-    if @conf.focusTreeViewOnOpen
+    @focusedElement = document.activeElement
+    @treeViewEl.querySelector('.tree-view-scroller').style.display = ''
+    @animate @getTreeViewWidth(), delay, =>
+      @treeViewEl.classList.add 'autohide-open'
       @treeView.focus()
 
-  hide: (noDelay = false) ->
-    targetWidth = @conf.hiddenWidth
-    delay = !noDelay * @conf.hideDelay
+  hide: (delay = @conf.hideDelay) ->
     @visible = false
-    @animate @treeViewEl, targetWidth, delay
-    if @conf.pushEditor
-      @animate @treeViewEl.parentNode, targetWidth, delay
     @enableHoverEvents()
-    if @conf.unfocusTreeViewOnClose
-      @treeView.unfocus()
+    @treeViewEl.classList.remove 'autohide-open'
+    @animate @conf.hiddenWidth, delay, =>
+      @treeViewEl.querySelector('.tree-view-scroller').style.display = 'none'
+      @recoverFocus()
 
-  toggle: ->
-    if @enabled
-      @disableHoverEvents()
-      if @visible then @hide true else @show true
-    else
-      atom.commands.dispatch atom.views.getView(atom.workspace), 'tree-view:toggle'
+  toggle: (visible = !@visible) ->
+    @disableHoverEvents()
+    if visible then @show 0 else @hide 0
+
+  recoverFocus: ->
+    if @focusedElement?.focused?
+      @focusedElement.focused()
+    else if @focusedElement?.focus?
+      @focusedElement.focus()
 
   openEntry: (e) =>
     if @treeView.selectedEntry().classList.contains 'directory'
-      @show true
+      @show 0
     else if e?.type isnt 'mouseup'
-      @hide true
-
-  animate: (element, targetWidth, delay) ->
-    initialWidth = element.clientWidth
-    duration = Math.abs(targetWidth - initialWidth) / (@conf.animationSpeed or Infinity)
-    if currentAnimation = @currentAnimations.get element
-      currentAnimation.cancel()
-      element.style.width = "#{initialWidth}px"
-      delay = 0
-    currentAnimation = element.animate [
-      {width: initialWidth}
-      {width: targetWidth}
-    ], {duration, delay}
-    currentAnimation.onfinish = =>
-      element.style.width = "#{targetWidth}px"
-      @currentAnimations.delete element
-    @currentAnimations.set element, currentAnimation
+      @hide 0
 
   enableHoverEvents: ->
     @treeViewEl.classList.add 'autohide-hover'
@@ -143,7 +122,38 @@ class AutohideTreeView
   disableHoverEvents: ->
     @treeViewEl.classList.remove 'autohide-hover'
 
-  getMaximizedWidth: ->
+  getTreeViewWidth: ->
     @treeViewEl.querySelector('.tree-view').clientWidth
+
+  animate: (targetWidth, delay, cb = ->) ->
+    initialWidth = @treeViewEl.clientWidth
+    duration = Math.abs(targetWidth - initialWidth) / (@conf.animationSpeed or Infinity)
+
+    if @currentAnimation?
+      animation.cancel() for animation in @currentAnimation
+      delay = 0
+
+    animationOpts = [[
+      {width: initialWidth}
+      {width: targetWidth}
+    ], {duration, delay}]
+
+    elements = [@treeViewEl]
+    elements.push @treeViewEl.parentNode if @conf.pushEditor
+
+    animationsFinished = 0
+    @currentAnimation = elements.map (element) =>
+      element.style.width = "#{initialWidth}px"
+
+      animation = element.animate.apply element, animationOpts
+
+      animation.onfinish = =>
+        element.style.width = "#{targetWidth}px"
+
+        if ++animationsFinished is elements.length
+          @currentAnimation = null
+          cb() if animation.playState is 'finished'
+
+      animation
 
 module.exports = new AutohideTreeView()
