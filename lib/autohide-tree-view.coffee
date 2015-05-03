@@ -35,7 +35,7 @@ class AutohideTreeView
       @treeViewEl.classList.remove 'autohide', 'autohide-hover'
       @treeViewEl.style.position = ''
       @treeViewEl.style.minWidth = ''
-      @treeViewEl.parentNode.style?.width = ''
+      @treeViewEl.parentNode?.style?.width = ''
       @treeViewScroller.style.display = ''
       [@treeView, @treeViewEl, @treeViewScroller, @treeViewList] = []
 
@@ -109,10 +109,10 @@ class AutohideTreeView
     new Promise (resolve) => process.nextTick =>
       if @conf.pushEditor
         @treeViewEl.style.position = 'relative'
-        @treeViewEl.parentNode.style.width = ''
+        @treeViewEl.parentNode?.style?.width = ''
       else
         @treeViewEl.style.position = 'fixed'
-        @treeViewEl.parentNode.style.width = "#{@conf.hiddenWidth}px"
+        @treeViewEl.parentNode?.style?.width = "#{@conf.hiddenWidth}px"
       @hide(0).then(resolve)
 
   show: (delay = @conf.showDelay) ->
