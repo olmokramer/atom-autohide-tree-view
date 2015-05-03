@@ -2,8 +2,8 @@
 
 ## 0.17.0
 * Fix focusing issues
+* Respond to many more commands
 * Remove `focusTreeViewOnOpen` and `unfocusTreeViewOnClose` settings
-* Remove default keymap
 * Fix some minor visual issues
 
 ## 0.16.5
