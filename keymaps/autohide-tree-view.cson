@@ -1,5 +1,5 @@
-'.platform-linux, .platform-win32':
+'.platform-linux, .platform-win32, atom-workspace':
   'ctrl-\\': 'autohide-tree-view:toggle'
 
-'.platform-darwin':
+'.platform-darwin, atom-workspace':
   'cmd-\\': 'autohide-tree-view:toggle'

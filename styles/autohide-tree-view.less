@@ -1,28 +1,15 @@
 .tree-view-resizer.autohide {
   min-width: 1px!important; // allow the tree view to hide (almost) completely
   z-index: 10; // above the text-editor scrollbar
-  position: fixed;
-  top: 0;
 
-  &:not([data-show-on-right-side="true"]) {
-    left: 0;
-
-    .tree-view-scroller, .tree-view {
-      position: absolute;
-      right: 0;
-
-      .autohide-open& {
-        left: 0;
-        right: auto;
-      }
-    }
+  .tree-view-scroller, .tree-view {
+    position: absolute;
   }
 
   &[data-show-on-right-side="true"] {
     right: 0;
 
     .tree-view-scroller, .tree-view {
-      position: absolute;
       left: 0;
     }
   }
