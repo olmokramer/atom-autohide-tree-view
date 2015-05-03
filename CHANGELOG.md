@@ -1,5 +1,8 @@
 # autohide-tree-view changelog
 
+## 0.17.1
+* Prevent an exceptionn
+
 ## 0.17.0
 * Fix focusing issues
 * Respond to many more commands
