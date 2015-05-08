@@ -1,5 +1,9 @@
 # autohide-tree-view changelog
 
+## 0.17.2
+* Prevent the tree view from opening while selecting text in the editor
+* Fix a few minor issues
+
 ## 0.17.1
 * Prevent an exceptionn
 
