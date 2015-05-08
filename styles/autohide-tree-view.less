@@ -2,16 +2,12 @@
   min-width: 1px!important; // allow the tree view to hide (almost) completely
   z-index: 10; // above the text-editor scrollbar
 
-  .tree-view-scroller, .tree-view {
-    position: absolute;
+  &[data-show-on-right-side="true"] {
+    right: 0; // without this the tree view will slide off-screen
   }
 
-  &[data-show-on-right-side="true"] {
-    right: 0;
-
-    .tree-view-scroller, .tree-view {
-      left: 0;
-    }
+  .tree-view-scroller, .tree-view {
+    position: absolute; // keeps them in the right place
   }
 
   .tree-view-scroller {
