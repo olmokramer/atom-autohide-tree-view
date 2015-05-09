@@ -8,7 +8,7 @@ Hide the tree view, show it on hover.
 
 | setting       | type    | unit    | default | description |
 | ---           | ---     | ---     | ---     | --- |
-| `showOn`      | string  | none    | hover   | The type of event that should trigger show/hide of the tree view. Hover, Click, Hover + Click or None. |
+| `showOn`      | string  | none    | hover   | The type of event that should trigger show/hide of the tree view. `Hover`, `Click`, `Hover + Click` or `None`. |
 | `animate`     | boolean | none    | true    | Enable/disable the animation when showing the menu |
 | `showDelay`   | number  | seconds | 0.2     | The delay before the tree view will show when hovered |
 | `hideDelay`   | number  | seconds | 0.2     | The delay before the tree view will hide when hovered |
