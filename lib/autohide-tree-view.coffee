@@ -147,7 +147,6 @@ class AutohideTreeView
 
     # add listener for core commands that should cause the tree view to hide
     @disposables.add atom.commands.add '.tree-view-resizer.autohide',
-      'core:cancel': => @hide 0
       'tool-panel:unfocus': => @hide 0
 
     # respond to tree view commands
