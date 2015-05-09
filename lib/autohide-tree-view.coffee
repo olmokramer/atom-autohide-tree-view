@@ -101,14 +101,14 @@ class AutohideTreeView
   registerTreeView: (treeViewPkg) ->
     @treeView = treeViewPkg.mainModule.createView()
     @treeViewEl = @treeView.element
-    @treeViewEl.classList.add 'autohide', 'autohide-hover'
+    @treeViewEl.classList.add 'autohide'
 
     @disposables.add new Disposable =>
       @treeViewEl.classList.remove 'autohide', 'autohide-hover'
       @treeViewEl.style.position = ''
       @treeViewEl.style.minWidth = ''
       @treeViewEl.parentNode?.style?.width = ''
-      @treeViewEl.querySelector('.tree-view-scroller').style.display = ''
+      @treeView.list[0].style.display = ''
       [@treeView, @treeViewEl] = []
 
   observe: ->
@@ -196,8 +196,8 @@ class AutohideTreeView
   show: (delay = @conf.showDelay, disableHoverEvents = false) ->
     @disableHoverEvents() if disableHoverEvents
     @storeFocusedElement()
-    @treeViewEl.querySelector('.tree-view-scroller').style.display = ''
-    targetWidth = @treeViewEl.querySelector('.tree-view').clientWidth
+    @treeView.scroller[0].style.display = ''
+    targetWidth = @treeView.list[0].clientWidth
     @animate(targetWidth, delay).then (finished) =>
       @visible = true
       @treeView.focus() if finished
@@ -208,7 +208,7 @@ class AutohideTreeView
     @recoverFocus()
     targetWidth = @conf.hiddenWidth
     @animate(targetWidth, delay).then (finished) =>
-      @treeViewEl.querySelector('.tree-view-scroller').style.display = 'none' if finished
+      @treeView.scroller[0].style.display = 'none' if finished
 
   toggle: (disableHoverEvents = true) ->
     if @visible then @hide 0 else @show 0, disableHoverEvents
