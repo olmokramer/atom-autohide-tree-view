@@ -161,9 +161,6 @@ class AutohideTreeView
       'tree-view:reveal-active-file': => @show 0, true
       'tree-view:remove': => @resize()
       'tree-view:paste': => @resize()
-
-    # these tree-view commands should trigger a resize
-    @disposables.add atom.commands.add 'atom-workspace',
       'tree-view:expand-directory': => @resize()
       'tree-view:recursive-expand-directory': => @resize()
       'tree-view:collapse-directory': => @resize()
