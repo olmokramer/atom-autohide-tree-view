@@ -122,12 +122,6 @@ class AutohideTreeView
     @disposables.add atom.config.onDidChange 'tree-view.hideVcsIgnoredFiles', => @update()
     @disposables.add atom.config.onDidChange 'core.ignoredNames', => @update()
 
-    # add listeners for commands
-    @disposables.add atom.commands.add 'atom-workspace',
-      'autohide-tree-view:show': => @show 0, true
-      'autohide-tree-view:hide': => @hide 0
-      'autohide-tree-view:toggle': => @toggle()
-
     # add listeners for mouse events
     mouseEventDisposables = null
     @disposables.add atom.config.observe 'autohide-tree-view.showOn', (value) =>
