@@ -231,10 +231,12 @@ class AutohideTreeView
     @clearFocusedElement()
 
   enableHoverEvents: ->
-    @treeViewEl.classList.add 'autohide-hover'
+    if @conf.showOn.match 'hover'
+      @treeViewEl.classList.add 'autohide-hover'
 
   disableHoverEvents: ->
-    @treeViewEl.classList.remove 'autohide-hover'
+    if @conf.showOn.match 'hover'
+      @treeViewEl.classList.remove 'autohide-hover'
 
   # resolves true if animation finished, false if animation cancelled
   animate: (targetWidth, delay) ->
