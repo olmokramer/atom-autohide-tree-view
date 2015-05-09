@@ -118,6 +118,8 @@ class AutohideTreeView
     @disposables.add atom.config.onDidChange 'autohide-tree-view.pushEditor', => @update()
     @disposables.add atom.config.onDidChange 'autohide-tree-view.hiddenWidth', => @update()
     @disposables.add atom.config.onDidChange 'tree-view.showOnRightSide', => @update()
+    @disposables.add atom.config.onDidChange 'tree-view.hideIgnoredNames', => @update()
+    @disposables.add atom.config.onDidChange 'tree-view.hideVcsIgnoredFiles', => @update()
 
     # add listeners for commands
     @disposables.add atom.commands.add 'atom-workspace',
@@ -160,8 +162,6 @@ class AutohideTreeView
       'tree-view:recursive-expand-directory': => @resize()
       'tree-view:collapse-directory': => @resize()
       'tree-view:recursive-collapse-directory': => @resize()
-      'tree-view:toggle-vcs-ignored-files': => @resize()
-      'tree-view:toggle-ignored-names': => @resize()
       'tree-view:remove-project-folder': => @resize()
 
     @disposables.add 'atom-workspace', 'mouseup', '.tree-view-resizer .entry.directory', => @resize()
