@@ -74,7 +74,7 @@ class AutohideTreeView
     # wait until the tree view package is activated
     atom.packages.activatePackage('tree-view').then (treeViewPkg) =>
       @registerTreeView treeViewPkg
-      @observe()
+      @handleEvents()
       # start with pushEditor = true, we'll change it back later
       # activating the package looks much better this way
       @conf.pushEditor = true
@@ -112,7 +112,7 @@ class AutohideTreeView
       atom.views.getView(@treeView.panel)?.style.width = ''
       [@treeView, @treeViewEl] = []
 
-  observe: ->
+  handleEvents: ->
     # observe config
     @disposables.add atom.config.onDidChange 'autohide-tree-view', ({newValue}) => @conf = clone newValue
     @disposables.add atom.config.onDidChange 'autohide-tree-view.pushEditor', => @update()
