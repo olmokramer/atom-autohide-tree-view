@@ -1,4 +1,5 @@
 'use strict'
+{Disposable} = require 'atom'
 SubAtom = null
 
 # generic error logging function
