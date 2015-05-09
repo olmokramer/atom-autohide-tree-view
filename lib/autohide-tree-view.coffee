@@ -246,7 +246,7 @@ class AutohideTreeView
 
   # resize the tree view when its contents might change size
   resize: ->
-    promiseNextTick.then() =>
+    promiseNextTick().then =>
       if @visible then @show 0  else @hide 0
     .catch error
 
