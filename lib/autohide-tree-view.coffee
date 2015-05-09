@@ -149,6 +149,9 @@ class AutohideTreeView
     @disposables.add atom.commands.add '.tree-view-resizer.autohide',
       'tool-panel:unfocus': => @hide 0
 
+    # update the tree view when project.paths changes
+    @disposables.add atom.project.onDidChangePaths => @resize()
+
     # respond to tree view commands
     @disposables.add atom.commands.add 'atom-workspace',
       'tree-view:toggle': => @update()
