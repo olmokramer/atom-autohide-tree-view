@@ -1,12 +1,12 @@
 module.exports =
   showOn:
-    description: 'The type of event that triggers the tree view to show.'
+    description: 'The type of event that triggers the tree view to show or hide.'
     type: 'string'
     default: 'hover'
     enum: [
       'hover'
       'click'
-      'both'
+      'hover + click'
       'none'
     ]
     order: 0

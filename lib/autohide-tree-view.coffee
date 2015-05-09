@@ -45,6 +45,7 @@ class AutohideTreeView
     # so set minWidth on the element
     @treeViewEl.style.minWidth = '1px'
     @update().then =>
+      # show the tree view
       @show 0
     .then =>
       @disposables.dispose()
@@ -85,11 +86,11 @@ class AutohideTreeView
       (value) =>
         disposables?.dispose()
         @disposables.add disposables = new SubAtom()
-        if value is 'hover' or value is 'both'
+        if value.match 'hover'
           disposables.add 'atom-workspace', 'mouseenter', '.tree-view-resizer.autohide-hover', => @show()
           disposables.add 'atom-workspace', 'mouseleave', '.tree-view-resizer.autohide-hover', => @hide()
-        if value is 'click' or value is 'both'
-          disposables.add 'atom-workspace', 'click', '.tree-view-resizer', => @toggle value isnt 'both'
+        if value.match 'click'
+          disposables.add 'atom-workspace', 'click', '.tree-view-resizer', (event) => @toggle value is 'click'
           disposables.add '.tree-view', 'blur', =>
             @clearFocusedElement()
             @hide 0
@@ -149,7 +150,7 @@ class AutohideTreeView
 
   show: (delay = @conf.showDelay, disableHoverEvents = false) ->
     @disableHoverEvents() if disableHoverEvents
-    @cacheFocusedElement()
+    @storeFocusedElement()
     @treeViewEl.querySelector('.tree-view-scroller').style.display = ''
     targetWidth = @treeViewEl.querySelector('.tree-view').clientWidth
     @animate(targetWidth, delay).then (finished) =>
@@ -172,7 +173,7 @@ class AutohideTreeView
       if @visible then @show(0) else @hide(0)
     .catch error
 
-  cacheFocusedElement: ->
+  storeFocusedElement: ->
     @focusedElement = document.activeElement
 
   clearFocusedElement: ->
