@@ -18,6 +18,10 @@ promiseNextTick = ->
     process.nextTick ->
       resolve()
 
+getConfig = (key) -> atom.config.get "autohide-tree-view.#{key}"
+
+setConfig = (key, value) -> atom.config.set "autohide-tree-view.#{key}", value
+
 class AutohideTreeView
   config:
     showOn:
@@ -70,9 +74,7 @@ class AutohideTreeView
     SubAtom ?= require 'sub-atom'
     @disposables = new SubAtom()
 
-    # keep a reference to the package config
-    @conf = atom.config.get 'autohide-tree-view'
-    {pushEditor} = @conf
+    pushEditor = getConfig 'pushEditor'
 
     # wait until the tree view package is activated
     atom.packages.activatePackage 'tree-view'
@@ -81,28 +83,31 @@ class AutohideTreeView
       @handleEvents()
       # start with pushEditor = true, we'll change it back later
       # activating the package looks much better this way
-      @conf.pushEditor = true
+      setConfig 'pushEditor', true
       @update()
     .then =>
       # reset the pushEditor setting to the user value
-      @conf.pushEditor = pushEditor
+      setConfig 'pushEditor', pushEditor
       @update()
     .catch error
 
   deactivate: ->
     # deactivating looks better with pushEditor = true
-    @conf.pushEditor = true
+    pushEditor = getConfig 'pushEditor'
+    setConfig 'pushEditor', true
     # the stylesheet will be removed before the animation is finished
     # so set minWidth on the element
     @treeViewEl.style.minWidth = '1px'
     # apply new pushEditor value, then show the tree view
     @update().then =>
+      # reset the pushEditor setting to the user value
+      setConfig 'pushEditor', pushEditor
       # show the tree view
       @show 0
     .then =>
       # finally dispose of everything
       @disposables.dispose()
-      [@disposables, @conf, @visible] = []
+      [@disposables, @visible] = []
     .catch error
 
   registerTreeView: (treeViewPkg) ->
@@ -122,9 +127,6 @@ class AutohideTreeView
       [@treeView, @treeViewEl] = []
 
   handleEvents: ->
-    # keep config reference updated
-    @disposables.add atom.config.onDidChange 'autohide-tree-view', ({newValue}) => @conf = clone newValue
-
     # changes to these settings should trigger an update
     @disposables.add atom.config.onDidChange 'autohide-tree-view.pushEditor', => @update()
     @disposables.add atom.config.onDidChange 'autohide-tree-view.hiddenWidth', => @update()
@@ -202,17 +204,17 @@ class AutohideTreeView
   # updates styling on the .tree-view-resizer and the panel element
   update: ->
     promiseNextTick().then =>
-      if @conf.pushEditor
+      if getConfig('pushEditor')
         @treeViewEl.style.position = 'relative'
         atom.views.getView(@treeView.panel)?.style.width = ''
       else
         @treeViewEl.style.position = 'absolute'
-        atom.views.getView(@treeView.panel)?.style.width = "#{@conf.hiddenWidth}px"
+        atom.views.getView(@treeView.panel)?.style.width = "#{getConfig('hiddenWidth')}px"
       @resize()
     .catch error
 
   # show the tree view
-  show: (delay = @conf.showDelay, disableHoverEvents = false) ->
+  show: (delay = getConfig('showDelay'), disableHoverEvents = false) ->
     # disable hover events on the tree view when not triggered
     # by a hover event
     @disableHoverEvents() if disableHoverEvents
@@ -228,14 +230,14 @@ class AutohideTreeView
       @treeView.focus() if finished
 
   # hide the tree view
-  hide: (delay = @conf.hideDelay) ->
+  hide: (delay = getConfig('hideDelay')) ->
     @visible = false
     # enable hover events again
     @enableHoverEvents()
     # focus the element that was focused before the tree view
     # was opened
     @recoverFocus()
-    @animate @conf.hiddenWidth, delay
+    @animate getConfig('hiddenWidth'), delay
     .then (finished) =>
       # hide the tree view content
       @treeView.scroller[0].style.display = 'none' if finished
@@ -271,12 +273,12 @@ class AutohideTreeView
 
   # enable hover events on the tree view
   enableHoverEvents: ->
-    if @conf.showOn.match 'hover'
+    if getConfig('showOn').match 'hover'
       @treeViewEl.classList.add 'autohide-hover'
 
   # disable hover events on the tree view
   disableHoverEvents: ->
-    if @conf.showOn.match 'hover'
+    if getConfig('showOn').match 'hover'
       @treeViewEl.classList.remove 'autohide-hover'
 
   # resolves true if animation finished, false if animation cancelled
@@ -284,7 +286,7 @@ class AutohideTreeView
     # get the initial width of the element
     initialWidth = @treeViewEl.clientWidth
     # calculate the animation duration
-    duration = Math.abs targetWidth - initialWidth / (@conf.animationSpeed or Infinity)
+    duration = Math.abs targetWidth - initialWidth / (getConfig('animationSpeed') or Infinity)
 
     # cancel any current animation
     if @currentAnimation? and @currentAnimation.playState isnt 'finished'
