@@ -157,7 +157,6 @@ class AutohideTreeView
       'tree-view:toggle': (event) =>
         event.stopImmediatePropagation()
         @toggle()
-      'tree-view:show': => @update()
       'tree-view:reveal-active-file': => @show 0, true
 
     # these tree-view commands should trigger a resize
