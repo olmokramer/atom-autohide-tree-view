@@ -157,7 +157,10 @@ class AutohideTreeView
       'tree-view:toggle': (event) =>
         event.stopImmediatePropagation()
         @toggle()
+      'tree-view:toggle-focus': => @toggle()
       'tree-view:reveal-active-file': => @show 0, true
+      'tree-view:remove': => @resize()
+      'tree-view:paste': => @resize()
 
     # these tree-view commands should trigger a resize
     @disposables.add atom.commands.add 'atom-workspace',
