@@ -15,14 +15,6 @@ Hide the tree view, show it on hover.
 | `hiddenWidth` | integer | pixels  | 1       | The width of the hidden tree view |
 | `pushEditor`  | boolean | none    | false   | Push the editor when showing the tree view |
 
-## Commands
-
-| command                     | scope-selector:keybinding                                 | description |
-| ---                         | ---                                                       | --- |
-| `autohide-tree-view:show`   | none                                                      | Show tree view |
-| `autohide-tree-view:hide`   | none                                                      | Hide tree view |
-| `autohide-tree-view:toggle` | `atom-workspace`: <kbd>Ctrl-\\</kbd> or <kbd>Cmd-\\</kbd> | Show/Hide tree view |
-
 ## Issues/suggestions
 
 Please file issues or suggestions on the [issues page on github](https://github.com/olmokramer/autohide-tree-view/issues/new), or even better, [submit a pull request](https://github.com/olmokramer/atom-autohide-tree-view/pulls)
