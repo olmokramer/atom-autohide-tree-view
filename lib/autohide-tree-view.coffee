@@ -120,6 +120,7 @@ class AutohideTreeView
     @disposables.add atom.config.onDidChange 'tree-view.showOnRightSide', => @update()
     @disposables.add atom.config.onDidChange 'tree-view.hideIgnoredNames', => @update()
     @disposables.add atom.config.onDidChange 'tree-view.hideVcsIgnoredFiles', => @update()
+    @disposables.add atom.config.onDidChange 'core.ignoredNames', => @update()
 
     # add listeners for commands
     @disposables.add atom.commands.add 'atom-workspace',
