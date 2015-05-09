@@ -6,12 +6,6 @@ SubAtom = null
 error = (e) ->
   console.error e.message, '\n', e.stack
 
-# shallow clone object
-clone = (obj) ->
-  res = {}
-  res[key] = obj[key] for own key of obj
-  res
-
 # process.nextTick that returns a promise
 promiseNextTick = ->
   new Promise (resolve) ->
