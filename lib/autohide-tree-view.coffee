@@ -190,14 +190,14 @@ class AutohideTreeView
       else
         @treeViewEl.style.position = 'absolute'
         atom.views.getView(@treeView.panel)?.style.width = "#{@conf.hiddenWidth}px"
-      @resize().catch error
+      @resize()
+    .catch error
 
   show: (delay = @conf.showDelay, disableHoverEvents = false) ->
     @disableHoverEvents() if disableHoverEvents
     @storeFocusedElement()
     @treeView.scroller[0].style.display = ''
-    targetWidth = @treeView.list[0].clientWidth
-    @animate(targetWidth, delay).then (finished) =>
+    @animate(@treeView.list[0].clientWidth, delay).then (finished) =>
       @visible = true
       @treeView.focus() if finished
 
@@ -205,8 +205,7 @@ class AutohideTreeView
     @visible = false
     @enableHoverEvents()
     @recoverFocus()
-    targetWidth = @conf.hiddenWidth
-    @animate(targetWidth, delay).then (finished) =>
+    @animate(@conf.hiddenWidth, delay).then (finished) =>
       @treeView.scroller[0].style.display = 'none' if finished
 
   toggle: (disableHoverEvents = true) ->
@@ -229,7 +228,7 @@ class AutohideTreeView
       @focusedElement.focused()
     else if typeof @focusedElement.focus is 'function'
       @focusedElement.focus()
-    @focusedElement = null
+    @clearFocusedElement()
 
   enableHoverEvents: ->
     @treeViewEl.classList.add 'autohide-hover'
