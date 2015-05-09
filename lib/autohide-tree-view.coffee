@@ -267,7 +267,7 @@ class AutohideTreeView
   click: ->
     showOn = getConfig 'showOn'
     return unless showOn.match 'click'
-    @toggle showOn is 'click' if showOn.match 'click'
+    @toggle showOn is 'click'
 
   # fired when the tree view is blurred
   blur: ->
