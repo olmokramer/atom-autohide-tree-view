@@ -165,7 +165,6 @@ class AutohideTreeView
       'tree-view:recursive-expand-directory': => @resize()
       'tree-view:collapse-directory': => @resize()
       'tree-view:recursive-collapse-directory': => @resize()
-      'tree-view:remove-project-folder': => @resize()
 
     @disposables.add 'atom-workspace', 'mouseup', '.tree-view-resizer .entry.directory', => @resize()
 
