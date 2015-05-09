@@ -1,5 +1,8 @@
 # autohide-tree-view changelog
 
+## 0.19.1
+* Cleanup and some minor improvements
+
 ## 0.19.0
 * Fix issue where the package doesn't activate properly when the project has no serialized state
 * Remove own commands in favor of the tree-view package commands. Use `tree-view:show|hide|toggle` instead of `autohide-tree-view:show|hide|toggle`
