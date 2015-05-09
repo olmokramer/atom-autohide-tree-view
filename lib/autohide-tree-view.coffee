@@ -107,8 +107,8 @@ class AutohideTreeView
       @treeViewEl.classList.remove 'autohide', 'autohide-hover'
       @treeViewEl.style.position = ''
       @treeViewEl.style.minWidth = ''
-      @treeViewEl.parentNode?.style?.width = ''
       @treeView.list[0].style.display = ''
+      atom.views.getView(@treeView.panel)?.style.width = ''
       [@treeView, @treeViewEl] = []
 
   observe: ->
@@ -184,13 +184,12 @@ class AutohideTreeView
 
   update: ->
     promiseNextTick =>
-      return false unless @treeViewEl.parentNode?
       if @conf.pushEditor
         @treeViewEl.style.position = 'relative'
-        @treeViewEl.parentNode.style.width = ''
+        atom.views.getView(@treeView.panel)?.style.width = ''
       else
         @treeViewEl.style.position = 'absolute'
-        @treeViewEl.parentNode.style.width = "#{@conf.hiddenWidth}px"
+        atom.views.getView(@treeView.panel)?.style.width = "#{@conf.hiddenWidth}px"
       @resize().catch error
 
   show: (delay = @conf.showDelay, disableHoverEvents = false) ->
