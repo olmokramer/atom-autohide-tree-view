@@ -133,15 +133,14 @@ class AutohideTreeView
       if value.match 'hover'
         mouseEventDisposables.add 'atom-workspace', 'mouseenter', '.tree-view-resizer.autohide-hover', => @show()
         mouseEventDisposables.add 'atom-workspace', 'mouseleave', '.tree-view-resizer.autohide-hover', => @hide()
+        # disable the tree view from showing/hiding during a selection
+        mouseEventDisposables.add 'atom-text-editor', 'mousedown', => @disableHoverEvents()
+        mouseEventDisposables.add 'atom-text-editor', 'mouseup', => @enableHoverEvents()
       if value.match 'click'
         mouseEventDisposables.add 'atom-workspace', 'click', '.tree-view-resizer', (event) => @toggle value is 'click'
         mouseEventDisposables.add '.tree-view', 'blur', =>
           @clearFocusedElement()
           @hide 0
-
-    # disable the tree view from showing during a selection
-    @disposables.add 'atom-text-editor', 'mousedown', => @disableHoverEvents()
-    @disposables.add 'atom-text-editor', 'mouseup', => @enableHoverEvents()
 
     # add listener for core commands that should cause the tree view to hide
     @disposables.add atom.commands.add '.tree-view-resizer.autohide',
