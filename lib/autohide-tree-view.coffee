@@ -71,7 +71,8 @@ class AutohideTreeView
     {pushEditor} = @conf
 
     # wait until the tree view package is activated
-    atom.packages.activatePackage('tree-view').then (treeViewPkg) =>
+    atom.packages.activatePackage 'tree-view'
+    .then (treeViewPkg) =>
       @registerTreeView treeViewPkg
       @handleEvents()
       # start with pushEditor = true, we'll change it back later
@@ -125,20 +126,18 @@ class AutohideTreeView
       'autohide-tree-view:toggle': => @toggle()
 
     # add listeners for mouse events
-    @disposables.add atom.config.observe 'autohide-tree-view.showOn', do =>
-      disposables = null
-
-      (value) =>
-        disposables?.dispose()
-        @disposables.add disposables = new SubAtom()
-        if value.match 'hover'
-          disposables.add 'atom-workspace', 'mouseenter', '.tree-view-resizer.autohide-hover', => @show()
-          disposables.add 'atom-workspace', 'mouseleave', '.tree-view-resizer.autohide-hover', => @hide()
-        if value.match 'click'
-          disposables.add 'atom-workspace', 'click', '.tree-view-resizer', (event) => @toggle value is 'click'
-          disposables.add '.tree-view', 'blur', =>
-            @clearFocusedElement()
-            @hide 0
+    mouseEventDisposables = null
+    @disposables.add atom.config.observe 'autohide-tree-view.showOn', (value) =>
+      mouseEventDisposables?.dispose()
+      @disposables.add mouseEventDisposables = new SubAtom()
+      if value.match 'hover'
+        mouseEventDisposables.add 'atom-workspace', 'mouseenter', '.tree-view-resizer.autohide-hover', => @show()
+        mouseEventDisposables.add 'atom-workspace', 'mouseleave', '.tree-view-resizer.autohide-hover', => @hide()
+      if value.match 'click'
+        mouseEventDisposables.add 'atom-workspace', 'click', '.tree-view-resizer', (event) => @toggle value is 'click'
+        mouseEventDisposables.add '.tree-view', 'blur', =>
+          @clearFocusedElement()
+          @hide 0
 
     # disable the tree view from showing during a selection
     @disposables.add 'atom-text-editor', 'mousedown', => @disableHoverEvents()
@@ -197,7 +196,8 @@ class AutohideTreeView
     @disableHoverEvents() if disableHoverEvents
     @storeFocusedElement()
     @treeView.scroller[0].style.display = ''
-    @animate(@treeView.list[0].clientWidth, delay).then (finished) =>
+    @animate @treeView.list[0].clientWidth, delay
+    .then (finished) =>
       @visible = true
       @treeView.focus() if finished
 
@@ -205,7 +205,8 @@ class AutohideTreeView
     @visible = false
     @enableHoverEvents()
     @recoverFocus()
-    @animate(@conf.hiddenWidth, delay).then (finished) =>
+    @animate @conf.hiddenWidth, delay
+    .then (finished) =>
       @treeView.scroller[0].style.display = 'none' if finished
 
   toggle: (disableHoverEvents = true) ->
@@ -213,7 +214,7 @@ class AutohideTreeView
 
   resize: ->
     promiseNextTick.then() =>
-      if @visible then @show(0) else @hide(0)
+      if @visible then @show 0  else @hide 0
     .catch error
 
   storeFocusedElement: ->
@@ -241,7 +242,7 @@ class AutohideTreeView
   # resolves true if animation finished, false if animation cancelled
   animate: (targetWidth, delay) ->
     initialWidth = @treeViewEl.clientWidth
-    duration = Math.abs(targetWidth - initialWidth) / (@conf.animationSpeed or Infinity)
+    duration = Math.abs targetWidth - initialWidth / (@conf.animationSpeed or Infinity)
 
     if @currentAnimation? and @currentAnimation.playState isnt 'finished'
       @currentAnimation.cancel()
