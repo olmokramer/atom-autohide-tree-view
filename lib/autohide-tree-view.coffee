@@ -95,7 +95,6 @@ class AutohideTreeView
       @show 0
     .then =>
       @disposables.dispose()
-      @disposeTreeView()
       [@disposables, @conf, @visible] = []
     .catch error
 
@@ -104,13 +103,13 @@ class AutohideTreeView
     @treeViewEl = @treeView.element
     @treeViewEl.classList.add 'autohide', 'autohide-hover'
 
-  disposeTreeView: ->
-    @treeViewEl.classList.remove 'autohide', 'autohide-hover'
-    @treeViewEl.style.position = ''
-    @treeViewEl.style.minWidth = ''
-    @treeViewEl.parentNode?.style?.width = ''
-    @treeViewEl.querySelector('.tree-view-scroller').style.display = ''
-    [@treeView, @treeViewEl] = []
+    @disposables.add new Disposable =>
+      @treeViewEl.classList.remove 'autohide', 'autohide-hover'
+      @treeViewEl.style.position = ''
+      @treeViewEl.style.minWidth = ''
+      @treeViewEl.parentNode?.style?.width = ''
+      @treeViewEl.querySelector('.tree-view-scroller').style.display = ''
+      [@treeView, @treeViewEl] = []
 
   observe: ->
     # observe config
