@@ -8,8 +8,7 @@ error = (e) ->
 # process.nextTick that returns a promise
 promiseNextTick = ->
   new Promise (resolve) ->
-    process.nextTick ->
-      resolve()
+    process.nextTick resolve
 
 getConfig = (key) -> atom.config.get "autohide-tree-view.#{key}"
 
