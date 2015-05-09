@@ -154,7 +154,15 @@ class AutohideTreeView
 
     # respond to tree view commands
     @disposables.add atom.commands.add 'atom-workspace',
-      'tree-view:toggle': => @update()
+      'tree-view:show': (event) =>
+        event.stopImmediatePropagation()
+        @show 0, true
+      'tree-view:hide': (event) =>
+        event.stopImmediatePropagation()
+        @hide 0
+      'tree-view:toggle': (event) =>
+        event.stopImmediatePropagation()
+        @toggle()
       'tree-view:show': => @update()
       'tree-view:toggle-side': => @update()
       'tree-view:reveal-active-file': => @show 0, true
