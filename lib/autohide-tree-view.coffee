@@ -124,8 +124,9 @@ class AutohideTreeView
     @disposables.add @treeViewEl, 'mouseenter', => @mouseenter()
     @disposables.add @treeViewEl, 'mouseleave', => @mouseleave()
     # disable the tree view from showing/hiding during a selection
-    @disposables.add 'atom-workspace', 'mousedown', 'atom-text-editor', => @disableHoverEvents()
-    @disposables.add 'atom-workspace', 'mouseup', 'atom-text-editor', => @enableHoverEvents()
+    # make sure the event handlers don't return false
+    @disposables.add 'atom-workspace', 'mousedown', 'atom-text-editor', => @disableHoverEvents() or true
+    @disposables.add 'atom-workspace', 'mouseup', 'atom-text-editor', => @enableHoverEvents() or true
     # toggle the tree view when it is clicked
     @disposables.add @treeViewEl, 'click', => @click()
     # hide the tree view when another element is focused
@@ -248,12 +249,10 @@ class AutohideTreeView
   # enable hover events on the tree view
   enableHoverEvents: ->
     @hoverEventsEnabled = !!getConfig('showOn').match 'hover'
-    return true
 
   # disable hover events on the tree view
   disableHoverEvents: ->
     @hoverEventsEnabled = false
-    return true
 
   # fired when the mouse enters the tree view
   mouseenter: ->
