@@ -11,11 +11,10 @@ clone = (obj) ->
   res[key] = obj[key] for own key of obj
   res
 
-promiseNextTick = (cb) ->
+promiseNextTick = ->
   new Promise (resolve) ->
     process.nextTick ->
       resolve()
-  .then cb
 
 class AutohideTreeView
   config:
@@ -184,7 +183,7 @@ class AutohideTreeView
         "tree-view:#{command}", => @clearFocusedElement()
 
   update: ->
-    promiseNextTick =>
+    promiseNextTick().then =>
       if @conf.pushEditor
         @treeViewEl.style.position = 'relative'
         atom.views.getView(@treeView.panel)?.style.width = ''
@@ -213,7 +212,7 @@ class AutohideTreeView
     if @visible then @hide 0 else @show 0, disableHoverEvents
 
   resize: ->
-    promiseNextTick =>
+    promiseNextTick.then() =>
       if @visible then @show(0) else @hide(0)
     .catch error
 
