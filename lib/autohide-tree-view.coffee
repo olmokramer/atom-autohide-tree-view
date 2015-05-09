@@ -1,5 +1,4 @@
 'use strict'
-{Disposable} = require 'atom'
 SubAtom = null
 
 # generic error logging function
@@ -74,88 +73,70 @@ class AutohideTreeView
     SubAtom ?= require 'sub-atom'
     @disposables = new SubAtom()
 
-    pushEditor = getConfig 'pushEditor'
-
     # wait until the tree view package is activated
-    atom.packages.activatePackage 'tree-view'
-    .then (treeViewPkg) =>
+    atom.packages.activatePackage('tree-view').then (treeViewPkg) =>
       @registerTreeView treeViewPkg
       @handleEvents()
       # start with pushEditor = true, we'll change it back later
-      # activating the package looks much better this way
-      setConfig 'pushEditor', true
-      @update()
+      @update true
     .then =>
-      # reset the pushEditor setting to the user value
-      setConfig 'pushEditor', pushEditor
+      # update with the user value for pushEditor
       @update()
     .catch error
 
   deactivate: ->
-    # deactivating looks better with pushEditor = true
-    pushEditor = getConfig 'pushEditor'
-    setConfig 'pushEditor', true
-    # the stylesheet will be removed before the animation is finished
-    # so set minWidth on the element
+    # dispose of event listeners
+    @disposables.dispose()
+    # the stylesheet will be removed before the animation is finished.
+    # set minWidth on the element to prevent animation jumping
     @treeViewEl.style.minWidth = '1px'
-    # apply new pushEditor value, then show the tree view
-    @update().then =>
-      # reset the pushEditor setting to the user value
-      setConfig 'pushEditor', pushEditor
+    # update with pushEditor = true for a smooth animation
+    @update(true).then =>
       # show the tree view
       @show 0
     .then =>
-      # finally dispose of everything
-      @disposables.dispose()
+      # dispose of the tree view element
+      @disposeTreeView()
       [@disposables, @visible] = []
     .catch error
 
   registerTreeView: (treeViewPkg) ->
-    # keep references to the tree view element
+    # keep references to the tree view model and element
     @treeView = treeViewPkg.mainModule.createView()
     @treeViewEl = @treeView.element
     @treeViewEl.classList.add 'autohide'
 
     # register a disposable that disposes of the references
     # and resets the styles
-    @disposables.add new Disposable =>
-      @treeViewEl.classList.remove 'autohide', 'autohide-hover'
-      @treeViewEl.style.position = ''
-      @treeViewEl.style.minWidth = ''
-      @treeView.list[0].style.display = ''
-      atom.views.getView(@treeView.panel)?.style.width = ''
-      [@treeView, @treeViewEl] = []
+  disposeTreeView: ->
+    @treeViewEl.classList.remove 'autohide'
+    @treeViewEl.style.position = ''
+    @treeViewEl.style.minWidth = ''
+    @treeView.scroller[0].style.display = ''
+    atom.views.getView(@treeView.panel)?.style.width = ''
+    [@treeView, @treeViewEl] = []
 
   handleEvents: ->
     # changes to these settings should trigger an update
     @disposables.add atom.config.onDidChange 'autohide-tree-view.pushEditor', => @update()
     @disposables.add atom.config.onDidChange 'autohide-tree-view.hiddenWidth', => @update()
+    @disposables.add atom.config.onDidChange 'autohide-tree-view.showOn', => @enableHoverEvents()
     @disposables.add atom.config.onDidChange 'tree-view.showOnRightSide', => @update()
     @disposables.add atom.config.onDidChange 'tree-view.hideIgnoredNames', => @update()
     @disposables.add atom.config.onDidChange 'tree-view.hideVcsIgnoredFiles', => @update()
     @disposables.add atom.config.onDidChange 'core.ignoredNames', => @update()
 
-    # add listeners for mouse events and update them each time config.showOn gets updated
-    mouseEventDisposables = null
-    @disposables.add atom.config.observe 'autohide-tree-view.showOn', (value) =>
-      # dispose of previously set listeners
-      mouseEventDisposables?.dispose()
-      @disposables.add mouseEventDisposables = new SubAtom()
-      if value.match 'hover'
-        # show the tree view when it is hovered
-        mouseEventDisposables.add 'atom-workspace', 'mouseenter', '.tree-view-resizer.autohide-hover', => @show()
-        mouseEventDisposables.add 'atom-workspace', 'mouseleave', '.tree-view-resizer.autohide-hover', => @hide()
-        # disable the tree view from showing/hiding during a selection
-        mouseEventDisposables.add 'atom-text-editor', 'mousedown', => @disableHoverEvents()
-        mouseEventDisposables.add 'atom-text-editor', 'mouseup', => @enableHoverEvents()
-      if value.match 'click'
-        # toggle the tree view when it is clicked
-        mouseEventDisposables.add 'atom-workspace', 'click', '.tree-view-resizer', (event) => @toggle value is 'click'
-        # hide the tree view when another element is focused
-        mouseEventDisposables.add '.tree-view', 'blur', =>
-          # clear the focused element so the user clicked element will be focused
-          @clearFocusedElement()
-          @hide 0
+    # add listeners for mouse events
+    # show the tree view when it is hovered
+    @disposables.add @treeViewEl, 'mouseenter', => @mouseenter()
+    @disposables.add @treeViewEl, 'mouseleave', => @mouseleave()
+    # disable the tree view from showing/hiding during a selection
+    @disposables.add 'atom-workspace', 'mousedown', 'atom-text-editor', => @disableHoverEvents()
+    @disposables.add 'atom-workspace', 'mouseup', 'atom-text-editor', => @enableHoverEvents()
+    # toggle the tree view when it is clicked
+    @disposables.add @treeViewEl, 'click', => @click()
+    # hide the tree view when another element is focused
+    @disposables.add @treeView.list, 'blur', => @blur()
 
     # add listener for core commands that should cause the tree view to hide
     @disposables.add atom.commands.add '.tree-view-resizer.autohide',
@@ -185,7 +166,9 @@ class AutohideTreeView
       'tree-view:recursive-collapse-directory': => @resize()
 
     # resize when opening/closing a directory
-    @disposables.add 'atom-workspace', 'mouseup', '.tree-view-resizer .entry.directory', => @resize()
+    @disposables.add @treeViewEl, 'click', '.entry.directory', (event) =>
+      event.stopPropagation()
+      @resize()
 
     # hide the tree view when a command opens a file
     for direction in ['', '-right', '-left', '-up', '-down']
@@ -202,9 +185,9 @@ class AutohideTreeView
         "tree-view:#{command}", => @clearFocusedElement()
 
   # updates styling on the .tree-view-resizer and the panel element
-  update: ->
+  update: (pushEditor = getConfig('pushEditor'))->
     promiseNextTick().then =>
-      if getConfig('pushEditor')
+      if pushEditor
         @treeViewEl.style.position = 'relative'
         atom.views.getView(@treeView.panel)?.style.width = ''
       else
@@ -223,8 +206,7 @@ class AutohideTreeView
     @storeFocusedElement()
     # show the content of the tree view
     @treeView.scroller[0].style.display = ''
-    @animate @treeView.list[0].clientWidth, delay
-    .then (finished) =>
+    @animate(@treeView.list[0].clientWidth, delay).then (finished) =>
       @visible = true
       # focus the tree view when the animation is done
       @treeView.focus() if finished
@@ -237,8 +219,7 @@ class AutohideTreeView
     # focus the element that was focused before the tree view
     # was opened
     @recoverFocus()
-    @animate getConfig('hiddenWidth'), delay
-    .then (finished) =>
+    @animate(getConfig('hiddenWidth'), delay).then (finished) =>
       # hide the tree view content
       @treeView.scroller[0].style.display = 'none' if finished
 
@@ -273,13 +254,34 @@ class AutohideTreeView
 
   # enable hover events on the tree view
   enableHoverEvents: ->
-    if getConfig('showOn').match 'hover'
-      @treeViewEl.classList.add 'autohide-hover'
+    @hoverEventsEnabled = !!getConfig('showOn').match 'hover'
+    return true
 
   # disable hover events on the tree view
   disableHoverEvents: ->
-    if getConfig('showOn').match 'hover'
-      @treeViewEl.classList.remove 'autohide-hover'
+    @hoverEventsEnabled = false
+    return true
+
+  # fired when the mouse enters the tree view
+  mouseenter: ->
+    @show() if @hoverEventsEnabled
+
+  # fired when the mouse leaves the tree view
+  mouseleave: ->
+    @hide() if @hoverEventsEnabled
+
+  # fired when the tree view is clicked
+  click: ->
+    showOn = getConfig 'showOn'
+    return unless showOn.match 'click'
+    @toggle showOn is 'click' if showOn.match 'click'
+
+  # fired when the tree view is blurred
+  blur: ->
+    return unless getConfig('showOn').match 'click'
+    # clear the focused element so the user clicked element will be focused
+    @clearFocusedElement()
+    @hide 0
 
   # resolves true if animation finished, false if animation cancelled
   animate: (targetWidth, delay) ->
