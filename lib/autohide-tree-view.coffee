@@ -174,14 +174,15 @@ class AutohideTreeView
         "tree-view:#{command}", => @clearFocusedElement()
 
   # updates styling on the .tree-view-resizer and the panel element
-  update: (pushEditor = getConfig('pushEditor'))->
+  update: (pushEditor = getConfig('pushEditor')) ->
     Promise.resolve().then =>
+      panelView = atom.views.getView @treeView.panel
       if pushEditor
         @treeViewEl.style.position = ''
-        atom.views.getView(@treeView.panel)?.style.width = ''
+        panelView?.style.width = ''
       else
         @treeViewEl.style.position = 'absolute'
-        atom.views.getView(@treeView.panel)?.style.width = "#{getConfig('hiddenWidth')}px"
+        panelView?.style.width = "#{getConfig 'hiddenWidth'}px"
       @resize()
     .catch error
 
@@ -294,9 +295,6 @@ class AutohideTreeView
           resolve true
         , delay
         return
-
-      # explicitly set the elements initial width
-      @treeViewEl.style.width = "#{initialWidth}px"
 
       # cache the current animationPlayer so we can
       # cancel it as another animation begins
