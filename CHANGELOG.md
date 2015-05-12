@@ -1,5 +1,9 @@
 # autohide-tree-view changelog
 
+## 0.19.2
+* Fix animation duration calculation
+* Fix issue where animation wasn't cancelled in certain situations
+
 ## 0.19.1
 * Cleanup and some minor improvements
 
