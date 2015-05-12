@@ -187,6 +187,7 @@ class AutohideTreeView
 
   # show the tree view
   show: (delay = getConfig('showDelay'), disableHoverEvents = false) ->
+    @visible = true
     # disable hover events on the tree view when not triggered
     # by a hover event
     @disableHoverEvents() if disableHoverEvents
@@ -196,7 +197,6 @@ class AutohideTreeView
     # show the content of the tree view
     @treeView.scroller[0].style.display = ''
     @animate(@treeView.list[0].clientWidth, delay).then (finished) =>
-      @visible = true
       # focus the tree view when the animation is done
       @treeView.focus() if finished
 
@@ -275,7 +275,8 @@ class AutohideTreeView
     # get the initial width of the element
     initialWidth = @treeViewEl.clientWidth
     # calculate the animation duration
-    duration = Math.abs targetWidth - initialWidth / (getConfig('animationSpeed') or Infinity)
+    # if animationSpeed equals 0, divide by Infinity for a duration of 0
+    duration = Math.abs (targetWidth - initialWidth) / (getConfig('animationSpeed') or Infinity)
 
     # cancel any current animation
     if @currentAnimation? and @currentAnimation.playState isnt 'finished'
@@ -285,13 +286,17 @@ class AutohideTreeView
       # should trigger immediately
       delay = 0
 
-    # explicitly set the elements initial width
-    # @treeViewEl.style.width = "#{initialWidth}px"
-    @treeViewEl.style.width = "#{initialWidth}px"
     new Promise (resolve) =>
       # no animation necessary
-      if targetWidth is initialWidth
-        return resolve true
+      if duration is 0
+        setTimeout =>
+          @treeViewEl.style.width = "#{targetWidth}px"
+          resolve true
+        , delay
+        return
+
+      # explicitly set the elements initial width
+      @treeViewEl.style.width = "#{initialWidth}px"
 
       # cache the current animationPlayer so we can
       # cancel it as another animation begins
