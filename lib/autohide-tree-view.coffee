@@ -5,11 +5,6 @@ SubAtom = null
 error = (e) ->
   console.error e.message, '\n', e.stack
 
-# process.nextTick that returns a promise
-promiseNextTick = ->
-  new Promise (resolve) ->
-    process.nextTick resolve
-
 getConfig = (key) -> atom.config.get "autohide-tree-view.#{key}"
 
 setConfig = (key, value) -> atom.config.set "autohide-tree-view.#{key}", value
@@ -180,7 +175,7 @@ class AutohideTreeView
 
   # updates styling on the .tree-view-resizer and the panel element
   update: (pushEditor = getConfig('pushEditor'))->
-    promiseNextTick().then =>
+    Promise.resolve().then =>
       if pushEditor
         @treeViewEl.style.position = 'relative'
         atom.views.getView(@treeView.panel)?.style.width = ''
@@ -223,7 +218,7 @@ class AutohideTreeView
 
   # resize the tree view when its contents might change size
   resize: ->
-    promiseNextTick().then =>
+    Promise.resolve().then =>
       if @visible then @show 0  else @hide 0
     .catch error
 
