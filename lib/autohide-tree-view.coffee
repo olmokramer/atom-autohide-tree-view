@@ -177,7 +177,7 @@ class AutohideTreeView
   update: (pushEditor = getConfig('pushEditor'))->
     Promise.resolve().then =>
       if pushEditor
-        @treeViewEl.style.position = 'relative'
+        @treeViewEl.style.position = ''
         atom.views.getView(@treeView.panel)?.style.width = ''
       else
         @treeViewEl.style.position = 'absolute'
