@@ -15,5 +15,13 @@
   },
   "dependencies": {
     "sub-atom": "^1.0.0"
+  },
+  "providedServices": {
+    "autohide-tree-view": {
+      "description": "Hides the tree view",
+      "versions": {
+        "0.19.2": "provideService"
+      }
+    }
   }
 }
