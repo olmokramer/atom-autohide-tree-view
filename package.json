@@ -23,5 +23,17 @@
         "0.19.2": "provideService"
       }
     }
+  },
+  "consumedServices": {
+    "touch-swipe-left-service": {
+      "versions": {
+        "^0.12.0": "consumeTouchSwipeLeftService"
+      }
+    },
+    "touch-swipe-right-service": {
+      "versions": {
+        "^0.12.0": "consumeTouchSwipeRightService"
+      }
+    }
   }
 }
