@@ -1,5 +1,9 @@
 # autohide-tree-view changelog
 
+## 0.20.0
+* Add touch event support (requires [atom-touch-events](https://atom.io/packages/atom-touch-events))
+* Fix issue with updating the `hiddenWidth` config
+
 ## 0.19.2
 * Fix animation duration calculation
 * Fix issue where animation wasn't cancelled in certain situations
