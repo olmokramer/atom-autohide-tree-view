@@ -20,7 +20,7 @@
     "autohide-tree-view": {
       "description": "Hides the tree view",
       "versions": {
-        "0.19.2": "provideService"
+        "0.20.0": "provideService"
       }
     }
   },
