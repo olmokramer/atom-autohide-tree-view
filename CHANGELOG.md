@@ -2,6 +2,8 @@
 
 ## 0.20.0
 * Add touch event support (requires [atom-touch-events](https://atom.io/packages/atom-touch-events))
+* Provide service to show/hide the tree view
+* Provide service to enable/disable autohide behaviour
 * Fix issue with updating the `hiddenWidth` config
 
 ## 0.19.2
