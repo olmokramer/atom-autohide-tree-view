@@ -26,7 +26,7 @@
 * Fix a few minor issues
 
 ## 0.17.1
-* Prevent an exceptionn
+* Prevent an exception
 
 ## 0.17.0
 * Fix focusing issues
