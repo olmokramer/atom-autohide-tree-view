@@ -48,6 +48,8 @@ consumeAutohideTreeViewService: (service) ->
   service.disable()
 ```
 
+All methods return a promise that will be resolved once the tree view animation is done. It's resolved value is a boolean, indicating if the animation was finished (`true`) or cancelled (`false`). The promise is rejected if an error occurs during the animation.
+
 ## Issues/suggestions
 
 Please file issues or suggestions on the [issues page on github](https://github.com/olmokramer/autohide-tree-view/issues/new), or even better, [submit a pull request](https://github.com/olmokramer/atom-autohide-tree-view/pulls)
