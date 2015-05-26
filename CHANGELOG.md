@@ -5,6 +5,7 @@
 * Provide service to show/hide the tree view
 * Provide service to enable/disable autohide behaviour
 * Fix issue with updating the `hiddenWidth` config
+* Add `maxWindowWidth` setting, that enables autohide behavior only when the window is smaller than this setting.
 
 ## 0.19.2
 * Fix animation duration calculation
