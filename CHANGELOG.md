@@ -3,6 +3,7 @@
 ## 0.20 1
 * Fix bug where tree view wouldn't open correctly on `tree-view:reveal-active-file` command
 * Better blur behaviour
+* Add support for [tree-view-finder](https://atom.io/packages/tree-view-finder) package
 
 ## 0.20.0
 * Add touch event support (requires [atom-touch-events](https://atom.io/packages/atom-touch-events))
