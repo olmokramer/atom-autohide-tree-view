@@ -1,5 +1,9 @@
 # autohide-tree-view changelog
 
+## 0.20 1
+* Fix bug where tree view wouldn't open correctly on `tree-view:reveal-active-file` command
+* Better blur behaviour
+
 ## 0.20.0
 * Add touch event support (requires [atom-touch-events](https://atom.io/packages/atom-touch-events))
 * Provide service to show/hide the tree view
