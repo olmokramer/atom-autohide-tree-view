@@ -1,5 +1,8 @@
 # autohide-tree-view changelog
 
+## 0 20.2
+* Fix issue where `showDelay` and `hideDelay` could be ignored due to a race condition.
+
 ## 0.20 1
 * Fix bug where tree view wouldn't open correctly on `tree-view:reveal-active-file` command
 * Better blur behaviour
