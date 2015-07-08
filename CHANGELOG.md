@@ -1,5 +1,8 @@
 # autohide-tree-view changelog
 
+## 0.20.3
+* Adjust tree view height to not cover the status bar when `pushEditor` is disabled
+
 ## 0 20.2
 * Fix issue where `showDelay` and `hideDelay` could be ignored due to a race condition.
 
