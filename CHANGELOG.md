@@ -1,5 +1,9 @@
 # autohide-tree-view changelog
 
+## 0.21.0
+* Service provider now also provides `isEnabled` and `isVisible` methods that indicate if autohide is enabled, and if the tree view is visible.
+* Add `autohide-tree-view:toggle-enabled` command
+
 ## 0.20.3
 * Adjust tree view height to not cover the status bar when `pushEditor` is disabled
 
