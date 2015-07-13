@@ -52,6 +52,23 @@ consumeAutohideTreeViewService: (service) ->
 
 All methods return a promise that will be resolved once the tree view animation is done. It's resolved value is a boolean, indicating if the animation was finished (`true`) or cancelled (`false`). The promise is rejected if an error occurs during the animation.
 
+A silly example:
+
+```js
+// open the tree view, and hide it again if
+// it wasn't cancelled
+function consumeAutohideTreeViewService(service) {
+  service.show(0).then(function(finished) {
+    if(finished) {
+      service.hide();
+    }
+  }, function(err) {
+    // something went wrong!!
+    console.error(err);
+  });
+}
+```
+
 ## Issues/suggestions
 
 Please file issues or suggestions on the [issues page on github](https://github.com/olmokramer/autohide-tree-view/issues/new), or even better, [submit a pull request](https://github.com/olmokramer/atom-autohide-tree-view/pulls)
