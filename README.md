@@ -2,7 +2,7 @@
 
 Hide the tree view, show it on hover.
 
-![Image inserted by Atom editor package auto-host-markdown-image](https://raw.githubusercontent.com/olmokramer/atom-autohide-tree-view/master/images/screencast.gif)
+![Image inserted by Atom editor package auto-host-markdown-image](https://raw.githubusercontent.com/olmokramer/atom-autohide-tree-view/master/screencast.gif)
 
 ## Config
 
