@@ -14,6 +14,7 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
+    "object-assign-shim": "^1.0.0",
     "sub-atom": "^1.0.0"
   },
   "providedServices": {
