@@ -1,5 +1,8 @@
 # autohide-tree-view changelog
 
+## 0.22.0
+* Add `hoverAreaSize` setting
+
 ## 0.21.1
 * Fix: revert service provider name
 
