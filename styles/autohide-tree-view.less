@@ -1,6 +1,7 @@
 .tree-view-resizer[data-autohide] {
-  min-width: 1px!important; // allow the tree view to hide (almost) completely
+  min-width: 0; // allow the tree view to hide (almost) completely
   z-index: 10; // above the text-editor scrollbar
+  overflow: visible; // hover-handle is outside of the tree view
 
   &[data-show-on-right-side="true"] {
     right: 0; // without this the tree view will slide off-screen
@@ -16,6 +17,20 @@
 
   .tree-view-resize-handle {
     display: none; // we handle resizing!
+  }
+
+  .tree-view-hover-handle {
+    height: 100%;
+    position: absolute;
+    background-color: transparent;
+  }
+
+  &[data-show-on-right-side="false"] .tree-view-hover-handle {
+    left: 100%;
+  }
+
+  &[data-show-on-right-side="true"] .tree-view-hover-handle {
+    right: 100%;
   }
 
   .entry::before {
