@@ -2,6 +2,7 @@
 
 ## 0.22.0
 * Add `hoverAreaSize` setting
+* Add pin button
 
 ## 0.21.1
 * Fix: revert service provider name
