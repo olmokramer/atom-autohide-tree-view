@@ -14,7 +14,8 @@ Hide the tree view, show it on hover.
 | `hideDelay`      | number  | seconds | 0.2           | The delay before the tree view will hide when hovered |
 | `hiddenWidth`    | integer | pixels  | 1             | The width of the hidden tree view |
 | `pushEditor`     | boolean | none    | false         | Push the editor when showing the tree view |
-| `touchAreaSize`  | integer | pixels  | 50            | Size of the area at the edge of the screen where touch events can be used to show or hide of the tree view.
+| `hoverAreasize`  | integer | pixels  | 0             | Width of an invisible area at the edge of the screen where hover events will be triggered. When smaller than the value of the hiddenWidth setting, hiddenWidth will be used. |
+| `touchAreaSize`  | integer | pixels  | 50            | Width of an invisible area at the edge of the screen where touch events will be triggered. |
 | `maxWindowWidth` | integer | pixels  | 0             | Max window width for which autohide should be enabled. If on a resize the window width crosses this threshold, autohide will automatically be enabled or disabled. Set to 0 to always have autohide enabled. |
 
 ## Touch events
