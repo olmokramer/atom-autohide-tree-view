@@ -44,6 +44,7 @@
   .tree-view-pin-button {
     position: absolute;
     top: 0;
+    right: 0;
     padding: (@component-padding / 2) @component-padding;
 
     &:before {
@@ -54,13 +55,5 @@
     &.active {
       color: @text-color-highlight;
     }
-  }
-
-  &[data-show-on-right-side="false"] .tree-view-pin-button {
-    right: 0;
-  }
-
-  &[data-show-on-right-side="true"] .tree-view-pin-button {
-    left: 0;
   }
 }
