@@ -17,6 +17,7 @@ Hide the tree view, show it on hover.
 | `hoverAreasize`  | integer | pixels  | 0             | Width of an invisible area at the edge of the screen where hover events will be triggered. When smaller than the value of the hiddenWidth setting, hiddenWidth will be used. |
 | `touchAreaSize`  | integer | pixels  | 50            | Width of an invisible area at the edge of the screen where touch events will be triggered. |
 | `maxWindowWidth` | integer | pixels  | 0             | Max window width for which autohide should be enabled. If on a resize the window width crosses this threshold, autohide will automatically be enabled or disabled. Set to 0 to always have autohide enabled. |
+| `showPinButton`  | boolean | none    | false         | Show a pin button in the tree view that enables/disables autohide. |
 
 ## Touch events
 
