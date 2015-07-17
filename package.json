@@ -14,7 +14,6 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
-    "event-kit": "^1.2.0",
     "object-assign-shim": "^1.0.0",
     "sub-atom": "^1.0.0"
   },
