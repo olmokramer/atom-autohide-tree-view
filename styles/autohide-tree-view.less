@@ -22,17 +22,17 @@
       display: none; // we handle resizing!
     }
 
-    .tree-view-hover-handle {
+    .tree-view-autohide-hover-area {
       height: 100%;
       position: absolute;
       background-color: transparent;
     }
 
-    &[data-show-on-right-side="false"] .tree-view-hover-handle {
+    &[data-show-on-right-side="false"] .tree-view-autohide-hover-area {
       left: 100%;
     }
 
-    &[data-show-on-right-side="true"] .tree-view-hover-handle {
+    &[data-show-on-right-side="true"] .tree-view-autohide-hover-area {
       right: 100%;
     }
 
@@ -43,9 +43,10 @@
 
   .tree-view-pin-button {
     position: absolute;
-    top: 0;
+    top: @component-padding / 2;
+    // left: 100%;
     right: 0;
-    padding: (@component-padding / 2) @component-padding;
+    padding-right: @component-padding;
 
     &:before {
       margin: 0;
@@ -55,5 +56,10 @@
     &.active {
       color: @text-color-highlight;
     }
+  }
+
+  &[data-autohide] .tree-view-pin-button {
+    left: 100%;
+    right: initial;
   }
 }
