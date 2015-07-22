@@ -73,7 +73,7 @@ function consumeAutohideTreeViewService(service) {
 
 ## Issues/suggestions
 
-Please file issues or suggestions on the [issues page on github](https://github.com/olmokramer/autohide-tree-view/issues/new), or even better, [submit a pull request](https://github.com/olmokramer/atom-autohide-tree-view/pulls)
+Please file issues or suggestions on the [issues page on github](https://github.com/olmokramer/atom-autohide-tree-view/issues/new), or even better, [submit a pull request](https://github.com/olmokramer/atom-autohide-tree-view/pulls)
 
 ## License
 
