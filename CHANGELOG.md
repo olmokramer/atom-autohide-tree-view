@@ -1,5 +1,8 @@
 # autohide-tree-view changelog
 
+## 0.22.1
+* Fix issue where the `.tree-view-autohide-hover-area` would block the items below it (#33)
+
 ## 0.22.0
 * Add `hoverAreaSize` setting
 * Add pin button
