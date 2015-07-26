@@ -1,5 +1,10 @@
 # autohide-tree-view changelog
 
+## 0.22.2
+* Add `maxWidth` setting (#30)
+* Rename `hiddenWidth` setting to `minWidth`
+* Expand tree view to width of widest `.list-tree` element (#30)
+
 ## 0.22.1
 * Fix issue where the `.tree-view-autohide-hover-area` would block the items below it (#33)
 
