@@ -1,16 +1,19 @@
 # autohide-tree-view changelog
 
-## 0.22.2
+## 0.23.0
 * Add `maxWidth` setting (#30)
 * Rename `hiddenWidth` setting to `minWidth`
 * Expand tree view to width of widest `.list-tree` element (#30)
+* Allow manual resizing of the tree view
+* Prevent modal panels from instantly closing (#28)
+* Fix the animation when pinning the tree view and `pushEditor` is disabled (#20)
 
 ## 0.22.1
 * Fix issue where the `.tree-view-autohide-hover-area` would block the items below it (#33)
 
 ## 0.22.0
-* Add `hoverAreaSize` setting
-* Add pin button
+* Add `hoverAreaSize` setting (#25)
+* Add pin button (#20)
 
 ## 0.21.1
 * Fix: revert service provider name
@@ -26,7 +29,7 @@
 * Fix issue where `showDelay` and `hideDelay` could be ignored due to a race condition.
 
 ## 0.20 1
-* Fix bug where tree view wouldn't open correctly on `tree-view:reveal-active-file` command
+* Fix bug where tree view wouldn't open correctly on `tree-view:reveal-active-file` command (#22)
 * Better blur behaviour
 * Add support for [tree-view-finder](https://atom.io/packages/tree-view-finder) package
 
@@ -35,7 +38,7 @@
 * Provide service to show/hide the tree view
 * Provide service to enable/disable autohide behaviour
 * Fix issue with updating the `hiddenWidth` config
-* Add `maxWindowWidth` setting, that enables autohide behavior only when the window is smaller than this setting.
+* Add `maxWindowWidth` setting, that enables autohide behavior only when the window is smaller than this setting. (#21)
 
 ## 0.19.2
 * Fix animation duration calculation
@@ -57,7 +60,7 @@
 * Fix a few minor issues
 
 ## 0.17.1
-* Prevent an exception
+* Prevent an exception (#18)
 
 ## 0.17.0
 * Fix focusing issues
