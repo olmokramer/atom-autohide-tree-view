@@ -1,6 +1,9 @@
 @import "ui-variables";
 
 .tree-view-resizer {
+  max-width: 300px;
+  max-width: attr(data-maxwidth); // should be configurable
+  
   &[data-autohide] {
     min-width: 0; // allow the tree view to hide completely
     z-index: 10; // above the text-editor scrollbar
@@ -12,10 +15,6 @@
 
     .tree-view-scroller, .tree-view {
       position: absolute; // keeps them in the right place
-    }
-
-    .tree-view-scroller {
-      overflow-x: hidden; // because the item highlighting causes overflow-x
     }
 
     .list-tree {
@@ -36,10 +35,6 @@
 
     &[data-show-on-right-side="true"] .tree-view-autohide-hover-area {
       right: 100%;
-    }
-
-    .entry::before {
-      min-width: 10000px;
     }
   }
 
