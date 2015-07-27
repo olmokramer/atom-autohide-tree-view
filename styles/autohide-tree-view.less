@@ -2,7 +2,7 @@
 
 .tree-view-resizer {
   &[data-autohide] {
-    min-width: 0; // allow the tree view to hide (almost) completely
+    min-width: 0; // allow the tree view to hide completely
     z-index: 10; // above the text-editor scrollbar
     overflow: visible; // hover-handle is outside of the tree view
 
@@ -18,10 +18,6 @@
       overflow-x: hidden; // because the item highlighting causes overflow-x
     }
 
-    .tree-view-resize-handle {
-      display: none; // we handle resizing!
-    }
-
     .list-tree {
       width: -webkit-min-content;
     }
@@ -31,6 +27,7 @@
       position: absolute;
       top: 0;
       background-color: transparent;
+      z-index: 5;
     }
 
     &[data-show-on-right-side="false"] .tree-view-autohide-hover-area {
