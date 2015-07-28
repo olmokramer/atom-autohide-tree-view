@@ -9,6 +9,7 @@
 * Prevent modal panels from instantly closing (#28)
 * Fix the animation when pinning the tree view and `pushEditor` is disabled (#20)
 * Fix issues with the `pushEditor` setting (#32)
+* Improve click events
 
 ## 0.22.1
 * Fix issue where the `.tree-view-autohide-hover-area` would block the items below it (#33)
