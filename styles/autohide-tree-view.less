@@ -33,20 +33,12 @@
     }
   }
 
-  .tree-view-pin-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    pointer-events: none;
-    overflow: hidden;
-  }
-
   .tree-view-pin-button {
-    float: right;
-    margin-top: (@component-padding / 2);
-    padding-right: @component-padding;
-    pointer-events: all;
+    position: fixed;
+    top: (@component-padding / 2);
+    right: @component-padding;
+    max-width: 100%;
+    overflow: hidden;
 
     &:before {
       margin: 0;
