@@ -8,11 +8,11 @@ Hide the tree view, show it on hover.
 
 | setting          | type    | unit    | default       | description |
 | ---              | ---     | ---     | ---           | --- |
-| `showOn`         | string  | none    | hover + touch | The type of event that should trigger show/hide of the tree view. `Hover`, `Click`, `Touch`, `None` or any combination. |
+| `showOn`         | string  | none    | hover + touch | The type of event that should trigger show/hide of the tree view. `Hover`, `Click`, `Touch` (or any combination) or `None`. |
 | `animate`        | boolean | none    | true          | Enable/disable the animation when showing the menu |
 | `showDelay`      | number  | seconds | 0.2           | The delay before the tree view will show when hovered |
 | `hideDelay`      | number  | seconds | 0.2           | The delay before the tree view will hide when hovered |
-| `minwidth`    | integer | pixels  | 1             | The width of the hidden tree view |
+| `minwidth`       | integer | pixels  | 1             | The width of the hidden tree view |
 | `pushEditor`     | boolean | none    | false         | Push the editor when showing the tree view |
 | `hoverAreasize`  | integer | pixels  | 0             | Width of an invisible area at the edge of the screen where hover events will be triggered. When smaller than the value of the minwidth setting, minwidth will be used. |
 | `touchAreaSize`  | integer | pixels  | 50            | Width of an invisible area at the edge of the screen where touch events will be triggered. |
