@@ -1,12 +1,14 @@
 # autohide-tree-view changelog
 
 ## 0.23.0
-* Add `maxWidth` setting (#30)
+* Add `maxWidth` setting (#30, #34, #35)
 * Rename `hiddenWidth` setting to `minWidth`
 * Expand tree view to width of widest `.list-tree` element (#30)
 * Allow manual resizing of the tree view
+* Allow horizontal scrolling (#34, #35)
 * Prevent modal panels from instantly closing (#28)
 * Fix the animation when pinning the tree view and `pushEditor` is disabled (#20)
+* Fix issues with the `pushEditor` setting (#32)
 
 ## 0.22.1
 * Fix issue where the `.tree-view-autohide-hover-area` would block the items below it (#33)
