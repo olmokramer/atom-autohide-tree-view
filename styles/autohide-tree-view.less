@@ -12,8 +12,8 @@
       right: 0; // without this the tree view will slide off-screen
     }
 
-    .list-tree {
-      width: -webkit-max-content;
+    .tree-view {
+      padding-right: 1.5 * @component-padding + 16px
     }
 
     .tree-view-autohide-hover-area {
@@ -36,8 +36,8 @@
   .tree-view-pin-button {
     position: fixed;
     top: (@component-padding / 2);
-    right: @component-padding;
-    max-width: calc(~"100% - " (@component-padding));
+    right: (@component-padding / 2);
+    max-width: calc(~"100% - " (@component-padding / 2));
     overflow: hidden;
 
     &:before {
