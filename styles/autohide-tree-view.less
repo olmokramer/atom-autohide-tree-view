@@ -1,6 +1,8 @@
 @import "ui-variables";
 
 .tree-view-resizer {
+  transform: translate(0, 0);
+
   &[data-autohide] {
     min-width: 0; // allow the tree view to hide completely
     z-index: 10; // above the text-editor scrollbar
@@ -10,16 +12,8 @@
       right: 0; // without this the tree view will slide off-screen
     }
 
-    .tree-view-scroller, .tree-view {
-      position: absolute; // keeps them in the right place
-    }
-
-    .tree-view-scroller {
-      overflow-x: hidden; // because the item highlighting causes overflow-x
-    }
-
     .list-tree {
-      width: -webkit-min-content;
+      width: -webkit-max-content;
     }
 
     .tree-view-autohide-hover-area {
@@ -37,17 +31,22 @@
     &[data-show-on-right-side="true"] .tree-view-autohide-hover-area {
       right: 100%;
     }
+  }
 
-    .entry::before {
-      min-width: 10000px;
-    }
+  .tree-view-pin-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    overflow: hidden;
   }
 
   .tree-view-pin-button {
-    position: absolute;
-    top: @component-padding / 2;
-    right: 0;
+    float: right;
+    margin-top: (@component-padding / 2);
     padding-right: @component-padding;
+    pointer-events: all;
 
     &:before {
       margin: 0;
