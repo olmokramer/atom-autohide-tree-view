@@ -1,5 +1,11 @@
 # autohide-tree-view changelog
 
+## 0.23.1
+* Improve `tree-view:reveal-active-file` command behaviour
+* Hide the tree view in some situations where it is expected
+* Improve hover events
+* Ensure all animations are cancelable, preventing weird glitches
+
 ## 0.23.0
 * Add `maxWidth` setting (#30, #34, #35)
 * Rename `hiddenWidth` setting to `minWidth`
