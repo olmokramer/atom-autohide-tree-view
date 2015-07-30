@@ -22,18 +22,15 @@
 
     .tree-view-autohide-hover-area {
       height: 100%;
+      width: 100%;
       position: absolute;
       top: 0;
       background-color: transparent;
       z-index: 5;
     }
 
-    &[data-show-on-right-side="false"] .tree-view-autohide-hover-area {
-      left: 100%;
-    }
-
     &[data-show-on-right-side="true"] .tree-view-autohide-hover-area {
-      right: 100%;
+      right: 0;
     }
   }
 
