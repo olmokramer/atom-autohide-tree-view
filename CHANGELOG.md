@@ -5,6 +5,7 @@
 * Hide the tree view in some situations where it is expected
 * Improve hover events
 * Ensure all animations are cancelable, preventing weird glitches
+* Fix some edge cases
 
 ## 0.23.0
 * Add `maxWidth` setting (#30, #34, #35)
