@@ -1,7 +1,7 @@
 # autohide-tree-view changelog
 
 ## 0.23.3
-* Fix focusing issues when opening files
+* Fix focusing issues when opening files (#37)
 
 ## 0.23.2
 * Improve `tree-view:reveal-active-file` command (#39)
