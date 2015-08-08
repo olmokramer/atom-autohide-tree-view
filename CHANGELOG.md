@@ -1,5 +1,8 @@
 # autohide-tree-view changelog
 
+## 0.23.3
+* Fix focusing issues when opening files
+
 ## 0.23.2
 * Improve `tree-view:reveal-active-file` command (#39)
 * Fix issue where hover events were disabled when they shouldn't (#38, #40)
