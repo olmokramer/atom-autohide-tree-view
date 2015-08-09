@@ -23,7 +23,8 @@
       "description": "Hides the tree view",
       "versions": {
         "0.20.0": "provideService",
-        "0.21.0": "provideServiceV2"
+        "0.21.0": "provideServiceV2",
+        "0.24.0": "provideServiceV3"
       }
     }
   },
