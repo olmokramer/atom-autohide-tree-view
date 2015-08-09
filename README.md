@@ -46,13 +46,17 @@ consumeAutohideTreeViewService: (service) ->
   # @param delay: delay in ms before starting the animation
   service.show(delay)
   service.hide(delay)
+  service.isVisible()
 
   # enable/disable autohide behaviour
-  service.enable()
-  service.disable()
+  service.pin()
+  service.unpin()
+  service.isPinned()
 ```
 
-All methods return a promise that will be resolved once the tree view animation is done. It's resolved value is a boolean, indicating if the animation was finished (`true`) or cancelled (`false`). The promise is rejected if an error occurs during the animation.
+The `show`, `hide`, `pin` and `unpin` methods return a promise that will be resolved once the tree view animation is done. It's resolved value is a boolean, indicating if the animation was finished (`true`) or cancelled (`false`). The promise is rejected if an error occurs during the animation.
+
+`isVisible` and `isPinned` return a boolean, indicating whether the tree view is visible or pinned.
 
 A silly example:
 
