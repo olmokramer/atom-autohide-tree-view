@@ -1,5 +1,10 @@
 # autohide-tree-view changelog
 
+## 0.24.0
+* Update service API:
+  * Rename `enable`, `disable` and `isEnabled` to `pin`, `unpin` and `isPinned`, respectively
+* Fix focusing issues when opening a file that's already open in the workspace (#37)
+
 ## 0.23.3
 * Fix focusing issues when opening files (#37)
 
