@@ -32,7 +32,7 @@ autohide-tree-view provides a service for Show, Hide, Enable and Disable actions
   "autohide-tree-view": {
     "versions": {
       // refers to the consumer method in your package's main module
-      "^0.20.0": "consumeAutohideTreeViewService"
+      "^0.24.0": "consumeAutohideTreeViewService"
     }
   }
 }
