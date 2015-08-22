@@ -1,5 +1,8 @@
 # autohide-tree-view changelog
 
+## 0.24.3
+* Fix crash when atom-touch-events isn't installed (#47)
+
 ## 0.24.2
 * Better visual differentiation between pinned/unpinned state (#41)
 * Fix crash
