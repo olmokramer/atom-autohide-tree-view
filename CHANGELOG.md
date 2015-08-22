@@ -1,5 +1,9 @@
 # autohide-tree-view changelog
 
+## 0.24.1
+* Listen only to primary mouse button events (#28)
+* Fix crash when atom-touch-events package isn't active (#32, #36, #44, #47)
+
 ## 0.24.0
 * Update service API:
   * Rename `enable`, `disable` and `isEnabled` to `pin`, `unpin` and `isPinned`, respectively
