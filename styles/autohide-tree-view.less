@@ -40,14 +40,24 @@
     right: (@component-padding / 2);
     max-width: calc(~"100% - " (@component-padding / 2));
     overflow: hidden;
+    color: transparent;
+    -webkit-text-stroke: 1px @text-color;
+    transform: rotateZ(30deg);
+    transition: transform 100ms, color 100ms;
 
-    &:before {
+    &:hover {
+      color: @text-color;
+    }
+
+    &.active {
+      color: @text-color-highlight;
+      -webkit-text-stroke: 0;
+      transform: rotateZ(0);
+    }
+
+    &::before {
       margin: 0;
     }
 
-    &:hover,
-    &.active {
-      color: @text-color-highlight;
-    }
   }
 }
