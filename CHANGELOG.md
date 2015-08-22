@@ -1,5 +1,8 @@
 # autohide-tree-view changelog
 
+## 0.24.2
+* Better visual differentiation between pinned/unpinned state (#41)
+
 ## 0.24.1
 * Listen only to primary mouse button events (#28)
 * Fix crash when atom-touch-events package isn't active (#32, #36, #44, #47)
