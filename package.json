@@ -29,14 +29,9 @@
     }
   },
   "consumedServices": {
-    "touch-swipe-left-service": {
+    "touch-events": {
       "versions": {
-        "^0.12.0": "consumeTouchSwipeLeftService"
-      }
-    },
-    "touch-swipe-right-service": {
-      "versions": {
-        "^0.12.0": "consumeTouchSwipeRightService"
+        "0.21.0": "consumeTouchEvents"
       }
     }
   }
