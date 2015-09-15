@@ -6,6 +6,7 @@
 * Show an error message when enabling touch events without having the atom-touch-events package installed
 * Change default for the `showOn` setting from `hover + touch` to `touch` to prevent error messages from showing when you don't have the atom-touch-events package installed
 * Fix a crash when pinning the tree view when touch events are enabled
+* Upgrade atom-touch-events' service to 0.21.0
 
 ## 0.24.3
 * Fix crash when atom-touch-events isn't installed (#47)
