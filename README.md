@@ -6,18 +6,19 @@ Hide the tree view, show it on hover.
 
 ## Config
 
-| setting          | type    | unit    | default       | description |
-| ---              | ---     | ---     | ---           | --- |
-| `showOn`         | string  | none    | hover + touch | The type of event that should trigger show/hide of the tree view. `Hover`, `Click`, `Touch` (or any combination) or `None`. |
-| `animate`        | boolean | none    | true          | Enable/disable the animation when showing the menu |
-| `showDelay`      | number  | seconds | 0.2           | The delay before the tree view will show when hovered |
-| `hideDelay`      | number  | seconds | 0.2           | The delay before the tree view will hide when hovered |
-| `minwidth`       | integer | pixels  | 1             | The width of the hidden tree view |
-| `pushEditor`     | boolean | none    | false         | Push the editor when showing the tree view |
-| `hoverAreasize`  | integer | pixels  | 0             | Width of an invisible area at the edge of the screen where hover events will be triggered. When smaller than the value of the minwidth setting, minwidth will be used. |
-| `touchAreaSize`  | integer | pixels  | 50            | Width of an invisible area at the edge of the screen where touch events will be triggered. |
-| `maxWindowWidth` | integer | pixels  | 0             | Max window width for which autohide should be enabled. If on a resize the window width crosses this threshold, autohide will automatically be enabled or disabled. Set to 0 to always have autohide enabled. |
-| `showPinButton`  | boolean | none    | false         | Show a pin button in the tree view that enables/disables autohide. |
+| setting | type | unit | default | description |
+| --- | --- | --- | --- | --- |
+| `showOn` | string | none | hover + touch | The type of event that should trigger show/hide of the tree view. `Hover`, `Click`, `Touch` (or any combination) or `None`. |
+| `animate` | boolean | none | true | Enable/disable the animation when showing the menu |
+| `showDelay` | number | seconds | 0.2 | The delay before the tree view will show when hovered |
+| `hideDelay` | number | seconds | 0.2 | The delay before the tree view will hide when hovered |
+| `minwidth` | integer | pixels | 1 | The width of the hidden tree view |
+| `pushEditor` | boolean | none | false | Push the editor when showing the tree view |
+| `hoverAreasize` | integer | pixels | 0 | Width of an invisible area at the edge of the screen where hover events will be triggered. When smaller than the value of the minwidth setting, minwidth will be used. |
+| `touchAreaSize` | integer | pixels | 50 | Width of an invisible area at the edge of the screen where touch events will be triggered. |
+| `maxWindowWidth` | integer | pixels | 0 | Max window width for which autohide should be enabled. If on a resize the window width crosses this threshold, autohide will automatically be enabled or disabled. Set to 0 to always have autohide enabled. |
+| `showPinButton` | boolean | none | true | Show a pin button in the tree view that enables/disables autohide. |
+| `autoFocusTreeViewOnHover` | boolean | none | true | Focus and unfocus the tree view on hover events. This setting exists because some people were experiencing issues with the tree view's add/rename dialogs where the dialogs would close almost immediately after opening. See #28 for more details. |
 
 ## Touch events
 
