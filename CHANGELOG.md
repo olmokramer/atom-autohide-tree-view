@@ -1,13 +1,12 @@
 # autohide-tree-view changelog
 
 ## 0.24.4
-* Fix some focusing issues (#43)
+* Fix some focusing issues (#43, #28)
 * Set z-index of the tree view very high to fix tabs rendering above the tree view in some UI themes (#51)
 * Show an error message when enabling touch events without having the atom-touch-events package installed
 * Change default for the `showOn` setting from `hover + touch` to `touch` to prevent error messages from showing when you don't have the atom-touch-events package installed
 * Fix a crash when pinning the tree view when touch events are enabled
 * Upgrade atom-touch-events' service to 0.21.0
-* Add `autoFocusTreeViewOnHover` setting, that controls automatic focus of the tree view when it is opened  on a hover event
 
 ## 0.24.3
 * Fix crash when atom-touch-events isn't installed (#47)
