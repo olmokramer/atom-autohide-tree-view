@@ -1,5 +1,9 @@
 # autohide-tree-view changelog
 
+## 0.24.5
+* Fix `maxWindowWidth` setting
+* Fix `autohide-tree-view:pin`, `autohide-tree-view:unpin` and `autohide-tree-view:toggle-pinned` commands
+
 ## 0.24.4
 * Fix some focusing issues (#43, #28)
 * Set z-index of the tree view very high to fix tabs rendering above the tree view in some UI themes (#51)
