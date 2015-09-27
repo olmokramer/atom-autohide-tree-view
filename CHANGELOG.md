@@ -1,7 +1,7 @@
 # autohide-tree-view changelog
 
 ## 0.25.0
-* Disable autohide when there are no open files
+* Disable autohide when there are no open files (#52)
 
 ## 0.24.5
 * Fix `maxWindowWidth` setting
