@@ -34,5 +34,9 @@
         "0.21.0": "consumeTouchEvents"
       }
     }
+  },
+  "devDependencies": {
+    "babel-eslint": "^4.1.3",
+    "eslint": "^1.5.1"
   }
 }
