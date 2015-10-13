@@ -1,8 +1,6 @@
 @import "ui-variables";
 
 .tree-view-resizer {
-  transform: translate(0, 0);
-
   &[data-autohide] {
     min-width: 0; // allow the tree view to hide completely
     z-index: 100; // above the text-editor scrollbar
@@ -14,10 +12,6 @@
 
     .tree-view {
       padding-right: 1.5 * @component-padding + 16px;
-    }
-
-    .list-tree {
-      width: -webkit-min-content;
     }
 
     .tree-view-autohide-hover-area {
@@ -35,28 +29,26 @@
   }
 
   tree-view-pin-button {
-    position: fixed;
-    top: (@component-padding / 2);
-    right: (@component-padding / 2);
-    max-width: calc(~"100% - " (@component-padding / 2));
+    display: flex;
+    order: -10;
+    justify-content: flex-end;
     overflow: hidden;
-    color: transparent;
-    -webkit-text-stroke: 1px @text-color;
-    transform: rotateZ(30deg);
-    transition: transform 100ms, color 100ms;
 
-    &:hover {
+    &::before {
+      margin-top: 2px;
+      transform: rotateZ(30deg);
+      transition: transform 100ms, color 100ms;
+      color: transparent;
+      -webkit-text-stroke: 1px @text-color;
+    }
+
+    &:hover::before {
       color: @text-color;
     }
 
-    &.active {
+    &.active::before {
       color: @text-color-highlight;
-      -webkit-text-stroke: 0;
       transform: rotateZ(0);
-    }
-
-    &::before {
-      margin: 0;
     }
   }
 }
