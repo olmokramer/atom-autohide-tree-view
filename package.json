@@ -15,8 +15,7 @@
   },
   "dependencies": {
     "array.from": "^0.2.0",
-    "object-assign-shim": "^1.0.0",
-    "sub-atom": "^1.1.0"
+    "object-assign-shim": "^1.0.0"
   },
   "providedServices": {
     "autohide-tree-view": {

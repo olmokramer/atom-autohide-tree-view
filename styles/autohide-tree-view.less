@@ -20,7 +20,11 @@
       width: -webkit-min-content;
     }
 
-    .tree-view-autohide-hover-area {
+    .tree-view-resize-handle {
+      display: none;
+    }
+
+    .tree-view-autohide-trigger-area {
       height: 100%;
       width: 100%;
       position: absolute;
@@ -29,12 +33,12 @@
       z-index: 5;
     }
 
-    &[data-show-on-right-side="true"] .tree-view-autohide-hover-area {
+    &[data-show-on-right-side="true"] .tree-view-autohide-trigger-area {
       right: 0;
     }
   }
 
-  tree-view-pin-button {
+  .tree-view-pin-button {
     position: fixed;
     top: (@component-padding / 2);
     right: (@component-padding / 2);
