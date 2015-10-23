@@ -1,7 +1,7 @@
 {
   "name": "autohide-tree-view",
   "main": "./lib/main.js",
-  "version": "0.25.0",
+  "version": "0.25.1",
   "description": "Hides the tree view, reveal it on hover, click or swipe.",
   "keywords": [
     "autohide",
