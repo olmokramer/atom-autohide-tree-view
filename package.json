@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "array.from": "^0.2.0",
+    "just-debounce": "^1.0.0",
     "object-assign-shim": "^1.0.0"
   },
   "providedServices": {
