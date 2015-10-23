@@ -1,5 +1,9 @@
 # autohide-tree-view changelog
 
+## 0.25.1
+* Slight performance improvements
+* Fix bug where hover events didn't work sometimes
+
 ## 0.25.0
 * Disable autohide when there are no open files (#52)
 
