@@ -22,14 +22,13 @@ Hide the tree view, show it on hover.
 
 ## Keybindings
 
-Here are some sample keybindings:
+Here are some sample keybindings to use in your `keymap.cson`:
 ```
 'atom-text-editor':
-	'cmd-k up': 'autohide-tree-view:pin'
+  'cmd-k up': 'autohide-tree-view:pin'
   'cmd-k down': 'autohide-tree-view:unpin'
-	'cmd-k right': 'autohide-tree-view:toggle-pinned'
+  'cmd-k right': 'autohide-tree-view:toggle-pinned'
 ```
-Add them to your `keymap.cson`.
 
 ## Touch events
 
