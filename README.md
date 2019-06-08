@@ -24,6 +24,16 @@ Hide the tree view, show it on hover.
 | `showPinButton` | boolean | none | true | Show a pin button in the tree view that enables/disables autohide. |
 | `autoFocusTreeViewOnHover` | boolean | none | true | Focus and unfocus the tree view on hover events. This setting exists because some people were experiencing issues with the tree view's add/rename dialogs where the dialogs would close almost immediately after opening. See #28 for more details. |
 
+## Keybindings
+
+Here are some sample keybindings to use in your `keymap.cson`:
+```
+'atom-text-editor':
+  'cmd-k up': 'autohide-tree-view:pin'
+  'cmd-k down': 'autohide-tree-view:unpin'
+  'cmd-k right': 'autohide-tree-view:toggle-pinned'
+```
+
 ## Touch events
 
 Show/hide the tree view with swiping gestures. For touch events, the [atom-touch-events](https://atom.io/packages/atom-touch-events) package is required. You'll have to re-enable autohide-tree-view, or reload Atom, after installing atom-touch-events for the touch events to work.
